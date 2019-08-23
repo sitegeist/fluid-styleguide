@@ -3,13 +3,13 @@ fluidStyleguide {
     typeNum = 1562933206
 
     includeCSS {
-        fluidStyleguide = EXT:fluid_styleguide/Resources/Public/Css/Main.min.css
+        fluidStyleguide = EXT:fluid_styleguide/Resources/Public/Css/Styleguide.min.css
         openSansWebFont = https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap
         openSansWebFont.external = 1
     }
 
     includeJSFooter {
-        fluidStyleguide = EXT:fluid_styleguide/Resources/Public/Javascript/Main.min.js
+        fluidStyleguide = EXT:fluid_styleguide/Resources/Public/Javascript/Styleguide.min.js
     }
 
     meta {

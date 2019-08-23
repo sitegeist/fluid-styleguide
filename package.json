@@ -7,7 +7,7 @@
   "scripts": {
     "build": "yarn build:css && yarn build:js",
     "watch": "yarn watch:css & yarn watch:js",
-    "build:css": "node-sass Resources/Private/Scss/Main.scss Resources/Public/Css/Main.min.css --source-map true && postcss Resources/Public/Css/Main.min.css -u autoprefixer -d Resources/Public/Css/ --map",
+    "build:css": "node-sass Resources/Private/Scss/Main.scss Resources/Public/Css/Styleguide.min.css --source-map true && postcss Resources/Public/Css/Styleguide.min.css -u autoprefixer -d Resources/Public/Css/ --map",
     "watch:css": "nodemon -e scss -x 'yarn build:css'",
     "build:js": "webpack -p",
     "watch:js": "webpack -w",
@@ -16,11 +16,11 @@
   },
   "devDependencies": {
     "@babel/core": "^7.2.0",
-    "@babel/plugin-transform-runtime": "^7.2.0",
     "@babel/plugin-proposal-class-properties": "^7.4.0",
+    "@babel/plugin-transform-runtime": "^7.2.0",
+    "@babel/polyfill": "^7.4.3",
     "@babel/preset-env": "^7.2.0",
     "@babel/runtime": "^7.4.0",
-    "@babel/polyfill": "^7.4.3",
     "autoprefixer": "^9.4.2",
     "babel-loader": "^8.0.4",
     "node": "10",
@@ -33,6 +33,7 @@
     "webpack-cli": "^3.1.2"
   },
   "dependencies": {
-    "bootstrap": "^4.3.1"
+    "bootstrap": "^4.3.1",
+    "iframe-resizer": "^4.1.1"
   }
 }

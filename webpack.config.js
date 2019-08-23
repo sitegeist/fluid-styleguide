@@ -2,9 +2,12 @@ const path = require('path')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
-  entry: './Resources/Private/Javascript/index.js',
+  entry: {
+    'Styleguide': './Resources/Private/Javascript/Styleguide.js',
+    'Iframe': './Resources/Private/Javascript/Iframe.js'
+  },
   output: {
-    filename: 'Main.min.js',
+    filename: '[name].min.js',
     path: path.resolve('Resources', 'Public', 'Javascript')
   },
   // stats: 'minimal',

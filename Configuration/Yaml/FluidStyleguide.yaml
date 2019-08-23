@@ -18,9 +18,9 @@ FluidStyleguide:
     ComponentAssets:
         Global:
             Css:
-                - EXT:fluid_styleguide/Resources/Public/Css/ComponentIframe.css
+                - EXT:fluid_styleguide/Resources/Public/Css/Iframe.css
             Javascript:
-                - EXT:fluid_styleguide/Resources/Public/Javascript/ComponentIframe.js
+                - EXT:fluid_styleguide/Resources/Public/Javascript/Iframe.min.js
 #       Packages:
 #           'Vendor\MyExtension\Components':
 #               Css:
