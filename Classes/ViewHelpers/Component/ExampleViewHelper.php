@@ -16,15 +16,26 @@ class ExampleViewHelper extends AbstractViewHelper
 
     public function initializeArguments()
     {
-        $this->registerArgument('component', Component::class, '', true);
-        $this->registerArgument('fixtureName', 'string', '');
-        $this->registerArgument('fixtureData', 'array', '');
+        $this->registerArgument('component', Component::class, 'Component that should be rendered', true);
+        $this->registerArgument('fixtureName', 'string', 'Name of the fixture that should be used in the example');
+        $this->registerArgument('fixtureData', 'array', 'Additional dynamic fixture data that should be used in the example');
     }
 
-    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
+    /**
+     * Renders fluid example code for the specified component
+     *
+     * @param array $arguments
+     * @param \Closure $renderChildrenClosure
+     * @param RenderingContextInterface $renderingContext
+     * @return string
+     */
+    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext): string
     {
         if (!isset($arguments['fixtureName']) && !isset($arguments['fixtureData'])) {
-            throw new \InvalidArgumentException('TODO', 1566377563);
+            throw new \InvalidArgumentException(sprintf(
+                'A fixture name or fixture data has to be specified to render the component example of %s.',
+                $arguments['component']->getName()->getIdentifier()
+            ), 1566377563);
         }
 
         $fixtureData = $arguments['fixtureData'] ?? [];
@@ -32,12 +43,16 @@ class ExampleViewHelper extends AbstractViewHelper
         if (isset($arguments['fixtureName'])) {
             $componentFixture = $arguments['component']->getFixture($arguments['fixtureName']);
             if (!$componentFixture) {
-                throw new \InvalidArgumentException('TODO', 1566377564);
+                throw new \InvalidArgumentException(sprintf(
+                    'Invalid fixture name "%s" specified for component %s.',
+                    $arguments['fixtureName'],
+                    $arguments['component']->getName()->getIdentifier()
+                ), 1566377564);
             }
 
+            // Merge static fixture data with manually edited data
             $fixtureData = array_replace($componentFixture->getData(), $fixtureData);
         }
-
 
         return static::renderComponentTag(
             $arguments['component']->getName(),
@@ -45,6 +60,13 @@ class ExampleViewHelper extends AbstractViewHelper
         );
     }
 
+    /**
+     * Renders fluid code of a component call
+     *
+     * @param ComponentName $componentName
+     * @param array $data
+     * @return string
+     */
     public static function renderComponentTag(ComponentName $componentName, array $data): string
     {
         $fluidComponent = new TagBuilder($componentName->getTagName());

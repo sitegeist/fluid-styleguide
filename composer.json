@@ -16,7 +16,7 @@
     },
     "require": {
         "typo3/cms-core": "^8.7.0 || ^9",
-        "sitegeist/fluid-components": "^1.2",
+        "sitegeist/fluid-components": "^1.3",
         "erusev/parsedown": "^1.7"
     },
     "require-dev": {

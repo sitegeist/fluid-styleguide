@@ -27,6 +27,11 @@ class PackageRepository implements \TYPO3\CMS\Core\SingletonInterface
         $this->viewHelperResolver = $viewHelperResolver;
     }
 
+    /**
+     * Finds all components packages that are currently registered in this TYPO3 installation
+     *
+     * @return array
+     */
     public function findAll(): array
     {
         $fluidNamespaces = $this->viewHelperResolver->getNamespaces();
@@ -49,6 +54,12 @@ class PackageRepository implements \TYPO3\CMS\Core\SingletonInterface
         return $packages;
     }
 
+    /**
+     * Finds the component package the specified component belongs to
+     *
+     * @param string $componentIdentifier
+     * @return Package|null
+     */
     public function findForComponentIdentifier(string $componentIdentifier): ?Package
     {
         $componentPackage = null;

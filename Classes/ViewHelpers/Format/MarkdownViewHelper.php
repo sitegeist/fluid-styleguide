@@ -23,6 +23,14 @@ class MarkdownViewHelper extends AbstractViewHelper
      */
     protected $escapeOutput = false;
 
+    /**
+     * Renders markdown code in fluid templates
+     *
+     * @param array $arguments
+     * @param \Closure $renderChildrenClosure
+     * @param RenderingContextInterface $renderingContext
+     * @return void
+     */
     public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
     {
         if (!isset(static::$markdownParser)) {

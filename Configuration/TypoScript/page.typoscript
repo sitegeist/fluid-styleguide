@@ -1,6 +1,5 @@
 fluidStyleguide = PAGE
 fluidStyleguide {
-
     typeNum = 1562933206
 
     includeCSS {
@@ -26,7 +25,6 @@ fluidStyleguide {
 
 fluidStyleguideIframe = PAGE
 fluidStyleguideIframe {
-
     typeNum = 1562933207
 
     meta {
@@ -34,6 +32,14 @@ fluidStyleguideIframe {
         robots = noindex,nofollow
         apple-mobile-web-app-capable = no
         compatible = IE=edge
+    }
+
+    includeCSS {
+        fluidStyleguide = EXT:fluid_styleguide/Resources/Public/Css/ComponentIframe.css
+    }
+
+    includeJSFooter {
+        fluidStyleguide = EXT:fluid_styleguide/Resources/Public/Javascript/ComponentIframe.js
     }
 
     1 < tt_content.list.20.fluidstyleguide_fluidstyleguide

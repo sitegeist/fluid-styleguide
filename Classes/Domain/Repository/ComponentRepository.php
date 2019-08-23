@@ -37,6 +37,12 @@ class ComponentRepository implements \TYPO3\CMS\Core\SingletonInterface
         $this->componentLoader = $componentLoader;
     }
 
+    /**
+     * Returns a list of all components in the current TYPO3 installation that have
+     * a fixture file and thus can be displayed in the styleguide
+     *
+     * @return array
+     */
     public function findAllWithFixtures(): array
     {
         $packages = $this->packageRepository->findAll();
@@ -65,6 +71,12 @@ class ComponentRepository implements \TYPO3\CMS\Core\SingletonInterface
         return $components;
     }
 
+    /**
+     * Returns the component record for the specified component identifier
+     *
+     * @param string $identifier
+     * @return Component|null
+     */
     public function findByIdentifier(string $identifier): ?Component
     {
         $identifier = trim($identifier, '\\');

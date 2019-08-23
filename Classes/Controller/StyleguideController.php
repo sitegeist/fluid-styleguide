@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Sitegeist\FluidStyleguide\Controller;
 
@@ -46,7 +47,7 @@ class StyleguideController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContr
     {
         $this->view->assignMultiple([
             'navigation' => $this->componentRepository->findAllWithFixtures(),
-            'component' => $this->componentRepository->findByIdentifier($component),
+            'activeComponent' => $this->componentRepository->findByIdentifier($component),
             'activeFixture' => $fixture
         ]);
     }

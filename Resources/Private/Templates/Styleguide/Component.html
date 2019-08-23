@@ -1,22 +1,14 @@
 {namespace fsv=Sitegeist\FluidStyleguide\ViewHelpers}
 
-<f:layout name="Styleguide" />
-<f:section name="Content">
-
-    <script async src="{f:uri.resource(path: 'Javascript/ComponentIframe.js')}"></script>
-
-    <link rel="stylesheet" href="{f:uri.resource(path: 'Css/ComponentIframe.css')}" />
-
-    <div id="rulerWrapper">
-        <f:render partial="Ruler" />
-    </div>
-    <div style="margin: 80px 24px 24px 24px;position: relative;z-index: 2;">
-        <f:inline>
-            <fsv:component.example
-                component="{component}"
-                fixtureData="{fixtureData}"
-                fixtureName="{fixtureName}"
-            />
-        </f:inline>
-    </div>
-</f:section>
+<div id="rulerWrapper">
+    <f:render partial="Ruler" />
+</div>
+<div style="margin: 80px 24px 24px 24px;position: relative;z-index: 2;">
+    <f:inline>
+        <fsv:component.example
+            component="{component}"
+            fixtureData="{fixtureData}"
+            fixtureName="{fixtureName}"
+        />
+    </f:inline>
+</div>
