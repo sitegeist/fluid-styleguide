@@ -1,9 +1,7 @@
 {namespace fsv=Sitegeist\FluidStyleguide\ViewHelpers}
+<f:layout name="Iframe" />
 
-<div id="rulerWrapper">
-    <f:render partial="Ruler" />
-</div>
-<div style="margin: 80px 24px 24px 24px;position: relative;z-index: 2;">
+<f:section name="Component">
     <f:inline>
         <fsv:component.example
             component="{component}"
@@ -11,4 +9,4 @@
             fixtureName="{fixtureName}"
         />
     </f:inline>
-</div>
+</f:section>

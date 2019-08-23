@@ -1,0 +1,2 @@
+# cat=general; type=file [yaml]; label=Styleguide Configuration File: example: EXT:my_extension/Configuration/Yaml/FluidStyleguide.yaml
+configurationFile =

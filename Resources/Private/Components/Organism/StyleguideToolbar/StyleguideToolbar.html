@@ -1,10 +1,14 @@
 {namespace fsv=Sitegeist\FluidStyleguide\ViewHelpers}
+{namespace fsc=Sitegeist\FluidStyleguide\Components}
 
 <fc:component>
     <fc:param name="componentData" type="Sitegeist\FluidStyleguide\Domain\Model\Component" />
     <fc:param name="zipDownloadUri" type="string" />
     <fc:param name="iframeUri" type="string" />
     <fc:param name="activeFixture" type="string" />
+    <fc:param name="showDocumentation" type="bool" optional="1" default="1" />
+    <fc:param name="showZipDownload" type="bool" optional="1" default="1" />
+    <fc:param name="showEditor" type="bool" optional="1" default="1" />
 
     <fc:renderer>
         <div class="styleguideToolbar {class}" data-component="StyleguideToolbar">
@@ -18,7 +22,7 @@
                 <div class="toolbarTabs">
 
                     <div class="tabNav">
-                        <f:if condition="{componentData.arguments} || {componentData.documentation}">
+                        <f:if condition="{componentData.arguments} || ({showDocumentation} && {componentData.documentation})">
                             <div class="tabOpener active">
                                 DOC
                             </div>
@@ -29,10 +33,12 @@
                         <div class="tabOpener">
                             HTML
                         </div>
-                        <div class="tabOpener">
-                            ZIP
-                        </div>
-                        <f:if condition="{componentData.arguments}">
+                        <f:if condition="{showZipDownload}">
+                            <div class="tabOpener">
+                                ZIP
+                            </div>
+                        </f:if>
+                        <f:if condition="{showEditor} && {componentData.arguments}">
                             <div class="tabOpener">
                                 EDIT
                             </div>
@@ -40,7 +46,7 @@
                     </div>
 
                     <div class="tabContents">
-                        <f:if condition="{componentData.arguments} || {componentData.documentation}">
+                        <f:if condition="{componentData.arguments} || ({showDocumentation} && {componentData.documentation})">
                             <div class="tabContent active">
                                 <h1>{componentData.name.displayName}</h1>
                                 <f:if condition="{componentData.arguments}">
@@ -69,7 +75,9 @@
                                     </div>
                                 </f:if>
 
-                                <fsv:format.markdown>{componentData.documentation}</fsv:format.markdown>
+                                <f:if condition="{showDocumentation}">
+                                    <fsv:format.markdown>{componentData.documentation}</fsv:format.markdown>
+                                </f:if>
                             </div>
                         </f:if>
 
@@ -88,13 +96,15 @@
                             </f:format.htmlspecialchars>
                         </div>
 
-                        <div class="tabContent">
-                            <a download="true" class="downloadZip" href="{zipDownloadUri}">
-                                <span>Download this component as ZIP archive</span>
-                            </a>
-                        </div>
+                        <f:if condition="{showZipDownload}">
+                            <div class="tabContent">
+                                <a download="true" class="downloadZip" href="{zipDownloadUri}">
+                                    <span>Download this component as ZIP archive</span>
+                                </a>
+                            </div>
+                        </f:if>
 
-                        <f:if condition="{componentData.arguments}">
+                        <f:if condition="{showEditor} && {componentData.arguments}">
                             <div class="tabContent">
                                 <fsc:molecule.editFixtures iframeUri="{iframeUri}" fixtures="{componentData.fixtures}" api="{componentData.arguments}" />
                             </div>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    <title>{component.name.displayName}</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="compatible" content="IE=edge" />
+    <meta name="robots" content="noindex,nofollow" />
+
+    <f:for each="{styleguideConfiguration.globalCss}" as="cssFile">
+        <link rel="stylesheet" href="{cssFile}" />
+    </f:for>
+    <f:for each="{componentCss}" as="cssFile">
+        <link rel="stylesheet" href="{cssFile}" />
+    </f:for>
+</head>
+<body>
+
+<f:if condition="{styleguideConfiguration.Features.Ruler}">
+    <f:render partial="Ruler" />
+</f:if>
+
+<div id="fluidStyleguideComponent">
+    <f:render section="Component" />
+</div>
+
+<f:for each="{styleguideConfiguration.globalJavascript}" as="javascriptFile">
+    <script src="{javascriptFile}"></script>
+</f:for>
+<f:for each="{componentJavascript}" as="javascriptFile">
+    <script src="{javascriptFile}"></script>
+</f:for>
+
+</body>
+</html>

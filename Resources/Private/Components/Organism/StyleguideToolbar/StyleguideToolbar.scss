@@ -128,12 +128,16 @@
 
         .tabContent {
             display: none;
-            padding: 55px 55px 39px;
+            padding: 32px 32px 16px;
             font-family: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
             font-size: 1em;
             color: $white;
             max-height: 200px;
             overflow-y: scroll;
+
+            > :first-child {
+                margin-top: 0;
+            }
 
             &::-webkit-scrollbar {
                 width: 8px;

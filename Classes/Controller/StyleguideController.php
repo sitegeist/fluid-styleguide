@@ -3,12 +3,13 @@ declare(strict_types=1);
 
 namespace Sitegeist\FluidStyleguide\Controller;
 
+use Sitegeist\FluidStyleguide\Domain\Model\ComponentMetadata;
+use Sitegeist\FluidStyleguide\Domain\Repository\ComponentRepository;
 use Sitegeist\FluidStyleguide\Service\ComponentDownloadService;
+use Sitegeist\FluidStyleguide\Service\StyleguideConfigurationManager;
 use SMS\FluidComponents\Utility\ComponentLoader;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
-use Sitegeist\FluidStyleguide\Domain\Model\ComponentMetadata;
-use Sitegeist\FluidStyleguide\Domain\Repository\ComponentRepository;
 
 class StyleguideController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
@@ -21,6 +22,11 @@ class StyleguideController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContr
      * @var ComponentDownloadService
      */
     protected $componentDownloadService;
+
+    /**
+     * @var StyleguideConfigurationManager
+     */
+    protected $styleguideConfigurationManager;
 
     /**
      * Shows a list of all components
@@ -59,8 +65,17 @@ class StyleguideController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContr
      */
     public function componentAction(string $component, string $fixture = 'default', array $formData = [])
     {
+        if (!$this->styleguideConfigurationManager->isFeatureEnabled('Editor')) {
+            $formData = [];
+        }
+
+        $component = $this->componentRepository->findByIdentifier($component);
+        $package = $component->getName()->getPackage();
+
         $this->view->assignMultiple([
-            'component' => $this->componentRepository->findByIdentifier($component),
+            'component' => $component,
+            'componentCss' => $this->styleguideConfigurationManager->getCssForPackage($package),
+            'componentJavascript' => $this->styleguideConfigurationManager->getJavascriptForPackage($package),
             'fixtureName' => $fixture,
             'fixtureData' => $formData
         ]);
@@ -73,6 +88,10 @@ class StyleguideController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContr
      */
     public function downloadComponentZipAction(string $component)
     {
+        if (!$this->styleguideConfigurationManager->isFeatureEnabled('ZipDownload')) {
+            return false;
+        }
+
         $component = $this->componentRepository->findByIdentifier($component);
         $this->componentDownloadService->downloadZip($component);
     }
@@ -91,6 +110,16 @@ class StyleguideController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContr
         return $componentPackages;
     }
 
+    public function initializeObject()
+    {
+        $this->styleguideConfigurationManager->loadFromExtensionConfiguration();
+    }
+
+    protected function initializeView(ViewInterface $view)
+    {
+        $this->view->assign('styleguideConfiguration', $this->styleguideConfigurationManager);
+    }
+
     /**
      * @param \Sitegeist\FluidStyleguide\Domain\Repository\ComponentRepository $componentRepository
      */
@@ -100,13 +129,18 @@ class StyleguideController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContr
     }
 
     /**
-     * Undocumented function
-     *
      * @param \Sitegeist\FluidStyleguide\Service\ComponentDownloadService $componentDownloadService
-     * @return void
      */
     public function injectComponentDownloadService(ComponentDownloadService $componentDownloadService)
     {
         $this->componentDownloadService = $componentDownloadService;
+    }
+
+    /**
+     * @param \Sitegeist\FluidStyleguide\Service\StyleguideConfigurationManager $styleguideConfigurationManager
+     */
+    public function injectStyleguideConfigurationManager(StyleguideConfigurationManager $styleguideConfigurationManager)
+    {
+        $this->styleguideConfigurationManager = $styleguideConfigurationManager;
     }
 }

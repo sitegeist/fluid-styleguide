@@ -1,13 +1,32 @@
+{namespace fsc=Sitegeist\FluidStyleguide\Components}
+
 <f:layout name="Styleguide" />
 
 <f:section name="Header">
     <div class="examplesNavigation">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" enable-background="new 0 0 50 50"> <path style="text-indent:0;text-align:start;line-height:normal;text-transform:none;block-progression:tb;-inkscape-font-specification:Bitstream Vera Sans" d="M 35 6 C 33.354545 6 32 7.3545455 32 9 L 32 12.5 L 18 23 L 18 21 C 18 19.354545 16.645455 18 15 18 L 3 18 C 1.3545455 18 0 19.354545 0 21 L 0 29 C 0 30.645455 1.3545455 32 3 32 L 15 32 C 16.645455 32 18 30.645455 18 29 L 18 27 L 32 37.5 L 32 41 C 32 42.645455 33.354545 44 35 44 L 47 44 C 48.645455 44 50 42.645455 50 41 L 50 33 C 50 31.354545 48.645455 30 47 30 L 35 30 C 33.354545 30 32 31.354545 32 33 L 32 35 L 18.6875 25 L 32 15 L 32 17 C 32 18.645455 33.354545 20 35 20 L 47 20 C 48.645455 20 50 18.645455 50 17 L 50 9 C 50 7.3545455 48.645455 6 47 6 L 35 6 z M 35 8 L 47 8 C 47.554545 8 48 8.4454545 48 9 L 48 17 C 48 17.554545 47.554545 18 47 18 L 35 18 C 34.445455 18 34 17.554545 34 17 L 34 9 C 34 8.4454545 34.445455 8 35 8 z M 3 20 L 15 20 C 15.554545 20 16 20.445455 16 21 L 16 29 C 16 29.554545 15.554545 30 15 30 L 3 30 C 2.4454545 30 2 29.554545 2 29 L 2 21 C 2 20.445455 2.4454545 20 3 20 z M 35 32 L 47 32 C 47.554545 32 48 32.445455 48 33 L 48 41 C 48 41.554545 47.554545 42 47 42 L 35 42 C 34.445455 42 34 41.554545 34 41 L 34 33 C 34 32.445455 34.445455 32 35 32 z" overflow="visible" enable-background="accumulate" font-family="Bitstream Vera Sans"/> </svg>
-        <f:render partial="ExamplesNavigation" arguments="{navigation: activeComponent.fixtures, activeComponent: activeComponent, activeFixture: activeFixture}" />
+        <fsc:Atom.StyleguideSelect autoSuggest="1">
+            <select>
+                <f:for each="{activeComponent.fixtures}" as="fixture">
+                    <option data-url="{f:uri.action(
+                        pageType: 1562933206,
+                        arguments: {
+                            fixture: fixture.name,
+                            component: activeComponent.name.identifier
+                        },
+                        action: 'show'
+                    )}" {f:if(condition: '{fixture.name} == {activeFixture}', then: 'selected')}>
+                        {fixture.name}
+                    </option>
+                </f:for>
+            </select>
+        </fsc:Atom.StyleguideSelect>
     </div>
 
     <div class="actions">
-        <fsc:Atom.viewportNavigation viewPorts="{Desktop: '100%', Tablet: '768px', Mobile: '375px'}" />
+        <f:if condition="{styleguideConfiguration.Features.ResponsiveBreakpoints}">
+            <fsc:Atom.viewportNavigation viewPorts="{styleguideConfiguration.responsiveBreakpoints}" />
+        </f:if>
         <a class="backLink" href="{f:uri.action(pageType: '1562933206', action: 'list')}">Overview</a>
     </div>
 </f:section>
@@ -25,8 +44,11 @@
 
     <fsc:organism.styleguideToolbar
         iframeUri="{iframeUri}"
-        zipDownloadUri=""
+        zipDownloadUri="{f:uri.action(pageType: '1562933206', arguments: {component: activeComponent.name.identifier}, action: 'downloadComponentZip')}"
         componentData="{activeComponent}"
         activeFixture="{activeFixture}"
+        showDocumentation="{styleguideConfiguration.Features.Documentation}"
+        showZipDownload="{styleguideConfiguration.Features.ZipDownload}"
+        showEditor="{styleguideConfiguration.Features.Editor}"
     />
 </f:section>

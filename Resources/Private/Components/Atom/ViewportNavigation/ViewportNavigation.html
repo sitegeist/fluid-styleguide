@@ -11,10 +11,6 @@
                 </f:for>
             </div>
             <ul class="dropdownContent">
-                <!--
-                <li data-labelon="an" data-labeloff="aus" class="rulerOption">Ruler (<span>off</span>)</li>
-                <li>//</li>
-                -->
                 <f:for each="{viewPorts}" as="item" key="viewItem" iteration="iterator">
                     <li {f:if(condition: iterator.isFirst, then: 'style="display:none"')} class="{f:if(condition: '{viewItem} == Desktop', then: 'active')} viewportItem" data-viewport="{item}">{viewItem} {item}</li>
                 </f:for>

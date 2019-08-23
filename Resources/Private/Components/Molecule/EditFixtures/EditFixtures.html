@@ -8,47 +8,48 @@
             <form method="post" target="componentIframe" action="{iframeUri}">
 
                 <f:for each="{api}" as="item" iteration="iterator">
-                    <f:variable name="fixtureValue" value="" />
-                    <f:for each="{fixtures}" as="fixtureItem" key="fixtureKey" iteration="iterator">
-                        <f:if condition="{fixtureKey} == {item.name}">
-                            <f:variable name="fixtureValue" value="{fixtureItem}" />
-                        </f:if>
-                    </f:for>
+                    <f:if condition="{item.name} != 'class' && {item.name} != 'content'">
+                        <f:variable name="fixtureValue" value="" />
+                        <f:for each="{fixtures}" as="fixtureItem" key="fixtureKey" iteration="iterator">
+                            <f:if condition="{fixtureKey} == {item.name}">
+                                <f:variable name="fixtureValue" value="{fixtureItem}" />
+                            </f:if>
+                        </f:for>
 
-                    <div class="editFixturesFixtureFormItem">
-                        <f:if condition="{item.type} == 'string'">
-                            <div class="editFixturesLabelContainer">
-                                <label for="tx_fluidstyleguide_fluidstyleguide[formData][{item.name}]">{item.name}</label>
-                                <f:if condition="{item.description}">
-                                    <small class="editFixturesLabelDescription">({item.description})</small>
-                                </f:if>
-                            </div>
-                            <input class="editFixturesInput" name="tx_fluidstyleguide_fluidstyleguide[formData][{item.name}]" id="tx_fluidstyleguide_fluidstyleguide[formData][{item.name}]" type="text" value="{fixtureValue}" />
-                        </f:if>
-                        <f:if condition="{item.type} == 'integer'">
-                            <div class="editFixturesLabelContainer">
-                                <label for="tx_fluidstyleguide_fluidstyleguide[formData][{item.name}]">{item.name}</label>
-                                <f:if condition="{item.description}">
-                                    <small class="editFixturesLabelDescription">({item.description})</small>
-                                </f:if>
-                            </div>
-                            <input class="editFixturesInput" name="tx_fluidstyleguide_fluidstyleguide[formData][{item.name}]" id="tx_fluidstyleguide_fluidstyleguide[formData][{item.name}]" type="number" value="{fixtureValue}" />
-                        </f:if>
-                        <f:if condition="{item.type} == 'boolean'">
-                            <div class="editFixturesLabelContainer">
-                                <div for="tx_fluidstyleguide_fluidstyleguide[formData][{item.name}]">{item.name}</div>
-                                <f:if condition="{item.description}">
-                                    <small class="editFixturesLabelDescription">({item.description})</small>
-                                </f:if>
-                            </div>
-                            <label class="editFixturesCheckboxContainer">
-                                <input name="tx_fluidstyleguide_fluidstyleguide[formData][{item.name}]" id="tx_fluidstyleguide_fluidstyleguide[formData][{item.name}]" type="hidden" />
-                                <input class="editFixturesCheckbox" name="tx_fluidstyleguide_fluidstyleguide[formData][{item.name}]" id="tx_fluidstyleguide_fluidstyleguide[formData][{item.name}]" type="checkbox" {f:if(condition: '{fixtureValue} == 1', then: 'checked')} />
-                                <span class="editFixturesCheckboxCheckmark"></span>
-                            </label>
-                        </f:if>
-                    </div>
-
+                        <div class="editFixturesFixtureFormItem">
+                            <f:if condition="{item.type} == 'string'">
+                                <div class="editFixturesLabelContainer">
+                                    <label for="tx_fluidstyleguide_fluidstyleguide[formData][{item.name}]">{item.name}</label>
+                                    <f:if condition="{item.description}">
+                                        <small class="editFixturesLabelDescription">({item.description})</small>
+                                    </f:if>
+                                </div>
+                                <input class="editFixturesInput" name="tx_fluidstyleguide_fluidstyleguide[formData][{item.name}]" id="tx_fluidstyleguide_fluidstyleguide[formData][{item.name}]" type="text" value="{fixtureValue}" />
+                            </f:if>
+                            <f:if condition="{item.type} == 'integer'">
+                                <div class="editFixturesLabelContainer">
+                                    <label for="tx_fluidstyleguide_fluidstyleguide[formData][{item.name}]">{item.name}</label>
+                                    <f:if condition="{item.description}">
+                                        <small class="editFixturesLabelDescription">({item.description})</small>
+                                    </f:if>
+                                </div>
+                                <input class="editFixturesInput" name="tx_fluidstyleguide_fluidstyleguide[formData][{item.name}]" id="tx_fluidstyleguide_fluidstyleguide[formData][{item.name}]" type="number" value="{fixtureValue}" />
+                            </f:if>
+                            <f:if condition="{item.type} == 'boolean'">
+                                <div class="editFixturesLabelContainer">
+                                    <div for="tx_fluidstyleguide_fluidstyleguide[formData][{item.name}]">{item.name}</div>
+                                    <f:if condition="{item.description}">
+                                        <small class="editFixturesLabelDescription">({item.description})</small>
+                                    </f:if>
+                                </div>
+                                <label class="editFixturesCheckboxContainer">
+                                    <input name="tx_fluidstyleguide_fluidstyleguide[formData][{item.name}]" id="tx_fluidstyleguide_fluidstyleguide[formData][{item.name}]" type="hidden" />
+                                    <input class="editFixturesCheckbox" name="tx_fluidstyleguide_fluidstyleguide[formData][{item.name}]" id="tx_fluidstyleguide_fluidstyleguide[formData][{item.name}]" type="checkbox" {f:if(condition: '{fixtureValue} == 1', then: 'checked')} />
+                                    <span class="editFixturesCheckboxCheckmark"></span>
+                                </label>
+                            </f:if>
+                        </div>
+                    </f:if>
                 </f:for>
             </form>
         </div>

@@ -1,0 +1,34 @@
+FluidStyleguide:
+    Features:
+        # Enable/Disable markdown documentation rendering
+        Documentation: true
+
+        # Enable/Disable live editing of component fixture
+        Editor: true
+
+        # Enable/Disable zip download of component folder
+        ZipDownload: true
+
+        # Enable/Disable breakpoint switcher
+        ResponsiveBreakpoints: true
+
+        # Enable/Disable rulers
+        Ruler: false
+
+    ComponentAssets:
+        Global:
+            Css:
+                - EXT:fluid_styleguide/Resources/Public/Css/ComponentIframe.css
+            Javascript:
+                - EXT:fluid_styleguide/Resources/Public/Javascript/ComponentIframe.js
+#       Packages:
+#           'Vendor\MyExtension\Components':
+#               Css:
+#                   - EXT:my_extension/Resources/Public/Css/Components.css
+#               Javascript:
+#                   - EXT:my_extension/Resources/Public/Javascript/Components.js
+
+    ResponsiveBreakpoints:
+        Desktop: '100%'
+        Tablet: '768px'
+        Mobile: '375px'
