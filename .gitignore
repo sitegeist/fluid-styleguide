@@ -1,7 +1,7 @@
 .Build
 composer.lock
 node_modules
-*.min.js
-*.min.js.map
-*.min.css
-*.min.css.map
+# *.min.js
+# *.min.js.map
+# *.min.css
+# *.min.css.map

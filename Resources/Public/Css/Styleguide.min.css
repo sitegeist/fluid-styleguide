@@ -1,0 +1,549 @@
+@font-face {
+  font-family: 'fluid-styleguide';
+  src: url("/typo3conf/ext/fluid_styleguide/Resources/Public/Fonts/fluid-styleguide.eot?4i7h9z");
+  src: url("/typo3conf/ext/fluid_styleguide/Resources/Public/Fonts/fluid-styleguide.eot?4i7h9z#iefix") format("embedded-opentype"), url("/typo3conf/ext/fluid_styleguide/Resources/Public/Fonts/fluid-styleguide.ttf?4i7h9z") format("truetype"), url("/typo3conf/ext/fluid_styleguide/Resources/Public/Fonts/fluid-styleguide.woff?4i7h9z") format("woff"), url("/typo3conf/ext/fluid_styleguide/Resources/Public/Fonts/fluid-styleguide.svg?4i7h9z#fluid-styleguide") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+.fluidStyleguideList {
+  margin-top: 120px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto; }
+  .fluidStyleguideList strong {
+    font-weight: 700; }
+  .fluidStyleguideList .fluidStyleguidePackageItem {
+    margin-bottom: 60px;
+    padding-bottom: 60px; }
+  .fluidStyleguideList .fluidStyleguideComponent {
+    display: block;
+    width: 400px;
+    height: 200px;
+    margin-bottom: 10px;
+    border: 0; }
+  .fluidStyleguideList .fluidStyleguideComponentVariants:last-child .fluidStyleguideComponentExample:last-child {
+    border-bottom: 0;
+    margin-bottom: 0;
+    padding-bottom: 0; }
+  .fluidStyleguideList .fluidStyleguideComponentExample {
+    margin-bottom: 60px;
+    border-bottom: 1px solid #222425;
+    padding-bottom: 60px; }
+  .fluidStyleguideList .fluidStyleguideBtn {
+    background: #222425;
+    color: #FFFFFF;
+    padding: 16px 53px 18px 30px;
+    text-align: center;
+    display: inline-block;
+    font-size: 14px;
+    position: relative;
+    font-family: 'Open Sans', Helvetica; }
+    .fluidStyleguideList .fluidStyleguideBtn:hover {
+      color: #00d8e6; }
+    .fluidStyleguideList .fluidStyleguideBtn span {
+      position: relative; }
+      .fluidStyleguideList .fluidStyleguideBtn span::after {
+        font-family: 'fluid-styleguide';
+        position: absolute;
+        content: '\e904';
+        top: -2px;
+        width: 0;
+        height: 0;
+        speak: none;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+        font-size: 24px;
+        right: -13px;
+        color: #00d8e6; }
+  .fluidStyleguideList .fluidStyleguideComponentName {
+    font-size: 24px;
+    font-family: 'Open Sans', Helvetica;
+    color: #222425; }
+  .fluidStyleguideList .fluidStyleguidePackageName {
+    margin-bottom: 60px;
+    font-size: 32px;
+    font-family: 'Open Sans', Helvetica;
+    color: #222425; }
+
+.fluidStyleguideShow {
+  position: fixed;
+  top: 55px;
+  left: 0;
+  right: 0;
+  bottom: 16px; }
+  .fluidStyleguideShow .componentIframe {
+    height: 100%;
+    width: 100%;
+    border: 0 none;
+    transition: width .6s; }
+
+.styleguideHeader {
+  display: flex;
+  position: fixed;
+  z-index: 99999;
+  top: 0;
+  left: 0;
+  right: 0;
+  align-items: center;
+  background: #222425;
+  font-family: 'Open Sans', Helvetica; }
+  .styleguideHeader .componentNavigation .styleguideSelectSelected {
+    position: relative; }
+    .styleguideHeader .componentNavigation .styleguideSelectSelected::before {
+      font-family: 'fluid-styleguide';
+      position: absolute;
+      content: '\e904';
+      top: 17px;
+      width: 0;
+      height: 0;
+      speak: none;
+      font-style: normal;
+      font-weight: normal;
+      font-variant: normal;
+      text-transform: none;
+      line-height: 1;
+      font-size: 22px;
+      right: 21px;
+      color: #00d8e6; }
+  .styleguideHeader .examplesNavigation {
+    width: 50%;
+    margin-left: -7px; }
+    .styleguideHeader .examplesNavigation svg {
+      width: 26px;
+      height: 26px;
+      margin-left: -24px;
+      fill: #00d8e6;
+      display: none; }
+  .styleguideHeader .backLink {
+    font-size: 13px;
+    color: #FFFFFF;
+    position: relative;
+    padding-left: 35px;
+    text-decoration: none; }
+    .styleguideHeader .backLink:hover {
+      color: #00d8e6; }
+    .styleguideHeader .backLink::before {
+      font-family: 'fluid-styleguide';
+      position: absolute;
+      content: '\e903';
+      top: -2px;
+      width: 0;
+      height: 0;
+      speak: none;
+      font-style: normal;
+      font-weight: normal;
+      font-variant: normal;
+      text-transform: none;
+      line-height: 1;
+      font-size: 22px;
+      left: 0;
+      color: #00d8e6; }
+  .styleguideHeader .actions {
+    margin: 0 24px 0 auto;
+    display: flex;
+    align-items: center;
+    height: 56px; }
+    .styleguideHeader .actions .viewportNavigation {
+      border-right: 1px solid #00d8e6;
+      margin-right: 24px;
+      padding-right: 16px; }
+
+.styleguideSelect {
+  font-family: 'Open Sans', Helvetica;
+  width: 100%; }
+  .styleguideSelect datalist {
+    display: block; }
+  .styleguideSelect select {
+    position: absolute;
+    left: -999999px; }
+  .styleguideSelect.hasIcon .styleguideSelectSelected::after {
+    font-family: 'fluid-styleguide';
+    position: absolute;
+    content: '\e900';
+    top: 9px;
+    right: 56px;
+    width: 0;
+    height: 0;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    font-size: 38px;
+    color: #00d8e6; }
+  .styleguideSelect.hasIcon .styleguideSelectSelected.styleguideSelectArrowActive::after {
+    content: '\e911'; }
+  .styleguideSelectFocus {
+    border-color: #FFFFFF;
+    color: #FFFFFF; }
+  .styleguideSelectItems div, .styleguideSelectSelected {
+    display: flex;
+    align-items: center;
+    height: 55px;
+    cursor: pointer;
+    padding: 0 24px;
+    font-size: 13px;
+    color: #FFFFFF;
+    border-bottom: 1px solid #212121;
+    font-family: 'Open Sans', Helvetica; }
+    .styleguideSelectItems div.styleguideSelectEqualSelected, .styleguideSelectSelected.styleguideSelectEqualSelected {
+      background-color: #222425;
+      color: #00d8e6;
+      border-color: #1b1919; }
+    .styleguideSelectItems div.styleguideSelectArrowActive, .styleguideSelectSelected.styleguideSelectArrowActive {
+      color: #FFFFFF; }
+  .styleguideSelectSelected {
+    background: #222425;
+    color: #FFFFFF;
+    cursor: pointer;
+    border-color: transparent; }
+    .styleguideSelectSelected:hover {
+      color: #00d8e6; }
+  .styleguideSelect input[type='text'] {
+    padding: 0;
+    font-size: 13px;
+    color: #FFFFFF;
+    font-family: 'Open Sans', Helvetica;
+    outline: none;
+    width: 100%;
+    background-color: transparent;
+    border: 0 none;
+    cursor: pointer; }
+    .styleguideSelect input[type='text']:hover {
+      color: #00d8e6; }
+    .styleguideSelect input[type='text']:focus {
+      color: #00d8e6; }
+    .styleguideSelect input[type='text']::-webkit-input-placeholder {
+      color: #757575;
+      font-size: 13px; }
+    .styleguideSelect input[type='text']::-moz-placeholder {
+      color: #757575;
+      font-size: 13px; }
+    .styleguideSelect input[type='text']:-ms-input-placeholder {
+      color: #757575;
+      font-size: 13px; }
+    .styleguideSelect input[type='text']::-ms-input-placeholder {
+      color: #757575;
+      font-size: 13px; }
+    .styleguideSelect input[type='text']::placeholder {
+      color: #757575;
+      font-size: 13px; }
+  .styleguideSelectItems {
+    cursor: pointer;
+    transition: transform .15s ease-out;
+    transform: scaleY(0);
+    height: 0;
+    transform-origin: top;
+    overflow: auto;
+    position: absolute;
+    background-color: #2b2f31;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    max-height: 617px !important; }
+    .styleguideSelectItems.selectPositionedTop {
+      border-bottom: 0; }
+    .styleguideSelectItems::-webkit-scrollbar {
+      width: 8px; }
+    .styleguideSelectItems::-webkit-scrollbar-thumb {
+      background-color: #00d8e6; }
+    .styleguideSelectItems.styleguideSelectOpened {
+      transition: transform .15s ease-out;
+      height: auto;
+      transform: scaleY(1);
+      transform-origin: top;
+      border-top: 1px solid #1b1919; }
+  .styleguideSelectHide {
+    display: none; }
+  .styleguideSelectItems div:hover, .styleguideSelectActive {
+    color: #00d8e6 !important;
+    transition: color .25s ease; }
+  .styleguideSelect.orientationBottom .styleguideSelectItems {
+    transform-origin: bottom; }
+  .styleguideSelectInputLabel {
+    position: absolute;
+    left: -99999px;
+    top: -99999px;
+    padding: 0 16px; }
+
+.styleguideScrollTop {
+  position: fixed;
+  width: 100%;
+  bottom: 0; }
+  .styleguideScrollTop div {
+    display: none; }
+  .styleguideScrollTop.active div {
+    cursor: pointer;
+    margin: auto;
+    width: 50px;
+    height: 50px;
+    border: 2px solid #222425;
+    background: #222425;
+    display: block; }
+    .styleguideScrollTop.active div::before {
+      font-family: 'fluid-styleguide';
+      speak: none;
+      font-style: normal;
+      font-weight: normal;
+      font-variant: normal;
+      text-transform: none;
+      line-height: 1;
+      content: '\e905';
+      font-size: 33px;
+      padding-left: 6px;
+      padding-top: 7px;
+      color: #00d8e6;
+      display: block; }
+
+.viewportNavigation {
+  display: flex;
+  color: #FFFFFF;
+  height: 100%;
+  align-items: center;
+  font-size: 13px;
+  list-style: none; }
+  .viewportNavigation:hover .dropdownContent {
+    display: block; }
+  .viewportNavigation .dropdownLabel {
+    color: #00d8e6;
+    padding: 16px;
+    border: 0 none;
+    cursor: pointer; }
+  .viewportNavigation .dropdownContent {
+    position: absolute;
+    background-color: #222425;
+    padding: 0 16px 16px;
+    min-width: 133px;
+    z-index: 1;
+    top: 43px;
+    display: none; }
+    .viewportNavigation .dropdownContent:hover {
+      display: block; }
+    .viewportNavigation .dropdownContent li {
+      color: #FFFFFF;
+      margin-top: 16px;
+      text-decoration: none;
+      cursor: pointer;
+      list-style: none; }
+      .viewportNavigation .dropdownContent li:last-child {
+        margin-bottom: 0; }
+      .viewportNavigation .dropdownContent li.rulerOption.activeRulerOption {
+        color: #00d8e6; }
+      .viewportNavigation .dropdownContent li:hover {
+        color: #00d8e6; }
+
+.editFixtures .editFixturesFixtureFormItem {
+  margin-bottom: 24px; }
+  .editFixtures .editFixturesFixtureFormItem:last-child {
+    margin-bottom: 0; }
+
+.editFixtures .editFixturesInput {
+  color: #222425;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 24px;
+  border: 2px #222425 solid;
+  padding: 10px;
+  background: #FFFFFF;
+  width: 300px; }
+  .editFixtures .editFixturesInput:focus {
+    color: #222425;
+    border-color: #222425;
+    outline: 0; }
+
+.editFixtures .editFixturesLabelContainer {
+  margin-bottom: 6px; }
+  .editFixtures .editFixturesLabelContainer label {
+    margin-bottom: 0;
+    display: block; }
+  .editFixtures .editFixturesLabelContainer .editFixturesLabelDescription {
+    font-size: 10px; }
+
+.editFixtures .editFixturesCheckboxContainer {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  height: 25px;
+  width: 24px; }
+
+.editFixtures .editFixturesCheckboxContainer input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0; }
+
+.editFixtures .editFixturesCheckboxCheckmark {
+  position: absolute;
+  left: 0;
+  height: 24px;
+  width: 24px;
+  background-color: #FFFFFF;
+  top: 3px; }
+
+.editFixtures .editFixturesCheckboxContainer input:checked ~ .editFixturesCheckboxCheckmark {
+  background-color: #FFFFFF; }
+
+.editFixtures .editFixturesCheckboxCheckmark::after {
+  content: '';
+  position: absolute;
+  display: none; }
+
+.editFixtures .editFixturesCheckboxContainer input:checked ~ .editFixturesCheckboxCheckmark::after {
+  display: block; }
+
+.editFixtures .editFixturesCheckboxContainer .editFixturesCheckboxCheckmark::after {
+  left: 8px;
+  top: 3px;
+  width: 5px;
+  height: 13px;
+  border: solid #00d8e6;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg); }
+
+.styleguideToolbar {
+  position: fixed;
+  width: 100%;
+  color: #FFFFFF;
+  font-size: 13px;
+  z-index: 3;
+  font-family: 'Open Sans', Helvetica;
+  transition: bottom .25s ease 0s;
+  background-color: #222425; }
+  .styleguideToolbar .toolbarTop {
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center; }
+  .styleguideToolbar .toolbarBot {
+    position: relative; }
+  .styleguideToolbar .toolbarOpener {
+    cursor: pointer;
+    position: relative;
+    top: 0;
+    border-radius: 10%;
+    width: 50px;
+    height: 54px;
+    z-index: -2;
+    background: #222425; }
+    .styleguideToolbar .toolbarOpener::before {
+      font-family: 'fluid-styleguide';
+      content: '\e905';
+      width: 0;
+      height: 0;
+      speak: none;
+      font-style: normal;
+      font-weight: normal;
+      font-variant: normal;
+      text-transform: none;
+      line-height: 1;
+      font-size: 22px;
+      color: #00d8e6;
+      left: 14px;
+      top: 2px;
+      position: relative; }
+    .styleguideToolbar .toolbarOpener:hover {
+      color: #00d8e6; }
+  .styleguideToolbar .toolbarRuler {
+    cursor: pointer; }
+    .styleguideToolbar .toolbarRuler svg {
+      margin-left: 15px;
+      position: relative;
+      top: -3px; }
+    .styleguideToolbar .toolbarRuler:hover {
+      color: #00d8e6; }
+  .styleguideToolbar.open {
+    bottom: 0 !important; }
+    .styleguideToolbar.open .toolbarOpener::before {
+      content: '\e902'; }
+    .styleguideToolbar.open .toolbarTabs {
+      display: block; }
+    .styleguideToolbar.open .toolbarBot {
+      top: -16px; }
+  .styleguideToolbar .toolbarTabs {
+    position: relative; }
+    .styleguideToolbar .toolbarTabs .tabNav {
+      display: flex; }
+      .styleguideToolbar .toolbarTabs .tabNav .tabOpener {
+        height: 54px;
+        background: #2b2f31;
+        cursor: pointer;
+        width: 140px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #FFFFFF;
+        border-right: 2px solid #222425;
+        transition: background-color .25s ease; }
+        .styleguideToolbar .toolbarTabs .tabNav .tabOpener svg {
+          width: 28px;
+          height: 28px;
+          fill: #FFFFFF; }
+        .styleguideToolbar .toolbarTabs .tabNav .tabOpener.active {
+          background: #222425;
+          color: #00d8e6; }
+          .styleguideToolbar .toolbarTabs .tabNav .tabOpener.active svg {
+            fill: #00d8e6; }
+        .styleguideToolbar .toolbarTabs .tabNav .tabOpener:hover svg {
+          fill: #00d8e6; }
+    .styleguideToolbar .toolbarTabs .tabContent {
+      display: none;
+      padding: 32px 32px 16px;
+      font-family: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+      font-size: 1em;
+      color: #FFFFFF;
+      max-height: 200px;
+      overflow-y: scroll; }
+      .styleguideToolbar .toolbarTabs .tabContent > :first-child {
+        margin-top: 0; }
+      .styleguideToolbar .toolbarTabs .tabContent::-webkit-scrollbar {
+        width: 8px; }
+      .styleguideToolbar .toolbarTabs .tabContent::-webkit-scrollbar-thumb {
+        background-color: #00d8e6; }
+      .styleguideToolbar .toolbarTabs .tabContent.active {
+        display: block; }
+      .styleguideToolbar .toolbarTabs .tabContent .downloadZip {
+        color: #FFFFFF;
+        text-decoration: underline; }
+        .styleguideToolbar .toolbarTabs .tabContent .downloadZip:hover {
+          color: #00d8e6; }
+  .styleguideToolbar .componentArguments {
+    border-spacing: 0;
+    width: 100%; }
+    .styleguideToolbar .componentArguments th,
+    .styleguideToolbar .componentArguments td {
+      padding: 12px 8px;
+      border-bottom: 1px #FFFFFF solid; }
+    .styleguideToolbar .componentArguments th {
+      text-align: left;
+      font-weight: bold; }
+    .styleguideToolbar .componentArguments .componentArgumentsName {
+      font-weight: bold; }
+    .styleguideToolbar .componentArguments .componentArgumentsRequired {
+      text-align: center; }
+
+body {
+  margin: 0; }
+
+.breakPoint {
+  background-color: #171717 !important; }
+
+.boxMargin {
+  margin-bottom: 40px; }
+
+pre {
+  margin: 0 !important; }
+/*# sourceMappingURL=Styleguide.min.css.map */
