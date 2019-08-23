@@ -56,16 +56,16 @@
                                             <tr>
                                                 <th>Name</th>
                                                 <th>Type</th>
-                                                <th class="componentArguments__required">Required</th>
+                                                <th class="componentArgumentsRequired">Required</th>
                                                 <th>Default</th>
                                                 <th>Description</th>
                                             </tr>
                                             <f:for each="{componentData.arguments}" as="argument">
                                                 <f:if condition="{argument.name} != 'content'">
                                                     <tr>
-                                                        <td class="componentArguments__name">{argument.name}</td>
+                                                        <td class="componentArgumentsName">{argument.name}</td>
                                                         <td>{argument.type}</td>
-                                                        <td class="componentArguments__required">{f:if(condition: argument.required, then: '✔︎')}</td>
+                                                        <td class="componentArgumentsRequired">{f:if(condition: argument.required, then: '✔︎')}</td>
                                                         <td>{argument.default}</td>
                                                         <td>{argument.description}</td>
                                                     </tr>
