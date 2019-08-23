@@ -114,6 +114,21 @@ class StyleguideConfigurationManager
         return $this->mergedConfiguration['ResponsiveBreakpoints'] ?? [];
     }
 
+    public function getTemplateRootPaths(): array
+    {
+        return $this->mergedConfiguration['Fluid']['TemplateRootPaths'] ?? [];
+    }
+
+    public function getPartialRootPaths(): array
+    {
+        return $this->mergedConfiguration['Fluid']['PartialRootPaths'] ?? [];
+    }
+
+    public function getLayoutRootPaths(): array
+    {
+        return $this->mergedConfiguration['Fluid']['LayoutRootPaths'] ?? [];
+    }
+
     protected function sanitizeComponentAssets($assets) {
         if (is_string($assets)) {
             $assets = [$assets];
@@ -122,7 +137,9 @@ class StyleguideConfigurationManager
         }
 
         foreach ($assets as &$asset) {
-            $asset = PathUtility::stripPathSitePrefix(GeneralUtility::getFileAbsFileName($asset));
+            // TODO generate relative urls
+            $asset = $GLOBALS['TYPO3_REQUEST']->getAttribute('site')->getBase()
+                ->withPath(PathUtility::stripPathSitePrefix(GeneralUtility::getFileAbsFileName($asset)));
         }
         return $assets;
     }

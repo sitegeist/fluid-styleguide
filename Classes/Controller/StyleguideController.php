@@ -9,9 +9,9 @@ use Sitegeist\FluidStyleguide\Service\ComponentDownloadService;
 use Sitegeist\FluidStyleguide\Service\StyleguideConfigurationManager;
 use SMS\FluidComponents\Utility\ComponentLoader;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
+use TYPO3Fluid\Fluid\View\TemplateView;
 
-class StyleguideController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+class StyleguideController
 {
     /**
      * @var ComponentRepository
@@ -27,6 +27,11 @@ class StyleguideController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContr
      * @var StyleguideConfigurationManager
      */
     protected $styleguideConfigurationManager;
+
+    /**
+     * @var TemplateView
+     */
+    protected $view;
 
     /**
      * Shows a list of all components
@@ -51,9 +56,14 @@ class StyleguideController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContr
      */
     public function showAction(string $component, string $fixture = 'default')
     {
+        $component = $this->componentRepository->findByIdentifier($component);
+        if (!$component) {
+            return new \TYPO3\CMS\Core\Http\Response('Component not found', 404);
+        }
+
         $this->view->assignMultiple([
             'navigation' => $this->componentRepository->findAllWithFixtures(),
-            'activeComponent' => $this->componentRepository->findByIdentifier($component),
+            'activeComponent' => $component,
             'activeFixture' => $fixture
         ]);
     }
@@ -65,11 +75,18 @@ class StyleguideController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContr
      */
     public function componentAction(string $component, string $fixture = 'default', array $formData = [])
     {
+        // TODO check if component name can be exploited to show arbitrary files
+        // TODO sanitize form input
         if (!$this->styleguideConfigurationManager->isFeatureEnabled('Editor')) {
             $formData = [];
         }
 
         $component = $this->componentRepository->findByIdentifier($component);
+        if (!$component) {
+            // TODO improve error handling
+            return new \TYPO3\CMS\Core\Http\Response('Component not found', 404);
+        }
+
         $package = $component->getName()->getPackage();
 
         $this->view->assignMultiple([
@@ -93,6 +110,11 @@ class StyleguideController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContr
         }
 
         $component = $this->componentRepository->findByIdentifier($component);
+        if (!$component) {
+            return new \TYPO3\CMS\Core\Http\Response('Component not found', 404);
+        }
+
+        // TODO return valid response object
         $this->componentDownloadService->downloadZip($component);
     }
 
@@ -115,9 +137,18 @@ class StyleguideController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContr
         $this->styleguideConfigurationManager->loadFromExtensionConfiguration();
     }
 
-    protected function initializeView(ViewInterface $view)
+    public function initializeView(TemplateView $view)
     {
-        $this->view->assign('styleguideConfiguration', $this->styleguideConfigurationManager);
+        $this->view = $view;
+
+        $this->view->setTemplateRootPaths($this->styleguideConfigurationManager->getTemplateRootPaths());
+        $this->view->setPartialRootPaths($this->styleguideConfigurationManager->getPartialRootPaths());
+        $this->view->setLayoutRootPaths($this->styleguideConfigurationManager->getLayoutRootPaths());
+
+        $this->view->assignMultiple([
+            'styleguideConfiguration' => $this->styleguideConfigurationManager,
+            'sitename' => $GLOBALS['TYPO3_CONF_VARS']['SYS']['sitename'] ?? ''
+        ]);
     }
 
     /**

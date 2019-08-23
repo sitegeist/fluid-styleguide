@@ -29,8 +29,11 @@ class ExampleViewHelper extends AbstractViewHelper
      * @param RenderingContextInterface $renderingContext
      * @return string
      */
-    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext): string
-    {
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ): string {
         if (!isset($arguments['fixtureName']) && !isset($arguments['fixtureData'])) {
             throw new \InvalidArgumentException(sprintf(
                 'A fixture name or fixture data has to be specified to render the component example of %s.',

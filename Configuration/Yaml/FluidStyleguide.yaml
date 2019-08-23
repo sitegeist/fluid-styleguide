@@ -32,3 +32,11 @@ FluidStyleguide:
         Desktop: '100%'
         Tablet: '768px'
         Mobile: '375px'
+
+    Fluid:
+        TemplateRootPaths:
+            - EXT:fluid_styleguide/Resources/Private/Templates
+        PartialRootPaths:
+            - EXT:fluid_styleguide/Resources/Private/Partials
+        LayoutRootPaths:
+            - EXT:fluid_styleguide/Resources/Private/Layouts

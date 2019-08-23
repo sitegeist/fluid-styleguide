@@ -1,5 +1,5 @@
-{namespace fsv=Sitegeist\FluidStyleguide\ViewHelpers}
 {namespace fsc=Sitegeist\FluidStyleguide\Components}
+{namespace fsv=Sitegeist\FluidStyleguide\ViewHelpers}
 
 <fc:component>
     <fc:param name="componentData" type="Sitegeist\FluidStyleguide\Domain\Model\Component" />
@@ -106,7 +106,7 @@
 
                         <f:if condition="{showEditor} && {componentData.arguments}">
                             <div class="tabContent">
-                                <fsc:molecule.editFixtures iframeUri="{iframeUri}" fixtures="{componentData.fixtures}" api="{componentData.arguments}" />
+                                <fsc:molecule.editFixtures iframeUri="{iframeUri}" activeFixture="{componentData.fixtures.{activeFixture}.data}" api="{componentData.arguments}" />
                             </div>
                         </f:if>
                     </div>

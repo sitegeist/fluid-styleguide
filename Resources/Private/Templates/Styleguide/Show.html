@@ -1,4 +1,5 @@
 {namespace fsc=Sitegeist\FluidStyleguide\Components}
+{namespace fsv=Sitegeist\FluidStyleguide\ViewHelpers}
 
 <f:layout name="Styleguide" />
 
@@ -8,13 +9,12 @@
         <fsc:Atom.StyleguideSelect autoSuggest="1">
             <select>
                 <f:for each="{activeComponent.fixtures}" as="fixture">
-                    <option data-url="{f:uri.action(
-                        pageType: 1562933206,
+                    <option data-url="{fsv:uri.styleguide(
+                        action: 'show',
                         arguments: {
                             fixture: fixture.name,
                             component: activeComponent.name.identifier
-                        },
-                        action: 'show'
+                        }
                     )}" {f:if(condition: '{fixture.name} == {activeFixture}', then: 'selected')}>
                         {fixture.name}
                     </option>
@@ -27,15 +27,14 @@
         <f:if condition="{styleguideConfiguration.Features.ResponsiveBreakpoints}">
             <fsc:Atom.viewportNavigation viewPorts="{styleguideConfiguration.responsiveBreakpoints}" />
         </f:if>
-        <a class="backLink" href="{f:uri.action(pageType: '1562933206', action: 'list')}">Overview</a>
+        <a class="backLink" href="{fsv:uri.styleguide(action: 'list')}">Overview</a>
     </div>
 </f:section>
 
 <f:section name="Content">
-    <f:variable name="iframeUri" value="{f:uri.action(
-        pageType: 1562933207,
-        arguments: {component: activeComponent.name.identifier, fixture: activeFixture},
-        action: 'component'
+    <f:variable name="iframeUri" value="{fsv:uri.styleguide(
+        action: 'component',
+        arguments: {component: activeComponent.name.identifier, fixture: activeFixture}
     )}" />
 
     <div class="fluidStyleguideShow">
@@ -44,7 +43,7 @@
 
     <fsc:organism.styleguideToolbar
         iframeUri="{iframeUri}"
-        zipDownloadUri="{f:uri.action(pageType: '1562933206', arguments: {component: activeComponent.name.identifier}, action: 'downloadComponentZip')}"
+        zipDownloadUri="{fsv:uri.styleguide(action: 'downloadComponentZip', arguments: {component: activeComponent.name.identifier})}"
         componentData="{activeComponent}"
         activeFixture="{activeFixture}"
         showDocumentation="{styleguideConfiguration.Features.Documentation}"

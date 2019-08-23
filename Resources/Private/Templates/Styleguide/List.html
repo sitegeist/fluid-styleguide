@@ -1,4 +1,5 @@
 {namespace fsc=Sitegeist\FluidStyleguide\Components}
+{namespace fsv=Sitegeist\FluidStyleguide\ViewHelpers}
 
 <f:layout name="Styleguide" />
 
@@ -9,10 +10,9 @@
                 <h1 class="fluidStyleguidePackageName">Package: {namespace}</h1>
                 <div class="fluidStyleguideComponent-items">
                     <f:for each="{components}" as="component">
-                        <f:variable name="iframeUri" value="{f:uri.action(
-                            pageType: 1562933207,
-                            arguments: {component: component.name.identifier},
-                            action: 'component'
+                        <f:variable name="iframeUri" value="{fsv:uri.styleguide(
+                            action: 'component',
+                            arguments: {component: component.name.identifier}
                         )}" />
                         <div class="fluidStyleguideComponentVariants">
                             <div class="fluidStyleguideComponentExample">
@@ -20,9 +20,9 @@
 
                                 <iframe class="fluidStyleguideComponent" src="{iframeUri}"></iframe>
 
-                                <f:link.action class="fluidStyleguideBtn" pageType="1562933206" arguments="{component: component.name.identifier}" action="show">
+                                <a href="{fsv:uri.styleguide(action: 'show', arguments: {component: component.name.identifier})}" class="fluidStyleguideBtn">
                                     <span>Show</span>
-                                </f:link.action>
+                                </a>
                             </div>
                         </div>
                     </f:for>

@@ -1,4 +1,19 @@
-{namespace fsc=Sitegeist\FluidStyleguide\Components}
+{namespace fsc=Sitegeist\FluidStyleguide\Components}{namespace fsv=Sitegeist\FluidStyleguide\ViewHelpers}<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+
+    <title>Fluid Styleguide - {sitename}</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="compatible" content="IE=edge" />
+    <meta name="robots" content="noindex,nofollow" />
+
+    <link rel="stylesheet" href="{f:uri.resource(path: 'Css/Styleguide.min.css', absolute: 1)}" />
+</head>
+
+<body>
 
 <div class="fluid-styleguide">
     <div class="styleguideHeader">
@@ -7,12 +22,9 @@
                 <select>
                     <option data-reset="true" value="">Choose component</option>
                     <f:for each="{navigation}" as="component">
-                        <option data-url="{f:uri.action(
-                            pageType: 1562933206,
-                            arguments: {
-                                component: component.name.identifier
-                            },
-                            action: 'show'
+                        <option data-url="{fsv:uri.styleguide(
+                            action: 'show',
+                            arguments: {component: component.name.identifier}
                         )}" {f:if(condition: '{component.name.identifier} == {activeComponent.name.identifier}' , then: 'selected'
                             )}>
                             {component.name.displayName} - ({component.name.package.namespace})
@@ -27,3 +39,8 @@
 
     <f:render section="Content" />
 </div>
+
+<script src="{f:uri.resource(path: 'Javascript/Styleguide.min.js', absolute: 1)}"></script>
+
+</body>
+</html>

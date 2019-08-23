@@ -31,8 +31,11 @@ class MarkdownViewHelper extends AbstractViewHelper
      * @param RenderingContextInterface $renderingContext
      * @return void
      */
-    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
-    {
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ): string {
         if (!isset(static::$markdownParser)) {
             static::$markdownParser = new \Parsedown();
         }
