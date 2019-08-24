@@ -45,8 +45,8 @@
                                     </f:if>
                                 </div>
                                 <label class="editFixturesCheckboxContainer">
-                                    <input name="formData[{item.name}]" type="hidden" />
-                                    <input class="editFixturesCheckbox" name="formData[{item.name}]" type="checkbox" {f:if(condition: '{prefillValue} == 1', then: 'checked')} />
+                                    <input name="formData[{item.name}]" type="hidden" value="FALSE" />
+                                    <input class="editFixturesCheckbox" name="formData[{item.name}]" type="checkbox" value="TRUE" {f:if(condition: prefillValue, then: 'checked')} />
                                     <span class="editFixturesCheckboxCheckmark"></span>
                                 </label>
                             </f:if>
