@@ -5,6 +5,7 @@ namespace Sitegeist\FluidStyleguide\ViewHelpers\Component;
 
 use Sitegeist\FluidStyleguide\Domain\Model\Component;
 use Sitegeist\FluidStyleguide\Domain\Model\ComponentName;
+use Sitegeist\FluidStyleguide\Exception\RequiredComponentArgumentException;
 use SMS\FluidComponents\Fluid\ViewHelper\ComponentRenderer;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
@@ -65,11 +66,10 @@ class ExampleViewHelper extends AbstractViewHelper
         }
 
         if ($arguments['execute']) {
-            return ComponentRenderer::renderComponent(
+            return self::renderComponent(
+                $arguments['component'],
                 $fixtureData,
-                function () { return ''; },
-                $renderingContext,
-                $arguments['component']->getName()->getIdentifier()
+                $renderingContext
             );
         } else {
             return static::renderComponentTag(
@@ -77,6 +77,38 @@ class ExampleViewHelper extends AbstractViewHelper
                 $fixtureData
             );
         }
+    }
+
+    /**
+     * Calls a component with the supplied example data
+     *
+     * @param Component $component
+     * @param array $data
+     * @param RenderingContextInterface $renderingContext
+     * @return string
+     */
+    public static function renderComponent(
+        Component $component,
+        array $data,
+        RenderingContextInterface $renderingContext
+    ): string {
+        // Check if all required arguments were supplied to the component
+        foreach ($component->getArguments() as $expectedArgument) {
+            if ($expectedArgument->isRequired() && !isset($data[$expectedArgument->getName()])) {
+                throw new RequiredComponentArgumentException(sprintf(
+                    'Required argument "%s" was not supplied for component %s.',
+                    $expectedArgument->getName(),
+                    $component->getName()->getIdentifier()
+                ), 1566636254);
+            }
+        }
+
+        return ComponentRenderer::renderComponent(
+            $data,
+            function () { return ''; },
+            $renderingContext,
+            $component->getName()->getIdentifier()
+        );
     }
 
     /**
