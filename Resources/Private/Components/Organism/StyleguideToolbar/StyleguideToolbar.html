@@ -82,17 +82,16 @@
                         </f:if>
 
                         <div class="tabContent">
-                            <pre><fsv:component.example component="{componentData}" fixtureName="{activeFixture}" /></pre>
+                            <pre><f:format.htmlspecialchars><fsv:component.example component="{componentData}" fixtureName="{activeFixture}" /></f:format.htmlspecialchars></pre>
                         </div>
 
                         <div class="tabContent">
                             <f:format.htmlspecialchars>
-                                <f:inline>
-                                    <fsv:component.example
-                                        component="{componentData}"
-                                        fixtureName="{activeFixture}"
-                                    />
-                                </f:inline>
+                                <fsv:component.example
+                                    component="{componentData}"
+                                    fixtureName="{activeFixture}"
+                                    execute="1"
+                                />
                             </f:format.htmlspecialchars>
                         </div>
 

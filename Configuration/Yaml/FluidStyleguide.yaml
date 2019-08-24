@@ -15,6 +15,10 @@ FluidStyleguide:
         # Enable/Disable rulers
         Ruler: false
 
+        # Escapes string input from the editor. This prevents Cross-Site-Scripting
+        # but leads to differing component output when using the editor.
+        EscapeInputFromEditor: true
+
     ComponentAssets:
         Global:
             Css:

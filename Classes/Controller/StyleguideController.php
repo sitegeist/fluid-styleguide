@@ -9,6 +9,7 @@ use Sitegeist\FluidStyleguide\Service\ComponentDownloadService;
 use Sitegeist\FluidStyleguide\Service\StyleguideConfigurationManager;
 use SMS\FluidComponents\Utility\ComponentLoader;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3Fluid\Fluid\View\TemplateView;
 
 class StyleguideController
@@ -40,7 +41,7 @@ class StyleguideController
      */
     public function listAction()
     {
-        $allComponents = $this->componentRepository->findAllWithFixtures();
+        $allComponents = $this->componentRepository->findWithFixtures();
         $componentPackages = $this->groupComponentsByPackage($allComponents);
 
         $this->view->assignMultiple([
@@ -56,13 +57,18 @@ class StyleguideController
      */
     public function showAction(string $component, string $fixture = 'default')
     {
-        $component = $this->componentRepository->findByIdentifier($component);
+        // Sanitize user input
+        $component = $this->sanitizeComponentIdentifier($component);
+        $fixture = $this->sanitizeFixtureName($fixture);
+
+        // Check if component exists
+        $component = $this->componentRepository->findWithFixturesByIdentifier($component);
         if (!$component) {
             return new \TYPO3\CMS\Core\Http\Response('Component not found', 404);
         }
 
         $this->view->assignMultiple([
-            'navigation' => $this->componentRepository->findAllWithFixtures(),
+            'navigation' => $this->componentRepository->findWithFixtures(),
             'activeComponent' => $component,
             'activeFixture' => $fixture
         ]);
@@ -75,13 +81,17 @@ class StyleguideController
      */
     public function componentAction(string $component, string $fixture = 'default', array $formData = [])
     {
-        // TODO check if component name can be exploited to show arbitrary files
-        // TODO sanitize form input
+        // Sanitize user input
+        $component = $this->sanitizeComponentIdentifier($component);
+        $fixture = $this->sanitizeFixtureName($fixture);
         if (!$this->styleguideConfigurationManager->isFeatureEnabled('Editor')) {
             $formData = [];
+        } else {
+            $formData = $this->sanitizeFormData($formData);
         }
 
-        $component = $this->componentRepository->findByIdentifier($component);
+        // Check if component exists
+        $component = $this->componentRepository->findWithFixturesByIdentifier($component);
         if (!$component) {
             // TODO improve error handling
             return new \TYPO3\CMS\Core\Http\Response('Component not found', 404);
@@ -105,11 +115,14 @@ class StyleguideController
      */
     public function downloadComponentZipAction(string $component)
     {
+        // Sanitize user input
         if (!$this->styleguideConfigurationManager->isFeatureEnabled('ZipDownload')) {
-            return false;
+            return new \TYPO3\CMS\Core\Http\Response('Zip download is not available', 403);
         }
+        $component = $this->sanitizeComponentIdentifier();
 
-        $component = $this->componentRepository->findByIdentifier($component);
+        // Check if component exists
+        $component = $this->componentRepository->findWithFixturesByIdentifier($component);
         if (!$component) {
             return new \TYPO3\CMS\Core\Http\Response('Component not found', 404);
         }
@@ -149,6 +162,61 @@ class StyleguideController
             'styleguideConfiguration' => $this->styleguideConfigurationManager,
             'sitename' => $GLOBALS['TYPO3_CONF_VARS']['SYS']['sitename'] ?? ''
         ]);
+    }
+
+    /**
+     * Makes sure that no malicious user input will be passed to a component
+     *
+     * @param array $formData
+     * @return array
+     */
+    protected function sanitizeFormData(array $formData): array
+    {
+        foreach ($formData as $key => &$value) {
+            // Throw away any input other than string
+            if (!is_string($value)) {
+                unset($formData[$key]);
+                continue;
+            }
+
+            // Convert to integer
+            if (MathUtility::canBeInterpretedAsInteger($value)) {
+                $value = (int) $value;
+            // Convert to float
+            } elseif (MathUtility::canBeInterpretedAsFloat($value)) {
+                $value = (float) $value;
+            // Convert to boolean
+            } elseif (mb_strtoupper($value) === 'TRUE' || mb_strtoupper($value) === 'FALSE') {
+                $value = (mb_strtoupper($value) === 'TRUE');
+            // Escape string if necessary
+            } elseif ($this->styleguideConfigurationManager->isFeatureEnabled('EscapeInputFromEditor')) {
+                $value = htmlspecialchars($value);
+            }
+        }
+
+        return $formData;
+    }
+
+    /**
+     * Make sure that the component identifier doesn't include any malicious characters
+     *
+     * @param string $componentIdentifier
+     * @return string
+     */
+    protected function sanitizeComponentIdentifier(string $componentIdentifier): string
+    {
+        return trim(preg_replace('#[^a-z0-9_\\\\]#i', '', $componentIdentifier), '\\');
+    }
+
+    /**
+     * Make sure that the fixture name doesn't include any malicious characters
+     *
+     * @param string $fixtureName
+     * @return string
+     */
+    protected function sanitizeFixtureName(string $fixtureName): string
+    {
+        return preg_replace('#[^a-z0-9_]#i', '', $fixtureName);
     }
 
     /**

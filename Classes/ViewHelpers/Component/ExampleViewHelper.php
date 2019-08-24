@@ -5,6 +5,7 @@ namespace Sitegeist\FluidStyleguide\ViewHelpers\Component;
 
 use Sitegeist\FluidStyleguide\Domain\Model\Component;
 use Sitegeist\FluidStyleguide\Domain\Model\ComponentName;
+use SMS\FluidComponents\Fluid\ViewHelper\ComponentRenderer;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
@@ -14,11 +15,17 @@ class ExampleViewHelper extends AbstractViewHelper
 {
     use CompileWithRenderStatic;
 
+    /**
+     * @var boolean
+     */
+    protected $escapeOutput = false;
+
     public function initializeArguments()
     {
         $this->registerArgument('component', Component::class, 'Component that should be rendered', true);
         $this->registerArgument('fixtureName', 'string', 'Name of the fixture that should be used in the example');
         $this->registerArgument('fixtureData', 'array', 'Additional dynamic fixture data that should be used in the example');
+        $this->registerArgument('execute', 'bool', 'Set to true if the component example should be executed', false, false);
     }
 
     /**
@@ -57,10 +64,19 @@ class ExampleViewHelper extends AbstractViewHelper
             $fixtureData = array_replace($componentFixture->getData(), $fixtureData);
         }
 
-        return static::renderComponentTag(
-            $arguments['component']->getName(),
-            $fixtureData
-        );
+        if ($arguments['execute']) {
+            return ComponentRenderer::renderComponent(
+                $fixtureData,
+                function () { return ''; },
+                $renderingContext,
+                $arguments['component']->getName()->getIdentifier()
+            );
+        } else {
+            return static::renderComponentTag(
+                $arguments['component']->getName(),
+                $fixtureData
+            );
+        }
     }
 
     /**

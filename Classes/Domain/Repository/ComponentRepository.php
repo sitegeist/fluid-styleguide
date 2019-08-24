@@ -43,7 +43,7 @@ class ComponentRepository implements \TYPO3\CMS\Core\SingletonInterface
      *
      * @return array
      */
-    public function findAllWithFixtures(): array
+    public function findWithFixtures(): array
     {
         $packages = $this->packageRepository->findAll();
 
@@ -77,7 +77,7 @@ class ComponentRepository implements \TYPO3\CMS\Core\SingletonInterface
      * @param string $identifier
      * @return Component|null
      */
-    public function findByIdentifier(string $identifier): ?Component
+    public function findWithFixturesByIdentifier(string $identifier): ?Component
     {
         $identifier = trim($identifier, '\\');
         $componentName = $this->componentNameRepository->findByComponentIdentifier($identifier);
@@ -90,9 +90,11 @@ class ComponentRepository implements \TYPO3\CMS\Core\SingletonInterface
             return null;
         }
 
-        return new Component(
-            $componentName,
-            new ComponentLocation($componentFile)
-        );
+        $component = new Component($componentName, new ComponentLocation($componentFile));
+        if (!$component->hasFixtures()) {
+            return null;
+        }
+
+        return $component;
     }
 }
