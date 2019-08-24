@@ -5,10 +5,10 @@ return [
         'sitegeist/fluid-styleguide/router' => [
             'target' => \Sitegeist\FluidStyleguide\Middleware\StyleguideRouter::class,
             'after' => [
-                'typo3/cms-redirects/redirecthandler'
+                'typo3/cms-frontend/site'
             ],
             'before' => [
-                'typo3/cms-frontend/page-resolver'
+                'typo3/cms-frontend/static-route-resolver'
             ]
         ],
     ],
