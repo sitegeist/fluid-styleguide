@@ -57,7 +57,7 @@
                                                 <th>Name</th>
                                                 <th>Type</th>
                                                 <th class="componentArgumentsRequired">Required</th>
-                                                <th>Default</th>
+                                                <f:comment><th>Default</th></f:comment>
                                                 <th>Description</th>
                                             </tr>
                                             <f:for each="{componentData.arguments}" as="argument">
@@ -66,7 +66,8 @@
                                                         <td class="componentArgumentsName">{argument.name}</td>
                                                         <td>{argument.type}</td>
                                                         <td class="componentArgumentsRequired">{f:if(condition: argument.required, then: '✔︎')}</td>
-                                                        <td>{argument.default}</td>
+                                                        <f:comment>TODO implement this with fluid_components v2</f:comment>
+                                                        <f:comment><td>{argument.defaultValue}</td></f:comment>
                                                         <td>{argument.description}</td>
                                                     </tr>
                                                 </f:if>
