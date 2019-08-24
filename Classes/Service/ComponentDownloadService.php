@@ -13,13 +13,15 @@ class ComponentDownloadService
     public function downloadZip(Component $component): void
     {
         $componentPath = $component->getLocation()->getDirectory();
-        $realFileName = substr($componentPath, strrpos($componentPath, '/') + 1) .'.zip';
+        $realFileName = $component->getName()->getSimpleName() .'.zip';
         $componentPath = PathUtility::sanitizeTrailingSeparator($componentPath);
         $temporaryPath = Environment::getVarPath() . '/transient/';
         if (!@is_dir($temporaryPath)) {
             GeneralUtility::mkdir($temporaryPath);
         }
-        $fileName = $temporaryPath . '_' . md5($realFileName) . '.zip';
+        $fileName = $temporaryPath . 'component_'
+            . md5($component->getName()->getIdentifier())
+            . '_' . bin2hex(random_bytes(16)) . '.zip';
         $temporaryPath = Environment::getVarPath() . '/transient/';
         if (!@is_dir($temporaryPath)) {
             GeneralUtility::mkdir($temporaryPath);
@@ -58,6 +60,7 @@ class ComponentDownloadService
             flush();
             readfile($fileName);
             unlink($fileName);
+            exit;
         }
     }
 }

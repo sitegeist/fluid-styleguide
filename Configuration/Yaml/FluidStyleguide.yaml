@@ -7,7 +7,7 @@ FluidStyleguide:
         Editor: true
 
         # Enable/Disable zip download of component folder
-        ZipDownload: true
+        ZipDownload: false
 
         # Enable/Disable breakpoint switcher
         ResponsiveBreakpoints: true

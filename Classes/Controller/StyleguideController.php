@@ -119,7 +119,7 @@ class StyleguideController
         if (!$this->styleguideConfigurationManager->isFeatureEnabled('ZipDownload')) {
             return new \TYPO3\CMS\Core\Http\Response('Zip download is not available', 403);
         }
-        $component = $this->sanitizeComponentIdentifier();
+        $component = $this->sanitizeComponentIdentifier($component);
 
         // Check if component exists
         $component = $this->componentRepository->findWithFixturesByIdentifier($component);
@@ -127,8 +127,7 @@ class StyleguideController
             return new \TYPO3\CMS\Core\Http\Response('Component not found', 404);
         }
 
-        // TODO return valid response object
-        $this->componentDownloadService->downloadZip($component);
+        return $this->componentDownloadService->downloadZip($component);
     }
 
     protected function groupComponentsByPackage(array $components): array
