@@ -8,6 +8,7 @@ use Sitegeist\FluidStyleguide\Domain\Repository\ComponentRepository;
 use Sitegeist\FluidStyleguide\Service\ComponentDownloadService;
 use Sitegeist\FluidStyleguide\Service\StyleguideConfigurationManager;
 use SMS\FluidComponents\Utility\ComponentLoader;
+use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3Fluid\Fluid\View\TemplateView;
@@ -64,7 +65,7 @@ class StyleguideController
         // Check if component exists
         $component = $this->componentRepository->findWithFixturesByIdentifier($component);
         if (!$component) {
-            return new \TYPO3\CMS\Core\Http\Response('Component not found', 404);
+            return new Response('Component not found', 404);
         }
 
         $this->view->assignMultiple([
@@ -93,8 +94,7 @@ class StyleguideController
         // Check if component exists
         $component = $this->componentRepository->findWithFixturesByIdentifier($component);
         if (!$component) {
-            // TODO improve error handling
-            return new \TYPO3\CMS\Core\Http\Response('Component not found', 404);
+            return new Response('Component not found', 404);
         }
 
         $package = $component->getName()->getPackage();
@@ -117,14 +117,14 @@ class StyleguideController
     {
         // Sanitize user input
         if (!$this->styleguideConfigurationManager->isFeatureEnabled('ZipDownload')) {
-            return new \TYPO3\CMS\Core\Http\Response('Zip download is not available', 403);
+            return new Response('Zip download is not available', 403);
         }
         $component = $this->sanitizeComponentIdentifier($component);
 
         // Check if component exists
         $component = $this->componentRepository->findWithFixturesByIdentifier($component);
         if (!$component) {
-            return new \TYPO3\CMS\Core\Http\Response('Component not found', 404);
+            return new Response('Component not found', 404);
         }
 
         return $this->componentDownloadService->downloadZip($component);
