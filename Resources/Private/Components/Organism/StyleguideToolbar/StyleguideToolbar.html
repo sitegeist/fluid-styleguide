@@ -38,7 +38,7 @@
                                 ZIP
                             </div>
                         </f:if>
-                        <f:if condition="{showEditor} && {componentData.arguments}">
+                        <f:if condition="{showEditor} && {componentData.arguments -> f:count()} > 2">
                             <div class="tabOpener">
                                 EDIT
                             </div>
@@ -103,7 +103,7 @@
                             </div>
                         </f:if>
 
-                        <f:if condition="{showEditor} && {componentData.arguments}">
+                        <f:if condition="{showEditor} && {componentData.arguments -> f:count()} > 2">
                             <div class="tabContent">
                                 <fsc:molecule.editFixtures iframeUri="{iframeUri}" activeFixture="{componentData.fixtures.{activeFixture}.data}" api="{componentData.arguments}" />
                             </div>
