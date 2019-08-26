@@ -37,18 +37,19 @@ class PackageRepository implements \TYPO3\CMS\Core\SingletonInterface
         $fluidNamespaces = $this->viewHelperResolver->getNamespaces();
         $componentNamespaces = $this->componentLoader->getNamespaces();
         $packages = [];
-        foreach ($fluidNamespaces as $namespaceAlias => $namespaceCandidates) {
-            foreach ($namespaceCandidates as $namespaceCandidate) {
-                // Ignore namespaces that are not associated with components
-                if (!isset($componentNamespaces[$namespaceCandidate])) {
-                    continue;
+        foreach ($componentNamespaces as $namespace => $path) {
+            $matchingNamespaceAlias = '???';
+            foreach ($fluidNamespaces as $namespaceAlias => $namespaceCandidates) {
+                if (in_array($namespace, $namespaceCandidates)) {
+                    $matchingNamespaceAlias = $namespaceAlias;
+                    break;
                 }
-
-                $packages[] = new Package(
-                    $namespaceCandidate,
-                    $namespaceAlias
-                );
             }
+
+            $packages[] = new Package(
+                $namespace,
+                $matchingNamespaceAlias
+            );
         }
 
         return $packages;
