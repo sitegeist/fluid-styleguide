@@ -9,6 +9,7 @@ use Sitegeist\FluidStyleguide\Service\ComponentDownloadService;
 use Sitegeist\FluidStyleguide\Service\StyleguideConfigurationManager;
 use SMS\FluidComponents\Utility\ComponentLoader;
 use TYPO3\CMS\Core\Http\Response;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3Fluid\Fluid\View\TemplateView;
@@ -147,6 +148,7 @@ class StyleguideController
     public function initializeObject()
     {
         $this->styleguideConfigurationManager->loadFromExtensionConfiguration();
+        $this->registerDemoComponents();
     }
 
     public function initializeView(TemplateView $view)
@@ -216,6 +218,23 @@ class StyleguideController
     protected function sanitizeFixtureName(string $fixtureName): string
     {
         return preg_replace('#[^a-z0-9_]#i', '', $fixtureName);
+    }
+
+    protected function registerDemoComponents(): void
+    {
+        $componentLoader = GeneralUtility::makeInstance(ComponentLoader::class);
+        if (
+            count($componentLoader->getNamespaces()) === 1 ||
+            $this->styleguideConfigurationManager->isFeatureEnabled('DemoComponents')
+        ) {
+            $componentLoader->addNamespace(
+                'Sitegeist\\FluidStyleguide\\DemoComponents',
+                ExtensionManagementUtility::extPath(
+                    'fluid_styleguide',
+                    'Resources/Private/DemoComponents'
+                )
+            );
+        }
     }
 
     /**

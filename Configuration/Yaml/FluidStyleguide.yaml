@@ -19,6 +19,9 @@ FluidStyleguide:
         # but leads to differing component output when using the editor.
         EscapeInputFromEditor: true
 
+        # Show demo components in styleguide even if other components exist
+        DemoComponents: false
+
     ComponentAssets:
         Global:
             Css:
