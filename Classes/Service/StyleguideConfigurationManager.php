@@ -71,6 +71,8 @@ class StyleguideConfigurationManager
             $assets['Css'] = $this->sanitizeComponentAssets($assets['Css'] ?? []);
             $assets['Javascript'] = $this->sanitizeComponentAssets($assets['Javascript'] ?? []);
         }
+
+        $this->mergedConfiguration['ResponsiveBreakpoints'] = array_filter($this->mergedConfiguration['ResponsiveBreakpoints']);
     }
 
     public function getFeatures(): array
