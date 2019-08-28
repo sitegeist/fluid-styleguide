@@ -9,11 +9,11 @@ $EM_CONF[$_EXTKEY] = [
     'state' => 'beta',
     'uploadfolder' => false,
     'clearCacheOnLoad' => false,
-    'version' => '0.3.0',
+    'version' => '0.4.0',
     'constraints' => [
         'depends' => [
             'typo3' => '8.7.0-9.9.99',
-            'fluid_components' => '1.2.0'
+            'fluid_components' => '1.3.0'
         ],
         'conflicts' => [
         ],
