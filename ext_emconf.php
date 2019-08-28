@@ -12,12 +12,18 @@ $EM_CONF[$_EXTKEY] = [
     'version' => '0.4.0',
     'constraints' => [
         'depends' => [
-            'typo3' => '8.7.0-9.9.99',
-            'fluid_components' => '1.3.0'
+            'typo3' => '9.5.0-9.9.99',
+            'fluid_components' => '1.3.0',
+            'php' => '7.1.0-7.9.99'
         ],
         'conflicts' => [
         ],
         'suggests' => [
         ],
-    ]
+    ],
+    'autoload' => [
+        'psr-4' => [
+            'SMS\\FluidStyleguide\\' => 'Classes'
+        ]
+    ],
 ];
