@@ -147,7 +147,6 @@ class StyleguideController
 
     public function initializeObject()
     {
-        $this->styleguideConfigurationManager->loadFromExtensionConfiguration();
         $this->registerDemoComponents();
     }
 

@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace Sitegeist\FluidStyleguide\Service;
 
 use Sitegeist\FluidStyleguide\Domain\Model\Package;
-use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Configuration\Loader\YamlFileLoader;
+use TYPO3\CMS\Core\Package\PackageManager;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
@@ -18,9 +18,9 @@ class StyleguideConfigurationManager
     protected $yamlFileLoader;
 
     /**
-     * @var ExtensionConfiguration
+     * @var PackageManager
      */
-    protected $extensionConfiguration;
+    protected $packageManager;
 
     /**
      * @var string
@@ -30,41 +30,35 @@ class StyleguideConfigurationManager
     /**
      * @var array
      */
-    protected $defaultConfiguration;
-
-    /**
-     * @var array
-     */
-    protected $configuration;
-
-    /**
-     * @var array
-     */
     protected $mergedConfiguration;
 
-    public function __construct(YamlFileLoader $yamlFileLoader, ExtensionConfiguration $extensionConfiguration)
+    public function __construct(YamlFileLoader $yamlFileLoader, PackageManager $packageManager)
     {
         $this->yamlFileLoader = $yamlFileLoader;
-        $this->extensionConfiguration = $extensionConfiguration;
+        $this->packageManager = $packageManager;
+        $this->loadConfiguration();
     }
 
-    public function loadFromExtensionConfiguration()
+    public function loadConfiguration()
     {
-        $yamlFile = $this->extensionConfiguration->get('fluid_styleguide', 'configurationFile');
-        $this->loadConfiguration($yamlFile);
-    }
-
-    public function loadConfiguration(string $yamlFile = '')
-    {
-        $this->defaultConfiguration = $this->yamlFileLoader->load($this->defaultConfigurationFile)['FluidStyleguide'];
-        $this->configuration = $yamlFile ? $this->yamlFileLoader->load($yamlFile)['FluidStyleguide'] ?? [] : [];
+        $this->mergedConfiguration = $this->yamlFileLoader->load($this->defaultConfigurationFile)['FluidStyleguide'];
 
         // Merge default configuration with custom configuration
-        $this->mergedConfiguration = $this->defaultConfiguration;
-        ArrayUtility::mergeRecursiveWithOverrule(
-            $this->mergedConfiguration,
-            $this->configuration
-        );
+        $activeExtensions = $this->packageManager->getActivePackages();
+        foreach ($activeExtensions as $package) {
+            // Skip default configuration
+            if ($package->getPackageKey() === 'fluid_styleguide') {
+                continue;
+            }
+
+            $packageConfiguration = $package->getPackagePath() . 'Configuration/Yaml/FluidStyleguide.yaml';
+            if (file_exists($packageConfiguration)) {
+                ArrayUtility::mergeRecursiveWithOverrule(
+                    $this->mergedConfiguration,
+                    $this->yamlFileLoader->load($packageConfiguration)['FluidStyleguide'] ?? []
+                );
+            }
+        }
 
         // Sanitize component assets
         $this->mergedConfiguration['ComponentAssets']['Global']['Css'] = $this->sanitizeComponentAssets(

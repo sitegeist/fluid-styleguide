@@ -1,5 +1,2 @@
-# cat=general; type=file [yaml]; label=Styleguide Configuration File: example: EXT:my_extension/Configuration/Yaml/FluidStyleguide.yaml
-configurationFile =
-
 # cat=general; type=string; label=URI prefix that should display the styleguide: Advanced! Only change this property if you know what you're doing!
 uriPrefix = /fluid-styleguide/
