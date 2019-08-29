@@ -38,10 +38,9 @@ testing-php:
   before_script:
     # Specify path to composer and yarn caches
     - export COMPOSER_CACHE_DIR=$CI_PROJECT_DIR/.composer_cache
-    - export YARN_CACHE_FOLDER=$CI_PROJECT_DIR/.yarn_cache
 
     # Prepare environment for testing
-    - composer install -q
+    - composer install
   script:
     - composer lint
 
