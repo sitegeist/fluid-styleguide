@@ -133,13 +133,32 @@ class StyleguideConfigurationManager
         }
 
         $baseUrl = $GLOBALS['TYPO3_REQUEST']->getAttribute('site')->getBase();
-        foreach ($assets as &$asset) {
-            // TODO generate relative urls
-            $asset = $baseUrl->withPath(
-                $baseUrl->getPath() .
-                PathUtility::stripPathSitePrefix(GeneralUtility::getFileAbsFileName($asset))
-            );
+        foreach ($assets as $key => &$asset) {
+            if (!static::isRemoteUri($asset)) {
+                // TODO generate relative urls
+                $asset = GeneralUtility::getFileAbsFileName($asset);
+                if ($asset) {
+                    $asset = $baseUrl->withPath(
+                        $baseUrl->getPath() .
+                        PathUtility::stripPathSitePrefix(GeneralUtility::getFileAbsFileName($asset))
+                    );
+                } else {
+                    unset($assets[$key]);
+                }
+            }
         }
         return $assets;
+    }
+
+    /**
+     * Checks if the provided uri is a valid remote uri
+     *
+     * @param string $uri
+     * @return boolean
+     */
+    protected static function isRemoteUri(string $uri): bool
+    {
+        $scheme = parse_url($uri, PHP_URL_SCHEME);
+        return ($scheme && in_array(strtolower($scheme), ['http', 'https']));
     }
 }
