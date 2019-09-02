@@ -125,7 +125,8 @@ class StyleguideConfigurationManager
         return $this->mergedConfiguration['Fluid']['LayoutRootPaths'] ?? [];
     }
 
-    protected function sanitizeComponentAssets($assets) {
+    protected function sanitizeComponentAssets($assets)
+    {
         if (is_string($assets)) {
             $assets = [$assets];
         } elseif (!is_array($assets)) {

@@ -105,7 +105,9 @@ class ExampleViewHelper extends AbstractViewHelper
 
         return ComponentRenderer::renderComponent(
             $data,
-            function () { return ''; },
+            function () {
+                return '';
+            },
             $renderingContext,
             $component->getName()->getIdentifier()
         );

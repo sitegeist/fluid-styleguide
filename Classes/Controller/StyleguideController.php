@@ -222,8 +222,7 @@ class StyleguideController
     protected function registerDemoComponents(): void
     {
         $componentLoader = GeneralUtility::makeInstance(ComponentLoader::class);
-        if (
-            count($componentLoader->getNamespaces()) === 1 ||
+        if (count($componentLoader->getNamespaces()) === 1 ||
             $this->styleguideConfigurationManager->isFeatureEnabled('DemoComponents')
         ) {
             $componentLoader->addNamespace(

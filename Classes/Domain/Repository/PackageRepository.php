@@ -70,8 +70,7 @@ class PackageRepository implements \TYPO3\CMS\Core\SingletonInterface
             }
 
             // Prefer packages with higher namespace specificity
-            if (
-                isset($componentPackage) &&
+            if (isset($componentPackage) &&
                 $componentPackage->getSpecificity() >= $package->getSpecificity()
             ) {
                 continue;
