@@ -132,10 +132,13 @@ class StyleguideConfigurationManager
             return [];
         }
 
+        $baseUrl = $GLOBALS['TYPO3_REQUEST']->getAttribute('site')->getBase();
         foreach ($assets as &$asset) {
             // TODO generate relative urls
-            $asset = $GLOBALS['TYPO3_REQUEST']->getAttribute('site')->getBase()
-                ->withPath(PathUtility::stripPathSitePrefix(GeneralUtility::getFileAbsFileName($asset)));
+            $asset = $baseUrl->withPath(
+                $baseUrl->getPath() .
+                PathUtility::stripPathSitePrefix(GeneralUtility::getFileAbsFileName($asset))
+            );
         }
         return $assets;
     }
