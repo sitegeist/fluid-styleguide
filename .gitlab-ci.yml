@@ -26,23 +26,23 @@ housekeeping-merge-requests:
 #
 # Run linters and automatic tests
 #
-testing-php:
-  image: $CI_REGISTRY/sitegeist/automata/deployment-php:7.2
-  tags:
-    - docker
-  stage: test
-  cache:
-    key: composer
-    paths:
-      - .composer_cache
-  before_script:
-    # Specify path to composer and yarn caches
-    - export COMPOSER_CACHE_DIR=$CI_PROJECT_DIR/.composer_cache
+# testing-php:
+#   image: $CI_REGISTRY/sitegeist/automata/deployment-php:7.2
+#   tags:
+#     - docker
+#   stage: test
+#   cache:
+#     key: composer
+#     paths:
+#       - .composer_cache
+#   before_script:
+#     # Specify path to composer and yarn caches
+#     - export COMPOSER_CACHE_DIR=$CI_PROJECT_DIR/.composer_cache
 
-    # Prepare environment for testing
-    - composer install
-  script:
-    - composer lint
+#     # Prepare environment for testing
+#     - composer install
+#   script:
+#     - composer lint
 
 testing-frontend:
   image: $CI_REGISTRY/sitegeist/automata/deployment-php:7.2
