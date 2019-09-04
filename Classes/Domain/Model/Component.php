@@ -75,7 +75,10 @@ class Component
         }
 
         $fixtureFile = $this->getFixtureFile();
-        $fixtures = json_decode(file_get_contents($fixtureFile), true);
+        $fixtures = json_decode(file_get_contents($fixtureFile), true) ?? [];
+        if (!isset($fixtures['default'])) {
+            $fixtures['default'] = [];
+        }
         foreach ($fixtures as $fixtureName => $fixtureData) {
             $this->fixtures[$fixtureName] = new ComponentFixture(
                 $fixtureFile,
