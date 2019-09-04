@@ -35,6 +35,7 @@ class StyleguideViewHelper extends AbstractViewHelper
     ): UriInterface {
         $prefix = GeneralUtility::makeInstance(ExtensionConfiguration::class)
             ->get('fluid_styleguide', 'uriPrefix');
+        $prefix = rtrim($prefix, '/') . '/';
         // TODO generate relative urls
         return $GLOBALS['TYPO3_REQUEST']->getAttribute('site')->getBase()
             ->withPath($prefix . $arguments['action'])

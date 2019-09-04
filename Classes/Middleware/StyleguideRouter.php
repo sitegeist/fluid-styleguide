@@ -29,11 +29,21 @@ class StyleguideRouter implements MiddlewareInterface
         ServerRequestInterface $request,
         RequestHandlerInterface $handler
     ): ResponseInterface {
-        // Check if fluid styleguide should be rendered
         $prefix = GeneralUtility::makeInstance(ExtensionConfiguration::class)
             ->get('fluid_styleguide', 'uriPrefix');
-        if (strpos($request->getUri()->getPath(), $prefix) !== 0) {
+        $prefixWithoutSlash = rtrim($prefix, '/');
+        $prefix = $prefixWithoutSlash . '/';
+
+        // Check if fluid styleguide should be rendered
+        if (strpos($request->getUri()->getPath(), $prefixWithoutSlash) !== 0) {
             return $handler->handle($request);
+        }
+
+        // Correct calls without trailing slash in request url
+        if (strpos($request->getUri()->getPath(), $prefix) !== 0) {
+            return new RedirectResponse(
+                $request->getUri()->withPath($prefix . static::DEFAULT_ACTION)
+            );
         }
 
         $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
