@@ -67,6 +67,9 @@ class ExampleViewHelper extends AbstractViewHelper
         }
 
         if ($arguments['execute']) {
+            // Parse fluid code in fixtures
+            $fixtureData = self::renderFluidInExampleData($fixtureData, $renderingContext);
+
             try {
                 return self::renderComponent(
                     $arguments['component'],
@@ -125,6 +128,24 @@ class ExampleViewHelper extends AbstractViewHelper
             $renderingContext,
             $component->getName()->getIdentifier()
         );
+    }
+
+    /**
+     * Renders inline fluid code in a fixture array that will be provided as example data to a component
+     *
+     * @param array $data
+     * @param RenderingContextInterface $renderingContext
+     * @return void
+     */
+    public static function renderFluidInExampleData(array $data, RenderingContextInterface $renderingContext)
+    {
+        return array_map(function ($value) use ($renderingContext) {
+            if (is_string($value)) {
+                return $renderingContext->getTemplateParser()->parse($value)->render($renderingContext);
+            } else {
+                return $value;
+            }
+        }, $data);
     }
 
     /**
