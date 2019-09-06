@@ -67,10 +67,10 @@ class ExampleViewHelper extends AbstractViewHelper
         }
 
         if ($arguments['execute']) {
-            // Parse fluid code in fixtures
-            $fixtureData = self::renderFluidInExampleData($fixtureData, $renderingContext);
-
             try {
+                // Parse fluid code in fixtures
+                $fixtureData = self::renderFluidInExampleData($fixtureData, $renderingContext);
+
                 return self::renderComponent(
                     $arguments['component'],
                     $fixtureData,
