@@ -165,7 +165,7 @@ class ExampleViewHelper extends AbstractViewHelper
             unset($data['content']);
         }
 
-        $fluidComponent->addAttributes($data);
+        $fluidComponent->addAttributes($data, false);
 
         return $fluidComponent->render();
     }
