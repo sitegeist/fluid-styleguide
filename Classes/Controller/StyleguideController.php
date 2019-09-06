@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Sitegeist\FluidStyleguide\Controller;
 
+use Psr\Http\Message\ServerRequestInterface;
 use Sitegeist\FluidStyleguide\Domain\Model\ComponentMetadata;
 use Sitegeist\FluidStyleguide\Domain\Repository\ComponentRepository;
 use Sitegeist\FluidStyleguide\Service\ComponentDownloadService;
@@ -35,6 +36,11 @@ class StyleguideController
      * @var TemplateView
      */
     protected $view;
+
+    /**
+     * @var ServerRequestInterface
+     */
+    protected $request;
 
     /**
      * Shows a list of all components
@@ -160,8 +166,14 @@ class StyleguideController
 
         $this->view->assignMultiple([
             'styleguideConfiguration' => $this->styleguideConfigurationManager,
-            'sitename' => $GLOBALS['TYPO3_CONF_VARS']['SYS']['sitename'] ?? ''
+            'sitename' => $GLOBALS['TYPO3_CONF_VARS']['SYS']['sitename'] ?? '',
+            'baseUri' => $this->request->getAttribute('site')->getBase()
         ]);
+    }
+
+    public function setRequest(ServerRequestInterface $request)
+    {
+        $this->request = $request;
     }
 
     /**

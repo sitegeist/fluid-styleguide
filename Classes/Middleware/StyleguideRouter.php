@@ -63,6 +63,7 @@ class StyleguideRouter implements MiddlewareInterface
 
         // Create controller
         $controller = $this->objectManager->get(StyleguideController::class);
+        $controller->setRequest($request);
 
         // Validate controller action
         $actionMethod = $actionName . 'Action';
