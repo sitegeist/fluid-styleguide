@@ -27,6 +27,7 @@ class ExampleViewHelper extends AbstractViewHelper
         $this->registerArgument('fixtureName', 'string', 'Name of the fixture that should be used in the example');
         $this->registerArgument('fixtureData', 'array', 'Additional dynamic fixture data that should be used in the example');
         $this->registerArgument('execute', 'bool', 'Set to true if the component example should be executed', false, false);
+        $this->registerArgument('handleExceptions', 'bool', 'Handle exceptions that occur during execution of the example', false, false);
     }
 
     /**
@@ -66,11 +67,24 @@ class ExampleViewHelper extends AbstractViewHelper
         }
 
         if ($arguments['execute']) {
-            return self::renderComponent(
-                $arguments['component'],
-                $fixtureData,
-                $renderingContext
-            );
+            try {
+                return self::renderComponent(
+                    $arguments['component'],
+                    $fixtureData,
+                    $renderingContext
+                );
+            } catch (\Exception $e) {
+                if ($arguments['handleExceptions']) {
+                    return sprintf(
+                        'Exception: %s (#%d %s)',
+                        $e->getMessage(),
+                        $e->getCode(),
+                        get_class($e)
+                    );
+                } else {
+                    throw $e;
+                }
+            }
         } else {
             return static::renderComponentTag(
                 $arguments['component']->getName(),
