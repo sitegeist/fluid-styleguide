@@ -1,0 +1,9 @@
+{
+    "default": {
+        "content": "Primary Button"
+    },
+    "secondary": {
+        "content": "Secondary Button",
+        "isSecondary": true
+    }
+}

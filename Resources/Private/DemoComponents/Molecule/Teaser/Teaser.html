@@ -1,0 +1,22 @@
+<fc:component>
+    <fc:param name="title" type="string" />
+    <fc:param name="link" type="SMS\FluidComponents\Domain\Model\Typolink" />
+    <fc:param name="image" type="SMS\FluidComponents\Domain\Model\Image" optional="1" />
+    <fc:param name="actions" type="string" optional="1" />
+    <fc:param name="theme" type="string" optional="1" default="light" />
+
+    <fc:renderer>
+        <a href="{link}" class="teaser teaser--{theme}">
+            <h3 class="teaser__title">{title}</h3>
+            <f:if condition="{content}">
+                <p class="teaser__content">{content}</p>
+            </f:if>
+
+            {actions -> f:format.raw()}
+
+            <f:if condition="{image}">
+                <demo:atom.image image="{image}" class="teaser__image" />
+            </f:if>
+        </a>
+    </fc:renderer>
+</fc:component>

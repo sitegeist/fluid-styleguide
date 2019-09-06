@@ -151,11 +151,6 @@ class StyleguideController
         return $componentPackages;
     }
 
-    public function initializeObject()
-    {
-        $this->registerDemoComponents();
-    }
-
     public function initializeView(TemplateView $view)
     {
         $this->view = $view;
@@ -169,6 +164,8 @@ class StyleguideController
             'sitename' => $GLOBALS['TYPO3_CONF_VARS']['SYS']['sitename'] ?? '',
             'baseUri' => $this->request->getAttribute('site')->getBase()
         ]);
+
+        $this->registerDemoComponents();
     }
 
     public function setRequest(ServerRequestInterface $request)
@@ -237,13 +234,19 @@ class StyleguideController
         if (count($componentLoader->getNamespaces()) === 1 ||
             $this->styleguideConfigurationManager->isFeatureEnabled('DemoComponents')
         ) {
+            $demoNamespace = 'Sitegeist\\FluidStyleguide\\DemoComponents';
             $componentLoader->addNamespace(
-                'Sitegeist\\FluidStyleguide\\DemoComponents',
+                $demoNamespace,
                 ExtensionManagementUtility::extPath(
                     'fluid_styleguide',
                     'Resources/Private/DemoComponents'
                 )
             );
+            $this->view->getRenderingContext()->getViewHelperResolver()->addNamespace(
+                'demo',
+                $demoNamespace
+            );
+            $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['demo'] = [$demoNamespace];
         }
     }
 

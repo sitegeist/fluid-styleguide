@@ -1,0 +1,14 @@
+<fc:component>
+    <fc:param name="image" type="SMS\FluidComponents\Domain\Model\Image" />
+
+    <fc:renderer>
+        <img
+            src="{image.publicUrl}"
+            alt="{image.alternative}"
+            title="{image.title}"
+            height="{image.height}"
+            width="{image.width}"
+            class="{component.class} {class}"
+        />
+    </fc:renderer>
+</fc:component>
