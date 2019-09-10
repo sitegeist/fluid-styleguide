@@ -5,7 +5,7 @@
     color: $white;
     font-size: 13px;
     z-index: 3;
-    font-family: 'Open Sans', Helvetica;
+    font-family: $styleguide-font;
     transition: bottom .25s ease 0s;
     background-color: $dark-grey-0;
 
@@ -31,8 +31,8 @@
         background: $dark-grey-0;
 
         &::before {
-            font-family: 'fluid-styleguide';
-            content: '\e905';
+            font-family: $verdana-font;
+            content: '›';
             width: 0;
             height: 0;
             speak: none;
@@ -41,11 +41,12 @@
             font-variant: normal;
             text-transform: none;
             line-height: 1;
-            font-size: 22px;
+            font-size: 24px;
             color: $highlight;
-            left: 14px;
-            top: 2px;
-            position: relative;
+            left: 12px;
+            top: 19px;
+            transform: rotate(-90deg);
+            position: absolute;
         }
 
         &:hover {
@@ -72,7 +73,9 @@
 
         .toolbarOpener {
             &::before {
-                content: '\e902';
+                left: 38px;
+                top: 8px;
+                transform: rotate(90deg);
             }
         }
 
@@ -102,6 +105,8 @@
                 color: $white;
                 border-right: 2px solid $dark-grey-0;
                 transition: background-color .25s ease;
+                position: relative;
+                overflow: hidden;
 
                 svg {
                     width: 28px;
@@ -115,6 +120,23 @@
 
                     svg {
                         fill: $highlight;
+                    }
+                }
+
+                &.betaSign {
+
+                    &::after {
+                        content: 'Beta';
+                        position: absolute;
+                        transform: rotate(42deg);
+                        right: -33px;
+                        top: -16px;
+                        font-size: 10px;
+                        background: $red;
+                        padding: 1px;
+                        color: $white;
+                        width: 48px;
+                        padding-left: 100px;
                     }
                 }
 

@@ -378,15 +378,6 @@ class StyleguideSelectHelper {
         const height = selectLabel.offsetHeight * select.childElementCount
         const selectDropdownMaxHeightFixed = select.offsetHeight > selectDropdownMaxHeight;
         let cssHeightAndMaxHeight = `height:${height + 2}px;max-height:${selectDropdownMaxHeightFixed + 2}px;`;
-
-        if (selectDropdownMaxHeightFixed || select.parentElement.classList.contains('orientationBottom')) {
-            // position select at top
-            cssHeightAndMaxHeight = `height:auto;top:-${select.offsetHeight}px`;
-            select.classList.add('selectPositionedTop');
-        } else {
-            select.classList.remove('selectPositionedTop');
-        }
-
         select.setAttribute('style', cssHeightAndMaxHeight)
 
     }

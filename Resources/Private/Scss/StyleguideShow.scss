@@ -1,3 +1,4 @@
+// sass-lint:disable no-important
 .fluidStyleguideShow {
     position: fixed;
     top: 55px;
@@ -5,7 +6,7 @@
     right: 0;
     bottom: 16px;
 
-    .componentIframe {
+    .fluidStyleguideComponent {
         height: 100%;
         width: 100%;
         border: 0 none;

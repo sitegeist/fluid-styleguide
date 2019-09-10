@@ -7,16 +7,15 @@
     right: 0;
     align-items: center;
     background: $dark-grey-0;
-    font-family: 'Open Sans', Helvetica;
+    font-family: $styleguide-font;
 
     .componentNavigation .styleguideSelectSelected {
         position: relative;
 
         &::before {
-            font-family: 'fluid-styleguide';
             position: absolute;
-            content: '\e904';
-            top: 17px;
+            content: '›';
+            top: 15px;
             width: 0;
             height: 0;
             speak: none;
@@ -25,8 +24,9 @@
             font-variant: normal;
             text-transform: none;
             line-height: 1;
-            font-size: 22px;
-            right: 21px;
+            font-size: 24px;
+            right: 24px;
+            font-family: $verdana-font;
             color: $highlight;
         }
     }
@@ -48,18 +48,24 @@
         font-size: 13px;
         color: $white;
         position: relative;
-        padding-left: 35px;
+        padding-left: 50px;
         text-decoration: none;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        border-left: 1px solid $highlight;
+        margin-left: 13px;
+
 
         &:hover {
             color: $highlight;
         }
 
         &::before {
-            font-family: 'fluid-styleguide';
+            font-family: $verdana-font;
             position: absolute;
-            content: '\e903';
-            top: -2px;
+            content: '‹';
+            top: 16px;
             width: 0;
             height: 0;
             speak: none;
@@ -68,8 +74,8 @@
             font-variant: normal;
             text-transform: none;
             line-height: 1;
-            font-size: 22px;
-            left: 0;
+            font-size: 24px;
+            left: 23px;
             color: $highlight;
         }
     }
@@ -79,12 +85,6 @@
         display: flex;
         align-items: center;
         height: 56px;
-
-        .viewportNavigation {
-            border-right: 1px solid $highlight;
-            margin-right: 24px;
-            padding-right: 16px;
-        }
     }
 
 }

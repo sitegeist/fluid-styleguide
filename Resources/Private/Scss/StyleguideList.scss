@@ -15,10 +15,18 @@
 
     .fluidStyleguideComponent {
         display: block;
-        width: 400px;
+        width: 100%;
         height: 200px;
-        margin-bottom: 10px;
         border: 0;
+        transition: width .6s;
+    }
+
+    .fluidStyleguideListIframeWrapper {
+        margin-bottom: 10px;
+    }
+
+    .breakPoint {
+        background-image: repeating-linear-gradient(45deg, $white 0%, $white 2.2%, $light-grey-2 2.2%, $light-grey-3 2.1%, $white 2.5%);
     }
 
     .fluidStyleguideComponentVariants {
@@ -47,7 +55,7 @@
         display: inline-block;
         font-size: 14px;
         position: relative;
-        font-family: 'Open Sans', Helvetica;
+        font-family: $styleguide-font;
 
         &:hover {
             color: $highlight;
@@ -58,10 +66,10 @@
             position: relative;
 
             &::after {
-                font-family: 'fluid-styleguide';
                 position: absolute;
-                content: '\e904';
-                top: -2px;
+                font-family: $verdana-font;
+                content: '›';
+                top: -4px;
                 width: 0;
                 height: 0;
                 speak: none;
@@ -71,7 +79,7 @@
                 text-transform: none;
                 line-height: 1;
                 font-size: 24px;
-                right: -13px;
+                right: -15px;
                 color: $highlight;
             }
         }
@@ -80,16 +88,17 @@
 
     .fluidStyleguideComponentName {
         font-size: 24px;
-        font-family: 'Open Sans', Helvetica;
+        font-family: $styleguide-font;
         color: $dark-grey-0;
     }
 
     .fluidStyleguidePackageName {
         margin-bottom: 60px;
         font-size: 32px;
-        font-family: 'Open Sans', Helvetica;
+        font-family: $styleguide-font;
         color: $dark-grey-0;
     }
+
 }
 
 

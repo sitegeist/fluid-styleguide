@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @font-face {
   font-family: 'fluid-styleguide';
   src: url("/typo3conf/ext/fluid_styleguide/Resources/Public/Fonts/fluid-styleguide.eot?4i7h9z");
@@ -17,10 +18,14 @@
     padding-bottom: 60px; }
   .fluidStyleguideList .fluidStyleguideComponent {
     display: block;
-    width: 400px;
+    width: 100%;
     height: 200px;
-    margin-bottom: 10px;
-    border: 0; }
+    border: 0;
+    transition: width .6s; }
+  .fluidStyleguideList .fluidStyleguideListIframeWrapper {
+    margin-bottom: 10px; }
+  .fluidStyleguideList .breakPoint {
+    background-image: repeating-linear-gradient(45deg, #FFFFFF 0%, #FFFFFF 2.2%, #e8e8e8 2.2%, #d6d6d6 2.1%, #FFFFFF 2.5%); }
   .fluidStyleguideList .fluidStyleguideComponentVariants:last-child .fluidStyleguideComponentExample:last-child {
     border-bottom: 0;
     margin-bottom: 0;
@@ -37,16 +42,16 @@
     display: inline-block;
     font-size: 14px;
     position: relative;
-    font-family: 'Open Sans', Helvetica; }
+    font-family: "Open Sans", Helvetica, FreeSans, Arial, sans-serif; }
     .fluidStyleguideList .fluidStyleguideBtn:hover {
       color: #00d8e6; }
     .fluidStyleguideList .fluidStyleguideBtn span {
       position: relative; }
       .fluidStyleguideList .fluidStyleguideBtn span::after {
-        font-family: 'fluid-styleguide';
         position: absolute;
-        content: '\e904';
-        top: -2px;
+        font-family: verdana, sans-serif;
+        content: '›';
+        top: -4px;
         width: 0;
         height: 0;
         speak: none;
@@ -56,16 +61,16 @@
         text-transform: none;
         line-height: 1;
         font-size: 24px;
-        right: -13px;
+        right: -15px;
         color: #00d8e6; }
   .fluidStyleguideList .fluidStyleguideComponentName {
     font-size: 24px;
-    font-family: 'Open Sans', Helvetica;
+    font-family: "Open Sans", Helvetica, FreeSans, Arial, sans-serif;
     color: #222425; }
   .fluidStyleguideList .fluidStyleguidePackageName {
     margin-bottom: 60px;
     font-size: 32px;
-    font-family: 'Open Sans', Helvetica;
+    font-family: "Open Sans", Helvetica, FreeSans, Arial, sans-serif;
     color: #222425; }
 
 .fluidStyleguideShow {
@@ -74,7 +79,7 @@
   left: 0;
   right: 0;
   bottom: 16px; }
-  .fluidStyleguideShow .componentIframe {
+  .fluidStyleguideShow .fluidStyleguideComponent {
     height: 100%;
     width: 100%;
     border: 0 none;
@@ -89,14 +94,13 @@
   right: 0;
   align-items: center;
   background: #222425;
-  font-family: 'Open Sans', Helvetica; }
+  font-family: "Open Sans", Helvetica, FreeSans, Arial, sans-serif; }
   .styleguideHeader .componentNavigation .styleguideSelectSelected {
     position: relative; }
     .styleguideHeader .componentNavigation .styleguideSelectSelected::before {
-      font-family: 'fluid-styleguide';
       position: absolute;
-      content: '\e904';
-      top: 17px;
+      content: '›';
+      top: 15px;
       width: 0;
       height: 0;
       speak: none;
@@ -105,8 +109,9 @@
       font-variant: normal;
       text-transform: none;
       line-height: 1;
-      font-size: 22px;
-      right: 21px;
+      font-size: 24px;
+      right: 24px;
+      font-family: verdana, sans-serif;
       color: #00d8e6; }
   .styleguideHeader .examplesNavigation {
     width: 50%;
@@ -121,15 +126,20 @@
     font-size: 13px;
     color: #FFFFFF;
     position: relative;
-    padding-left: 35px;
-    text-decoration: none; }
+    padding-left: 50px;
+    text-decoration: none;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    border-left: 1px solid #00d8e6;
+    margin-left: 13px; }
     .styleguideHeader .backLink:hover {
       color: #00d8e6; }
     .styleguideHeader .backLink::before {
-      font-family: 'fluid-styleguide';
+      font-family: verdana, sans-serif;
       position: absolute;
-      content: '\e903';
-      top: -2px;
+      content: '‹';
+      top: 16px;
       width: 0;
       height: 0;
       speak: none;
@@ -138,21 +148,17 @@
       font-variant: normal;
       text-transform: none;
       line-height: 1;
-      font-size: 22px;
-      left: 0;
+      font-size: 24px;
+      left: 23px;
       color: #00d8e6; }
   .styleguideHeader .actions {
     margin: 0 24px 0 auto;
     display: flex;
     align-items: center;
     height: 56px; }
-    .styleguideHeader .actions .viewportNavigation {
-      border-right: 1px solid #00d8e6;
-      margin-right: 24px;
-      padding-right: 16px; }
 
 .styleguideSelect {
-  font-family: 'Open Sans', Helvetica;
+  font-family: "Open Sans", Helvetica, FreeSans, Arial, sans-serif;
   width: 100%; }
   .styleguideSelect datalist {
     display: block; }
@@ -162,7 +168,7 @@
   .styleguideSelect.hasIcon .styleguideSelectSelected::after {
     font-family: 'fluid-styleguide';
     position: absolute;
-    content: '\e900';
+    content: '›';
     top: 9px;
     right: 56px;
     width: 0;
@@ -189,7 +195,7 @@
     font-size: 13px;
     color: #FFFFFF;
     border-bottom: 1px solid #212121;
-    font-family: 'Open Sans', Helvetica; }
+    font-family: "Open Sans", Helvetica, FreeSans, Arial, sans-serif; }
     .styleguideSelectItems div.styleguideSelectEqualSelected, .styleguideSelectSelected.styleguideSelectEqualSelected {
       background-color: #222425;
       color: #00d8e6;
@@ -207,7 +213,7 @@
     padding: 0;
     font-size: 13px;
     color: #FFFFFF;
-    font-family: 'Open Sans', Helvetica;
+    font-family: "Open Sans", Helvetica, FreeSans, Arial, sans-serif;
     outline: none;
     width: 100%;
     background-color: transparent;
@@ -285,19 +291,23 @@
     background: #222425;
     display: block; }
     .styleguideScrollTop.active div::before {
-      font-family: 'fluid-styleguide';
+      font-family: verdana, sans-serif;
+      content: '›';
       speak: none;
       font-style: normal;
       font-weight: normal;
       font-variant: normal;
       text-transform: none;
       line-height: 1;
-      content: '\e905';
-      font-size: 33px;
-      padding-left: 6px;
-      padding-top: 7px;
+      font-size: 34px;
+      padding-left: 0;
+      padding-top: 0;
       color: #00d8e6;
-      display: block; }
+      display: block;
+      transform: rotate(-90deg);
+      position: relative;
+      top: -7px;
+      left: -2px; }
 
 .viewportNavigation {
   display: flex;
@@ -310,17 +320,19 @@
     display: block; }
   .viewportNavigation .dropdownLabel {
     color: #00d8e6;
-    padding: 16px;
+    padding: 16px 0;
     border: 0 none;
-    cursor: pointer; }
+    cursor: pointer;
+    margin: 0 16px; }
   .viewportNavigation .dropdownContent {
     position: absolute;
     background-color: #222425;
-    padding: 0 16px 16px;
-    min-width: 133px;
+    padding: 16px;
+    min-width: 82px;
     z-index: 1;
     top: 43px;
-    display: none; }
+    display: none;
+    padding-top: 0; }
     .viewportNavigation .dropdownContent:hover {
       display: block; }
     .viewportNavigation .dropdownContent li {
@@ -420,7 +432,7 @@
   color: #FFFFFF;
   font-size: 13px;
   z-index: 3;
-  font-family: 'Open Sans', Helvetica;
+  font-family: "Open Sans", Helvetica, FreeSans, Arial, sans-serif;
   transition: bottom .25s ease 0s;
   background-color: #222425; }
   .styleguideToolbar .toolbarTop {
@@ -440,8 +452,8 @@
     z-index: -2;
     background: #222425; }
     .styleguideToolbar .toolbarOpener::before {
-      font-family: 'fluid-styleguide';
-      content: '\e905';
+      font-family: verdana, sans-serif;
+      content: '›';
       width: 0;
       height: 0;
       speak: none;
@@ -450,11 +462,12 @@
       font-variant: normal;
       text-transform: none;
       line-height: 1;
-      font-size: 22px;
+      font-size: 24px;
       color: #00d8e6;
-      left: 14px;
-      top: 2px;
-      position: relative; }
+      left: 12px;
+      top: 19px;
+      transform: rotate(-90deg);
+      position: absolute; }
     .styleguideToolbar .toolbarOpener:hover {
       color: #00d8e6; }
   .styleguideToolbar .toolbarRuler {
@@ -468,7 +481,9 @@
   .styleguideToolbar.open {
     bottom: 0 !important; }
     .styleguideToolbar.open .toolbarOpener::before {
-      content: '\e902'; }
+      left: 38px;
+      top: 8px;
+      transform: rotate(90deg); }
     .styleguideToolbar.open .toolbarTabs {
       display: block; }
     .styleguideToolbar.open .toolbarBot {
@@ -487,7 +502,9 @@
         align-items: center;
         color: #FFFFFF;
         border-right: 2px solid #222425;
-        transition: background-color .25s ease; }
+        transition: background-color .25s ease;
+        position: relative;
+        overflow: hidden; }
         .styleguideToolbar .toolbarTabs .tabNav .tabOpener svg {
           width: 28px;
           height: 28px;
@@ -497,6 +514,18 @@
           color: #00d8e6; }
           .styleguideToolbar .toolbarTabs .tabNav .tabOpener.active svg {
             fill: #00d8e6; }
+        .styleguideToolbar .toolbarTabs .tabNav .tabOpener.betaSign::after {
+          content: 'Beta';
+          position: absolute;
+          transform: rotate(42deg);
+          right: -33px;
+          top: -16px;
+          font-size: 10px;
+          background: #ff8080;
+          padding: 1px;
+          color: #FFFFFF;
+          width: 48px;
+          padding-left: 100px; }
         .styleguideToolbar .toolbarTabs .tabNav .tabOpener:hover svg {
           fill: #00d8e6; }
     .styleguideToolbar .toolbarTabs .tabContent {

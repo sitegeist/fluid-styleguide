@@ -12,19 +12,21 @@
 
     .dropdownLabel {
         color: $highlight;
-        padding: 16px;
+        padding: 16px 0;
         border: 0 none;
         cursor: pointer;
+        margin: 0 16px;
     }
 
     .dropdownContent  {
         position: absolute;
         background-color: $dark-grey-0;
-        padding: 0 16px 16px;
-        min-width: 133px;
+        padding: 16px;
+        min-width: 82px;
         z-index: 1;
         top: 43px;
         display: none;
+        padding-top: 0;
 
         &:hover {
             display: block;

@@ -7,4 +7,4 @@ import '../Components/Atom/StyleguideScrollTop/StyleguideScrollTop';
 import '../Components/Atom/ViewportNavigation/ViewportNavigation';
 import '../Components/Molecule/EditFixtures/EditFixtures';
 
-iFrameResize({ heightCalculationMethod: 'taggedElement' }, '.fluidStyleguideComponent');
+iFrameResize({ heightCalculationMethod: 'taggedElement' }, '.iframeResize');

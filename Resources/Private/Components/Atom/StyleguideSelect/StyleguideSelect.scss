@@ -1,6 +1,6 @@
 // sass-lint:disable no-important
 .styleguideSelect {
-    font-family: 'Open Sans', Helvetica;
+    font-family: $styleguide-font;
     width: 100%;
 
     datalist {
@@ -17,7 +17,7 @@
             &::after {
                 font-family: 'fluid-styleguide';
                 position: absolute;
-                content: '\e900';
+                content: '›';
                 top: 9px;
                 right: 56px;
                 width: 0;
@@ -52,7 +52,7 @@
         font-size: 13px;
         color: $white;
         border-bottom: 1px solid $grey;
-        font-family: 'Open Sans', Helvetica;
+        font-family: $styleguide-font;
 
         &.styleguideSelectEqualSelected {
             background-color: $dark-grey-0;
@@ -81,7 +81,7 @@
         padding: 0;
         font-size: 13px;
         color: $white;
-        font-family: 'Open Sans', Helvetica;
+        font-family: $styleguide-font;
         outline: none;
         width: 100%;
         background-color: transparent;

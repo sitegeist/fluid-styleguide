@@ -1,8 +1,9 @@
 <fc:component>
     <fc:param name="viewPorts" type="array" />
+    <fc:param name="listView" type="boolean" optional="1" default="0"/>
 
     <fc:renderer>
-        <div class="viewportNavigation" data-component="ViewportNavigation">
+        <div class="viewportNavigation" {f:if(condition: listView, then: 'data-listview="true"')} data-component="ViewportNavigation">
             <div class="dropdownLabel">
                 <f:for each="{viewPorts}" as="item" key="viewItem" iteration="iterator">
                     <f:if condition="{iterator.isFirst}">

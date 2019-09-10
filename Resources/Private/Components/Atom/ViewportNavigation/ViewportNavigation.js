@@ -2,10 +2,11 @@ import {register, findAll, find} from '../../../Javascript/Utils';
 
 const ViewportNavigation = el => {
 
-    const iframe = document.getElementById('componentIframe');
+    const iframes = findAll('.fluidStyleguideComponent');
     const viewPortNavItem = findAll('.viewportItem' , el);
     const rulerOption = find('.rulerOption' , el);
     const dropdownLabel = find('.dropdownLabel', el);
+    const listView = el.dataset.listview;
 
     viewPortNavItem.forEach((item) => {
         const viewPortValue = item.dataset.viewport;
@@ -13,7 +14,14 @@ const ViewportNavigation = el => {
 
             find('.active',el).classList.remove('active');
             item.classList.add('active');
-            iframe.style.width = viewPortValue;
+
+            iframes.forEach((iframe) => {
+                iframe.style.width = viewPortValue;
+                if(viewPortValue !== '100%' && listView) {
+                    iframe.parentElement.classList.add('breakPoint');
+                }
+            })
+
             dropdownLabel.textContent = item.textContent;
             viewPortNavItem.forEach((inner) => {
                 inner.style.display = 'block';
@@ -22,7 +30,7 @@ const ViewportNavigation = el => {
 
             document.body.classList.remove('breakPoint');
 
-            if(viewPortValue !== '100%') {
+            if(viewPortValue !== '100%' && !listView) {
                 document.body.classList.add('breakPoint');
                 /*
                 const ruler = iframe.contentWindow.document.getElementById('fluidStyleguideRuler');

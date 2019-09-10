@@ -18,19 +18,23 @@
             display: block;
 
             &::before {
-                font-family: 'fluid-styleguide';
+                font-family: $verdana-font;
+                content: '›';
                 speak: none;
                 font-style: normal;
                 font-weight: normal;
                 font-variant: normal;
                 text-transform: none;
                 line-height: 1;
-                content: '\e905';
-                font-size: 33px;
-                padding-left: 6px;
-                padding-top: 7px;
+                font-size: 34px;
+                padding-left: 0;
+                padding-top: 0;
                 color: $highlight;
                 display: block;
+                transform: rotate(-90deg);
+                position: relative;
+                top: -7px;
+                left: -2px;
             }
         }
     }

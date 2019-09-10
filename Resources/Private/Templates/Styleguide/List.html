@@ -3,6 +3,17 @@
 
 <f:layout name="Styleguide" />
 
+
+<f:section name="Header">
+
+    <div class="actions">
+        <f:if condition="{styleguideConfiguration.Features.ResponsiveBreakpoints}">
+            <fsc:Atom.viewportNavigation listView="1" viewPorts="{styleguideConfiguration.responsiveBreakpoints}" />
+        </f:if>
+    </div>
+</f:section>
+
+
 <f:section name="Content">
     <div class="fluidStyleguideList">
         <f:for each="{packages}" as="components" key="namespace">
@@ -17,9 +28,9 @@
                         <div class="fluidStyleguideComponentVariants">
                             <div class="fluidStyleguideComponentExample">
                                 <h3 class="fluidStyleguideComponentName">{component.name.displayName}</h3>
-
-                                <iframe class="fluidStyleguideComponent" src="{iframeUri}"></iframe>
-
+                                <div class="fluidStyleguideListIframeWrapper">
+                                    <iframe class="fluidStyleguideComponent iframeResize" src="{iframeUri}"></iframe>
+                                </div>
                                 <a href="{fsv:uri.styleguide(action: 'show', arguments: {component: component.name.identifier})}" class="fluidStyleguideBtn">
                                     <span>Show</span>
                                 </a>
