@@ -14,7 +14,7 @@ $EM_CONF[$_EXTKEY] = [
         'depends' => [
             'typo3' => '9.5.0-9.9.99',
             'fluid_components' => '1.3.0',
-            'php' => '7.1.0-7.9.99'
+            'php' => '7.2.0-7.9.99'
         ],
         'conflicts' => [
         ],
