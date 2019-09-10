@@ -1,29 +1,32 @@
 {
     "default": {
-        "title": "TYPO3",
-        "content": "The professional, flexible Content Management System",
+        "title": "Fluid Components",
+        "content": "Fluid Components for TYPO3 enables frontend developers to implement consistent web designs with reusable components",
         "image": {
-            "height": 150,
-            "width": 300,
+            "height": 200,
+            "width": 500,
             "alternative": "My alt text",
             "title": "My image title"
         },
         "link": {
-            "uri": "https://typo3.org",
+            "uri": "https://fluidcomponents.sitegeist.de",
             "target": "_blank"
         },
         "actions": "<demo:atom.button>Primary Button</demo:atom.button><demo:atom.button isSecondary='1'>Secondary Button</demo:atom.button>"
     },
     "dark": {
-        "title": "TYPO3",
-        "content": "The professional, flexible Content Management System",
+        "title": "Fluid Components",
+        "content": "Fluid Components for TYPO3 enables frontend developers to implement consistent web designs with reusable components",
         "image": {
-            "height": 150,
-            "width": 300,
+            "height": 200,
+            "width": 500,
             "alternative": "My alt text",
             "title": "My image title"
         },
-        "link": "https://typo3.org",
+        "link": {
+            "uri": "https://fluidcomponents.sitegeist.de",
+            "target": "_blank"
+        },
         "theme": "dark"
     }
 }

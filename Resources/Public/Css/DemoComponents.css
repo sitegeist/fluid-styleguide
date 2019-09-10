@@ -1,0 +1,80 @@
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    color: #111;
+}
+
+img {
+    vertical-align: middle;
+}
+
+/* Button component */
+.sitegeistAtomButton {
+    padding: 16px 24px;
+    border: 2px #e6a300 solid;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-size: inherit;
+    margin-right: 8px;
+}
+
+.sitegeistAtomButton:active,
+.sitegeistAtomButton:hover,
+.sitegeistAtomButton:focus {
+    background-color: #e6a300;
+    color: #FFF;
+    outline: none;
+}
+
+.sitegeistAtomButton--secondary {
+    border-color: #545454;
+}
+
+.sitegeistAtomButton--secondary:active,
+.sitegeistAtomButton--secondary:hover,
+.sitegeistAtomButton--secondary:focus {
+    background-color: #545454;
+    color: #FFF;
+}
+
+/* Teaser component */
+.sitegeistMoleculeTeaser {
+    display: block;
+    width: 500px;
+    text-decoration: none;
+}
+
+.sitegeistMoleculeTeaser:active .sitegeistMoleculeTeaser_title,
+.sitegeistMoleculeTeaser:hover .sitegeistMoleculeTeaser_title,
+.sitegeistMoleculeTeaser:focus .sitegeistMoleculeTeaser_title {
+    text-decoration: underline;
+}
+
+.sitegeistMoleculeTeaser--light {
+    border: 2px #545454 solid;
+    background: #f5f5f5;
+    color: #111;
+}
+
+.sitegeistMoleculeTeaser--dark {
+    border: 2px #545454 solid;
+    background: #545454;
+    color: #FFF;
+}
+
+.sitegeistMoleculeTeaser_title {
+    font-size: 24px;
+    margin-bottom: 16px;
+}
+
+.sitegeistMoleculeTeaser_content {
+    padding: 16px;
+}
+
+.sitegeistMoleculeTeaser_content :first-child {
+    margin-top: 0;
+}
+
+.sitegeistMoleculeTeaser_content :last-child {
+    margin-bottom: 0;
+}

@@ -2,7 +2,7 @@
     <fc:param name="isSecondary" type="boolean" optional="1" default="0" />
 
     <fc:renderer>
-        <button class="{component.class} {class} {f:if(condition: isSecondary, then: '{component.prefix}secondary')}">
+        <button class="{component.class} {class} {f:if(condition: isSecondary, then: '{component.class}--secondary')}">
             {content}
         </button>
     </fc:renderer>

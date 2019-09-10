@@ -6,17 +6,18 @@
     <fc:param name="theme" type="string" optional="1" default="light" />
 
     <fc:renderer>
-        <a href="{link}" class="teaser teaser--{theme}">
-            <h3 class="teaser__title">{title}</h3>
-            <f:if condition="{content}">
-                <p class="teaser__content">{content}</p>
-            </f:if>
-
-            {actions -> f:format.raw()}
-
+        <a href="{link}" target="{link.target}" class="{component.class} {component.class}--{theme}">
             <f:if condition="{image}">
-                <demo:atom.image image="{image}" class="teaser__image" />
+                <demo:atom.image image="{image}" class="{component.prefix}image" />
             </f:if>
+
+            <div class="{component.prefix}content">
+                <h3 class="{component.prefix}title">{title}</h3>
+                <f:if condition="{content}">
+                    <p>{content}</p>
+                </f:if>
+                {actions -> f:format.raw()}
+            </div>
         </a>
     </fc:renderer>
 </fc:component>

@@ -28,7 +28,10 @@ FluidStyleguide:
                 - EXT:fluid_styleguide/Resources/Public/Css/Iframe.css
             Javascript:
                 - EXT:fluid_styleguide/Resources/Public/Javascript/Iframe.min.js
-#       Packages:
+        Packages:
+            'Sitegeist\FluidStyleguide\DemoComponents':
+                Css:
+                    - EXT:fluid_styleguide/Resources/Public/Css/DemoComponents.css
 #           'Vendor\MyExtension\Components':
 #               Css:
 #                   - EXT:my_extension/Resources/Public/Css/Components.css
