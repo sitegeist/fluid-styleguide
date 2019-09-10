@@ -1,0 +1,95 @@
+.fluidStyleguideList {
+    margin-top: 120px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+
+    strong {
+        font-weight: 700;
+    }
+
+    .fluidStyleguidePackageItem {
+        margin-bottom: 60px;
+        padding-bottom: 60px;
+    }
+
+    .fluidStyleguideComponent {
+        display: block;
+        width: 400px;
+        height: 200px;
+        margin-bottom: 10px;
+        border: 0;
+    }
+
+    .fluidStyleguideComponentVariants {
+        &:last-child {
+            .fluidStyleguideComponentExample {
+                &:last-child {
+                    border-bottom: 0;
+                    margin-bottom: 0;
+                    padding-bottom: 0;
+                }
+            }
+        }
+    }
+
+    .fluidStyleguideComponentExample {
+        margin-bottom: 60px;
+        border-bottom: 1px solid $dark-grey-0;
+        padding-bottom: 60px;
+    }
+
+    .fluidStyleguideBtn {
+        background: $dark-grey-0;
+        color: $white;
+        padding: 16px 53px 18px 30px;
+        text-align: center;
+        display: inline-block;
+        font-size: 14px;
+        position: relative;
+        font-family: 'Open Sans', Helvetica;
+
+        &:hover {
+            color: $highlight;
+        }
+
+        span {
+
+            position: relative;
+
+            &::after {
+                font-family: 'fluid-styleguide';
+                position: absolute;
+                content: '\e904';
+                top: -2px;
+                width: 0;
+                height: 0;
+                speak: none;
+                font-style: normal;
+                font-weight: normal;
+                font-variant: normal;
+                text-transform: none;
+                line-height: 1;
+                font-size: 24px;
+                right: -13px;
+                color: $highlight;
+            }
+        }
+
+    }
+
+    .fluidStyleguideComponentName {
+        font-size: 24px;
+        font-family: 'Open Sans', Helvetica;
+        color: $dark-grey-0;
+    }
+
+    .fluidStyleguidePackageName {
+        margin-bottom: 60px;
+        font-size: 32px;
+        font-family: 'Open Sans', Helvetica;
+        color: $dark-grey-0;
+    }
+}
+
+

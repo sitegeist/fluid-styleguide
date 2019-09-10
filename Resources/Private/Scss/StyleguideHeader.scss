@@ -1,0 +1,90 @@
+.styleguideHeader {
+    background: $dark-grey-0;
+    position: fixed;
+    z-index: 99999;
+    width: 100%;
+    top: 0;
+    display: flex;
+    align-items: center;
+    font-family: 'Open Sans', Helvetica;
+    left: 0;
+
+    .componentNavigation .styleguideSelectSelected {
+        position: relative;
+
+        &::before {
+            font-family: 'fluid-styleguide';
+            position: absolute;
+            content: '\e904';
+            top: 17px;
+            width: 0;
+            height: 0;
+            speak: none;
+            font-style: normal;
+            font-weight: normal;
+            font-variant: normal;
+            text-transform: none;
+            line-height: 1;
+            font-size: 22px;
+            right: 21px;
+            color: $highlight;
+        }
+    }
+
+    .examplesNavigation {
+        width: 50%;
+        margin-left: -7px;
+
+        svg {
+            width: 26px;
+            height: 26px;
+            margin-left: -24px;
+            fill: $highlight;
+            display: none;
+        }
+    }
+
+    .backLink {
+        font-size: 13px;
+        color: $white;
+        position: relative;
+        padding-left: 35px;
+        text-decoration: none;
+
+        &:hover {
+            color: $highlight;
+        }
+
+        &::before {
+            font-family: 'fluid-styleguide';
+            position: absolute;
+            content: '\e903';
+            top: -2px;
+            width: 0;
+            height: 0;
+            speak: none;
+            font-style: normal;
+            font-weight: normal;
+            font-variant: normal;
+            text-transform: none;
+            line-height: 1;
+            font-size: 22px;
+            left: 0;
+            color: $highlight;
+        }
+    }
+
+    .actions {
+        margin: 0 24px 0 auto;
+        display: flex;
+        align-items: center;
+        height: 56px;
+
+        .viewportNavigation {
+            border-right: 1px solid $highlight;
+            margin-right: 24px;
+            padding-right: 16px;
+        }
+    }
+
+}

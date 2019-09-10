@@ -1,0 +1,51 @@
+{
+    "name": "sitegeist/fluid-styleguide",
+    "description": "Living styleguide for Fluid Components",
+    "type": "typo3-cms-extension",
+    "homepage": "https://github.com/sitegeist/fluid-styleguide",
+    "license": ["GPL-2.0-or-later"],
+    "keywords": ["typo3", "typo3-extension", "fluid", "typo3-fluid", "components", "html", "template", "styleguide"],
+    "authors": [
+        {
+            "name": "Simon Praetorius",
+            "email": "praetorius@sitegeist.de"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/sitegeist/fluid-styleguide/issues"
+    },
+    "require": {
+        "typo3/cms-core": "^8.7.0 || ^9",
+        "sitegeist/fluid-components": "^1.2",
+        "erusev/parsedown": "^1.7"
+    },
+    "require-dev": {
+        "typo3/testing-framework": "^1.0",
+        "squizlabs/php_codesniffer": "2.*",
+        "editorconfig-checker/editorconfig-checker": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sitegeist\\FluidStyleguide\\": "Classes/"
+        }
+    },
+    "config": {
+        "vendor-dir": ".Build/vendor",
+        "bin-dir": ".Build/bin"
+    },
+    "extra": {
+        "typo3/cms": {
+            "cms-package-dir": "{$vendor-dir}/typo3/cms",
+            "web-dir": ".Build/Web"
+        }
+    },
+    "scripts": {
+        "lint": [
+            "@lint:php",
+            "@lint:editorconfig"
+        ],
+        "lint:php": "phpcs --standard=PSR2 --extensions=php --exclude=Generic.Files.LineLength --ignore='\\.Build,Tests,ext_emconf\\.php' .",
+        "lint:editorconfig": "editorconfig-checker -d .",
+        "test": "phpunit -c .Build/vendor/typo3/testing-framework/Resources/Core/Build/UnitTests.xml Tests/"
+    }
+}

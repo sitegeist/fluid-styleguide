@@ -1,0 +1,165 @@
+// sass-lint:disable no-important
+.styleguideSelect {
+    font-family: 'Open Sans', Helvetica;
+    width: 100%;
+
+    datalist {
+        display: block;
+    }
+
+    select {
+        position: absolute;
+        left: -999999px;
+    }
+
+    &.hasIcon {
+        .styleguideSelectSelected {
+            &::after {
+                font-family: 'fluid-styleguide';
+                position: absolute;
+                content: '\e900';
+                top: 9px;
+                right: 56px;
+                width: 0;
+                height: 0;
+                speak: none;
+                font-style: normal;
+                font-weight: normal;
+                font-variant: normal;
+                text-transform: none;
+                line-height: 1;
+                font-size: 38px;
+                color: $highlight;
+            }
+
+            &.styleguideSelectArrowActive::after {
+                content: '\e911';
+            }
+        }
+    }
+
+    &Focus {
+        border-color: $white;
+        color: $white;
+    }
+
+    &Items div, &Selected {
+        display: flex;
+        align-items: center;
+        height: 55px;
+        cursor: pointer;
+        padding: 0 24px;
+        font-size: 13px;
+        color: $white;
+        border-bottom: 1px solid $grey;
+        font-family: 'Open Sans', Helvetica;
+
+        &.styleguideSelectEqualSelected {
+            background-color: $dark-grey-0;
+            color: $highlight;
+            border-color: $dark-grey-3;
+        }
+
+        &.styleguideSelectArrowActive {
+            color: $white;
+        }
+    }
+
+
+    &Selected {
+        background: $dark-grey-0;
+        color: $white;
+        cursor: pointer;
+        border-color: transparent;
+
+        &:hover {
+            color: $highlight;
+        }
+    }
+
+    input[type='text'] {
+        padding: 0;
+        font-size: 13px;
+        color: $white;
+        font-family: 'Open Sans', Helvetica;
+        outline: none;
+        width: 100%;
+        background-color: transparent;
+        border: 0 none;
+        cursor: pointer;
+
+        &:hover {
+            color: $highlight;
+        }
+
+        &:focus {
+            color: $highlight;
+        }
+
+        &::placeholder {
+            color: $light-grey;
+            font-size: 13px;
+        }
+    }
+
+    &Items {
+        cursor: pointer;
+        transition: transform .15s ease-out;
+        transform: scaleY(0);
+        height: 0;
+        transform-origin: top;
+        overflow: auto;
+        position: absolute;
+        background-color: $dark-grey-1;
+        left: 0;
+        right: 0;
+        z-index: 9999;
+        max-height: 617px !important;
+
+        &.selectPositionedTop {
+            border-bottom: 0;
+        }
+
+        &::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: $highlight;
+        }
+
+        &.styleguideSelectOpened {
+            transition: transform .15s ease-out;
+            height: auto;
+            transform: scaleY(1);
+            transform-origin: top;
+            border-top: 1px solid $dark-grey-3;
+        }
+    }
+
+    &Hide {
+        display: none;
+    }
+
+    &Items div:hover,
+    &Active {
+        // sass-lint:disable no-important
+        color: $highlight !important;
+        transition: color .25s ease;
+    }
+
+    &.orientationBottom {
+        .styleguideSelectItems {
+            transform-origin: bottom;
+        }
+    }
+
+    &InputLabel {
+        position: absolute;
+        left: -99999px;
+        top: -99999px;
+        padding: 0 16px;
+    }
+
+}
+

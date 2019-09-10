@@ -1,0 +1,15 @@
+#fluidStyleguideRuler {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    padding-top: 56px;
+    top: 0;
+    display: none;
+}
+#fluidStyleguideRuler.show {
+    display: block;
+}
+body {
+    background-color: #fff!important;
+}

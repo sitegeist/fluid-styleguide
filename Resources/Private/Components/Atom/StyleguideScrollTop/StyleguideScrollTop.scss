@@ -1,0 +1,41 @@
+.styleguideScrollTop {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+
+    div {
+        display: none;
+    }
+
+    &.active {
+        div {
+            cursor: pointer;
+            margin: auto;
+            width: 50px;
+            height: 50px;
+            border: 2px solid $dark-grey-0;
+            background: $dark-grey-0;
+            display: block;
+
+            &::before {
+                font-family: 'fluid-styleguide';
+                speak: none;
+                font-style: normal;
+                font-weight: normal;
+                font-variant: normal;
+                text-transform: none;
+                line-height: 1;
+                content: '\e905';
+                font-size: 33px;
+                padding-left: 6px;
+                padding-top: 7px;
+                color: $highlight;
+                display: block;
+            }
+        }
+    }
+
+
+
+
+}

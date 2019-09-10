@@ -1,0 +1,186 @@
+// sass-lint:disable no-important
+.styleguideToolbar {
+    position: fixed;
+    width: 100%;
+    color: $white;
+    font-size: 13px;
+    z-index: 3;
+    font-family: 'Open Sans', Helvetica;
+    transition: bottom .25s ease 0s;
+    background-color: $dark-grey-0;
+
+    .toolbarTop {
+        height: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .toolbarBot {
+        position: relative;
+    }
+
+    .toolbarOpener {
+        cursor: pointer;
+        position: relative;
+        top: 0;
+        border-radius: 10%;
+        width: 50px;
+        height: 54px;
+        z-index: -2;
+        background: $dark-grey-0;
+
+        &::before {
+            font-family: 'fluid-styleguide';
+            content: '\e905';
+            width: 0;
+            height: 0;
+            speak: none;
+            font-style: normal;
+            font-weight: normal;
+            font-variant: normal;
+            text-transform: none;
+            line-height: 1;
+            font-size: 22px;
+            color: $highlight;
+            left: 14px;
+            top: 2px;
+            position: relative;
+        }
+
+        &:hover {
+            color: $highlight;
+        }
+    }
+
+    .toolbarRuler {
+        cursor: pointer;
+
+        svg {
+            margin-left: 15px;
+            position: relative;
+            top: -3px;
+        }
+
+        &:hover {
+            color: $highlight;
+        }
+    }
+
+    &.open {
+        bottom: 0 !important;
+
+        .toolbarOpener {
+            &::before {
+                content: '\e902';
+            }
+        }
+
+        .toolbarTabs {
+            display: block;
+        }
+
+        .toolbarBot {
+            top: -16px;
+        }
+    }
+
+    .toolbarTabs {
+        position: relative;
+
+        .tabNav {
+            display: flex;
+
+            .tabOpener {
+                height: 54px;
+                background: $dark-grey-1;
+                cursor: pointer;
+                width: 140px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: $white;
+                border-right: 2px solid $dark-grey-0;
+                transition: background-color .25s ease;
+
+                svg {
+                    width: 28px;
+                    height: 28px;
+                    fill: $white;
+                }
+
+                &.active {
+                    background: $dark-grey-0;
+                    color: $highlight;
+
+                    svg {
+                        fill: $highlight;
+                    }
+                }
+
+                &:hover {
+                    svg {
+                        fill: $highlight;
+                    }
+                }
+            }
+        }
+
+        .tabContent {
+            display: none;
+            padding: 55px 55px 39px;
+            font-family: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+            font-size: 1em;
+            color: $white;
+            max-height: 200px;
+            overflow-y: scroll;
+
+            &::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background-color: $highlight;
+            }
+
+            &.active {
+                display: block;
+            }
+
+            .downloadZip {
+                color: $white;
+                text-decoration: underline;
+
+                &:hover {
+                    color: $highlight;
+                }
+            }
+        }
+
+    }
+
+    .componentArguments {
+        border-spacing: 0;
+        width: 100%;
+
+        th,
+        td {
+            padding: 12px 8px;
+            border-bottom: 1px $white solid;
+        }
+
+        th {
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .componentArguments__name {
+            font-weight: bold;
+        }
+
+        .componentArguments__required {
+            text-align: center;
+        }
+    }
+
+}

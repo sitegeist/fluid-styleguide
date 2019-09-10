@@ -1,0 +1,11 @@
+// sass-lint:disable no-duplicate-properties
+@font-face {
+    font-family: 'fluid-styleguide';
+    src:  url('/typo3conf/ext/fluid_styleguide/Resources/Public/Fonts/fluid-styleguide.eot?4i7h9z');
+    src:  url('/typo3conf/ext/fluid_styleguide/Resources/Public/Fonts/fluid-styleguide.eot?4i7h9z#iefix') format('embedded-opentype'),
+    url('/typo3conf/ext/fluid_styleguide/Resources/Public/Fonts/fluid-styleguide.ttf?4i7h9z') format('truetype'),
+    url('/typo3conf/ext/fluid_styleguide/Resources/Public/Fonts/fluid-styleguide.woff?4i7h9z') format('woff'),
+    url('/typo3conf/ext/fluid_styleguide/Resources/Public/Fonts/fluid-styleguide.svg?4i7h9z#fluid-styleguide') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}

@@ -1,0 +1,18 @@
+<fsc:Atom.StyleguideSelect autoSuggest="1">
+    <select>
+        <f:if condition="{listView}">
+            <option data-reset="true" value="">Choose component</option>
+        </f:if>
+        <f:for each="{navigation}" as="component">
+            <option data-url="{f:uri.action(
+                pageType: 1562933206,
+                arguments: {
+                    component: component.name.identifier
+                },
+                action: 'show'
+            )}" {f:if(condition: '{component.name.identifier} == {activeComponent.name.identifier}', then: 'selected')}>
+                {component.name.displayName} - ({component.name.package.namespace})
+            </option>
+        </f:for>
+    </select>
+</fsc:Atom.StyleguideSelect>

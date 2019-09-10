@@ -1,0 +1,65 @@
+stages:
+  - test
+
+#
+# Automatically create merge requests for master
+#
+housekeeping-merge-requests:
+  image: $CI_REGISTRY/sitegeist/mr:latest
+  tags:
+    - docker
+  only:
+    - /(feature|task|bugfix|hotfix)\/.*\/.*/
+  stage: test
+  script:
+    |
+      # extract parts from branch name
+      mrTicketType=$(echo "$CI_BUILD_REF_NAME" | cut -d "/" -f1 | tr "[:lower:]" "[:upper:]")
+      mrTicketNumber=$(echo "$CI_BUILD_REF_NAME" | cut -d "/" -f2)
+      mrTicketTitle=$(echo "$CI_BUILD_REF_NAME" | cut -d "/" -f3 | sed -r 's/[[:upper:]]/ &/g' | tr "[:upper:]" "[:lower:]")
+      # build title and description
+      mrTitle="$mrTicketType: $mrTicketTitle #$mrTicketNumber"
+      mrDescription="Automatically created merge request<br />Ticket: https://projekte.sitegeist.de/issues/$mrTicketNumber"
+      # create merge requests for master and develop
+      mr -p "$CI_PROJECT_ID" -s "$CI_BUILD_REF_NAME" -d master --token "$BUILD_TOKEN" --title "WIP: $mrTitle" --description "$mrDescription" --labels master
+
+#
+# Run linters and automatic tests
+#
+testing-php:
+  image: $CI_REGISTRY/sitegeist/automata/deployment-php:7.2
+  tags:
+    - docker
+  stage: test
+  cache:
+    key: composer
+    paths:
+      - .composer_cache
+  before_script:
+    # Specify path to composer and yarn caches
+    - export COMPOSER_CACHE_DIR=$CI_PROJECT_DIR/.composer_cache
+    - export YARN_CACHE_FOLDER=$CI_PROJECT_DIR/.yarn_cache
+
+    # Prepare environment for testing
+    - composer install -q
+  script:
+    - composer lint
+
+testing-frontend:
+  image: $CI_REGISTRY/sitegeist/automata/deployment-php:7.2
+  tags:
+    - docker
+  stage: test
+  cache:
+    key: npm
+    paths:
+      - .yarn_cache
+  before_script:
+    # Specify path to composer and yarn caches
+    - export YARN_CACHE_FOLDER=$CI_PROJECT_DIR/.yarn_cache
+
+    # Prepare environment for testing
+    - yarn --silent
+  script:
+    - yarn lint
+    - yarn build

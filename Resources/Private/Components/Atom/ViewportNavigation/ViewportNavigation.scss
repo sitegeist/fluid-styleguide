@@ -1,0 +1,60 @@
+.viewportNavigation {
+    display: flex;
+    color: $white;
+    height: 100%;
+    align-items: center;
+    font-size: 13px;
+    list-style: none;
+
+    &:hover .dropdownContent {
+        display: block;
+    }
+
+    .dropdownLabel {
+        color: $highlight;
+        padding: 16px;
+        border: 0 none;
+        cursor: pointer;
+    }
+
+    .dropdownContent  {
+        position: absolute;
+        background-color: $dark-grey-0;
+        padding: 0 16px 16px;
+        min-width: 133px;
+        z-index: 1;
+        top: 43px;
+        display: none;
+
+        &:hover {
+            display: block;
+        }
+
+        li {
+            color: $white;
+            margin-top: 16px;
+            text-decoration: none;
+            cursor: pointer;
+            list-style: none;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+
+            &.rulerOption {
+                &.activeRulerOption {
+                    color: $highlight;
+                }
+            }
+
+            &:hover {
+                color: $highlight;
+            }
+        }
+    }
+
+}
+
+
+
+

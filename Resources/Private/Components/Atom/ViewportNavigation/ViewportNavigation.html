@@ -1,0 +1,24 @@
+<fc:component>
+    <fc:param name="viewPorts" type="array" />
+
+    <fc:renderer>
+        <div class="viewportNavigation" data-component="ViewportNavigation">
+            <div class="dropdownLabel">
+                <f:for each="{viewPorts}" as="item" key="viewItem" iteration="iterator">
+                    <f:if condition="{iterator.isFirst}">
+                        <li>{viewItem} {item}</li>
+                    </f:if>
+                </f:for>
+            </div>
+            <ul class="dropdownContent">
+                <!--
+                <li data-labelon="an" data-labeloff="aus" class="rulerOption">Ruler (<span>off</span>)</li>
+                <li>//</li>
+                -->
+                <f:for each="{viewPorts}" as="item" key="viewItem" iteration="iterator">
+                    <li {f:if(condition: iterator.isFirst, then: 'style="display:none"')} class="{f:if(condition: '{viewItem} == Desktop', then: 'active')} viewportItem" data-viewport="{item}">{viewItem} {item}</li>
+                </f:for>
+            </ul>
+        </div>
+    </fc:renderer>
+</fc:component>

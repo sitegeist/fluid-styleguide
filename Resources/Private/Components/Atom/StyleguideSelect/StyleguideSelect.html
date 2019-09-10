@@ -1,0 +1,8 @@
+<fc:component>
+    <fc:param name="autoSuggest" type="boolean" optional="1" />
+    <fc:renderer>
+        <div class="styleguideSelect {class}" {f:if(condition: autoSuggest, then: 'data-autosuggest="true"')} {f:if(condition: autoSuggest, then: 'data-autosuggest="true"')} data-component="StyleguideSelect">
+            {content -> f:format.raw()}
+        </div>
+    </fc:renderer>
+</fc:component>

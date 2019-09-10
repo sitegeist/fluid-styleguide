@@ -1,0 +1,97 @@
+.editFixtures {
+
+    .editFixturesFixtureFormItem {
+
+        margin-bottom: 24px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    .editFixturesInput {
+        color: $dark-grey-0;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        letter-spacing: 0;
+        line-height: 24px;
+        border: 2px $dark-grey-0 solid;
+        padding: 10px;
+        background: $white;
+        width: 300px;
+
+        &:focus {
+            color: $dark-grey-0;
+            border-color: $dark-grey-0;
+            outline: 0;
+        }
+    }
+
+    .editFixturesLabelContainer {
+        margin-bottom: 6px;
+
+        label {
+            margin-bottom: 0;
+            display: block;
+        }
+
+        .editFixturesLabelDescription {
+            font-size: 10px;
+        }
+    }
+
+    .editFixturesCheckboxContainer {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        font-size: 22px;
+        user-select: none;
+        height: 25px;
+        width: 24px;
+    }
+
+    .editFixturesCheckboxContainer input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+
+    .editFixturesCheckboxCheckmark {
+        position: absolute;
+        left: 0;
+        height: 24px;
+        width: 24px;
+        background-color: $white;
+        top: 3px;
+    }
+
+    .editFixturesCheckboxContainer input:checked ~ .editFixturesCheckboxCheckmark {
+        background-color: $white;
+    }
+
+    .editFixturesCheckboxCheckmark::after {
+        content: '';
+        position: absolute;
+        display: none;
+    }
+
+    .editFixturesCheckboxContainer input:checked ~ .editFixturesCheckboxCheckmark::after {
+        display: block;
+    }
+
+    .editFixturesCheckboxContainer .editFixturesCheckboxCheckmark::after {
+        left: 8px;
+        top: 3px;
+        width: 5px;
+        height: 13px;
+        border: solid $highlight;
+        border-width: 0 3px 3px 0;
+        transform: rotate(45deg);
+    }
+
+}

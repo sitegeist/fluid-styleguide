@@ -1,0 +1,39 @@
+<f:layout name="Styleguide" />
+
+<f:section name="Content">
+    <div class="styleguideHeader">
+        <f:render partial="Navigation" arguments="{navigation: navigation, listView: 1}" />
+    </div>
+
+    <div class="fluidStyleguideList">
+        <f:for each="{packages}" as="components" key="namespace">
+            <div class="fluidStyleguidePackageItem">
+                <h1 class="fluidStyleguidePackageName">Package: {namespace}</h1>
+                <div class="fluidStyleguideComponent-items">
+                    <f:for each="{components}" as="component">
+                        <f:variable name="iframeUri" value="{f:uri.action(
+                            pageType: 1562933207,
+                            arguments: {component: component.name.identifier},
+                            action: 'component'
+                        )}" />
+                        <div class="fluidStyleguideComponentVariants">
+                            <div class="fluidStyleguideComponentExample">
+                                <h3 class="fluidStyleguideComponentName">{component.name.displayName}</h3>
+
+                                <iframe class="fluidStyleguideComponent" src="{iframeUri}"></iframe>
+
+                                <f:link.action class="fluidStyleguideBtn" pageType="1562933206" arguments="{component: component.name.identifier}" action="show">
+                                    <span>Show</span>
+                                </f:link.action>
+                            </div>
+                        </div>
+                    </f:for>
+                </div>
+            </div>
+        </f:for>
+    </div>
+
+    <fsc:atom.styleguideScrollTop class="blue"/>
+
+</f:section>
+
