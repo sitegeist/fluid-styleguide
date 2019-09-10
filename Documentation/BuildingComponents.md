@@ -22,7 +22,7 @@ For illustration purposes we want to add the following component to the stylegui
     <fc:param name="theme" type="string" optional="1" default="light" />
 
     <fc:renderer>
-        <a href="{link}" class="teaser teaser--{theme}">
+        <a href="{link}" class="teaser teaser--{theme}" target="{link.target}">
             <h3 class="teaser__title">{title}</h3>
             <f:if condition="{content}">
                 <p class="teaser__content">{content}</p>
