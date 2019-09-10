@@ -12,8 +12,8 @@ const StyleguideScrollTop = el => {
 
     find('div',el).addEventListener('click', () => {
         window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
+            top: 0,
+            behavior: 'smooth'
         });
 
     });
