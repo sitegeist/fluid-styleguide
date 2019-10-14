@@ -9,7 +9,7 @@ $EM_CONF[$_EXTKEY] = [
     'state' => 'beta',
     'uploadfolder' => false,
     'clearCacheOnLoad' => false,
-    'version' => '1.0.0',
+    'version' => '1.0.1',
     'constraints' => [
         'depends' => [
             'typo3' => '9.5.0-9.9.99',
@@ -22,8 +22,11 @@ $EM_CONF[$_EXTKEY] = [
         ],
     ],
     'autoload' => [
+        'classmap' => [
+            'Resources/Private/Php/Parsedown.php'
+        ],
         'psr-4' => [
-            'SMS\\FluidStyleguide\\' => 'Classes'
+            'Sitegeist\\FluidStyleguide\\' => 'Classes'
         ]
     ],
 ];
