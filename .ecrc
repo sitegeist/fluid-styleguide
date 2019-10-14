@@ -1,0 +1,22 @@
+{
+    "Verbose": false,
+    "Debug": false,
+    "IgnoreDefaults": false,
+    "SpacesAftertabs": false,
+    "NoColor": false,
+    "Exclude": [
+        ".Build",
+        ".git",
+        ".DS_Store",
+        "Resources/Private/Php/",
+        "node_modules"
+    ],
+    "AllowedContentTypes": [],
+    "PassedFiles": [],
+    "Disable": {
+        "EndOfLine": false,
+        "Indentation": false,
+        "InsertFinalNewline": false,
+        "TrimTrailingWhitespace": false
+    }
+}
