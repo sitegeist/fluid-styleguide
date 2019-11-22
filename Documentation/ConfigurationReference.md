@@ -36,6 +36,44 @@ FluidStyleguide:
                 - EXT:my_extension/Resources/Public/Javascript/Global.min.js
 ```
 
+## Modifying the component context
+
+While most components can function without a specific context around them, for
+some components their context is quite important. For example, a button component
+could have a special styling when used on dark backgrounds. In this case the styleguide
+should use a dark background as well when this variant of the button is displayed.
+
+By default, Fluid Styleguide uses the following component context, which adds
+a 24px space around each component:
+
+```yaml
+FluidStyleguide:
+    # Markup that will be wrapped around the component output in the styleguide
+    # This can be overwritten per component fixture by specifying
+    # "styleguideComponentContext" in the fixture data
+    ComponentContext: '<div class="fluidStyleguideComponentSpacing">|</div>'
+```
+
+The first pipe character within the specified context markup will be replaced with
+the component markup.
+
+This context can be modified either globally in your FluidStyleguide.yaml or
+individually for each variant of a component in the appropriate fixture file:
+
+Button.fixture.json:
+
+```json
+{
+    "default": {
+        ...
+    },
+    "onDarkBackground": {
+        ...
+        "styleguideComponentContext": "<div class=\"myDarkBackground\">|</div>"
+    }
+}
+```
+
 ## Enabling and disabling styleguide features
 
 Specific features of the styleguide can be enabled and disabled:
