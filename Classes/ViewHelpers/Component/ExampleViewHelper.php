@@ -200,8 +200,7 @@ class ExampleViewHelper extends AbstractViewHelper
      */
     public static function applyComponentContext(string $componentMarkup, string $context): string
     {
-        $context = explode('|', $context, 2);
-        return $context[0] . $componentMarkup . ($context[1] ?? '');
+        return str_replace('|', $componentMarkup, $context);
     }
 
     /**

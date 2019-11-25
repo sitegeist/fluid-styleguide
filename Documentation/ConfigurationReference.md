@@ -54,7 +54,7 @@ FluidStyleguide:
     ComponentContext: '<div class="fluidStyleguideComponentSpacing">|</div>'
 ```
 
-The first pipe character within the specified context markup will be replaced with
+Every pipe character within the specified context markup will be replaced with
 the component markup.
 
 This context can be modified either globally in your FluidStyleguide.yaml or
@@ -70,6 +70,10 @@ Button.fixture.json:
     "onDarkBackground": {
         ...
         "styleguideComponentContext": "<div class=\"myDarkBackground\">|</div>"
+    },
+    "inTwoColumnGrid": {
+        ...
+        "styleguideComponentContext": "<div class=\"myGrid\"><div class=\"myColumn\">|</div><div class=\"myColumn\">|</div></div>"
     }
 }
 ```
