@@ -192,7 +192,7 @@ class ExampleViewHelper extends AbstractViewHelper
 
     /**
      * Wraps component markup in the specified component context (HTML markup)
-     * The component markup will replace the first pipe (|) in the context string
+     * The component markup will replace all pipe characters (|) in the context string
      *
      * @param string $componentMarkup
      * @param string $context
