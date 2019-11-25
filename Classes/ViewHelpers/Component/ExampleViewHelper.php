@@ -26,6 +26,14 @@ class ExampleViewHelper extends AbstractViewHelper
         $this->registerArgument('component', Component::class, 'Component that should be rendered', true);
         $this->registerArgument('fixtureName', 'string', 'Name of the fixture that should be used in the example');
         $this->registerArgument('fixtureData', 'array', 'Additional dynamic fixture data that should be used in the example');
+        $this->registerArgument('context', 'string', 'The context (html markup) in which the component should be displayed in the styleguide', false, '|');
+        $this->registerArgument(
+            'applyContextFromFixture',
+            'bool',
+            'Component context from fixture data (styleguideComponentContext property) will overrule context specified in ViewHelper call',
+            false,
+            false
+        );
         $this->registerArgument('execute', 'bool', 'Set to true if the component example should be executed', false, false);
         $this->registerArgument('handleExceptions', 'bool', 'Handle exceptions that occur during execution of the example', false, false);
     }
@@ -51,6 +59,7 @@ class ExampleViewHelper extends AbstractViewHelper
         }
 
         $fixtureData = $arguments['fixtureData'] ?? [];
+        $componentContext = $arguments['context'];
 
         if (isset($arguments['fixtureName'])) {
             $componentFixture = $arguments['component']->getFixture($arguments['fixtureName']);
@@ -64,6 +73,12 @@ class ExampleViewHelper extends AbstractViewHelper
 
             // Merge static fixture data with manually edited data
             $fixtureData = array_replace($componentFixture->getData(), $fixtureData);
+
+            // Overrule component context if specified in fixture data
+            if ($arguments['applyContextFromFixture'] && isset($fixtureData['styleguideComponentContext'])) {
+                $componentContext = $fixtureData['styleguideComponentContext'];
+            }
+            unset($fixtureData['styleguideComponentContext']);
         }
 
         if ($arguments['execute']) {
@@ -71,7 +86,7 @@ class ExampleViewHelper extends AbstractViewHelper
                 // Parse fluid code in fixtures
                 $fixtureData = self::renderFluidInExampleData($fixtureData, $renderingContext);
 
-                return self::renderComponent(
+                $componentMarkup = self::renderComponent(
                     $arguments['component'],
                     $fixtureData,
                     $renderingContext
@@ -89,11 +104,16 @@ class ExampleViewHelper extends AbstractViewHelper
                 }
             }
         } else {
-            return static::renderComponentTag(
+            $componentMarkup = static::renderComponentTag(
                 $arguments['component']->getName(),
                 $fixtureData
             );
         }
+
+        return self::applyComponentContext(
+            $componentMarkup,
+            $componentContext
+        );
     }
 
     /**
@@ -168,6 +188,19 @@ class ExampleViewHelper extends AbstractViewHelper
         $fluidComponent->addAttributes($data, false);
 
         return $fluidComponent->render();
+    }
+
+    /**
+     * Wraps component markup in the specified component context (HTML markup)
+     * The component markup will replace all pipe characters (|) in the context string
+     *
+     * @param string $componentMarkup
+     * @param string $context
+     * @return string
+     */
+    public static function applyComponentContext(string $componentMarkup, string $context): string
+    {
+        return str_replace('|', $componentMarkup, $context);
     }
 
     /**

@@ -103,6 +103,16 @@ You can use [data structures with argument converters](https://github.com/sitege
 }
 ```
 
+You can override the default [component context](./ConfigurationReference.md) for each fixture:
+
+```json
+{
+    "onDarkBackground": {
+        "styleguideComponentContext": "<div class=\"myDarkBackground\">|</div>"
+    }
+}
+```
+
 ## Adding documentation to your component
 
 If you want to add further documentation to your component, just place a markdown file that is named like your component

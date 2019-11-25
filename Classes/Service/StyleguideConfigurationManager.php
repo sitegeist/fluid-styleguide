@@ -85,6 +85,11 @@ class StyleguideConfigurationManager
         return !empty($this->mergedConfiguration['Features'][$feature]);
     }
 
+    public function getComponentContext(): string
+    {
+        return $this->mergedConfiguration['ComponentContext'] ?? '|';
+    }
+
     public function getGlobalCss(): array
     {
         return $this->mergedConfiguration['ComponentAssets']['Global']['Css'] ?? [];

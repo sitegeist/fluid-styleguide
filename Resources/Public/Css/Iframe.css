@@ -10,8 +10,11 @@ body {
     top: 0;
 }
 
-#fluidStyleguideComponent {
-    margin: 24px;
+#fluidStyleguideRulerComponentWrap {
     position: relative;
     z-index: 2;
+}
+
+.fluidStyleguideComponentSpacing {
+    padding: 24px;
 }
