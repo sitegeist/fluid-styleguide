@@ -6,6 +6,7 @@ namespace Sitegeist\FluidStyleguide\Service;
 use Sitegeist\FluidStyleguide\Domain\Model\Package;
 use TYPO3\CMS\Core\Configuration\Loader\YamlFileLoader;
 use TYPO3\CMS\Core\Package\PackageManager;
+use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
@@ -138,7 +139,7 @@ class StyleguideConfigurationManager
             return [];
         }
 
-        $baseUrl = $GLOBALS['TYPO3_REQUEST']->getAttribute('site')->getBase();
+        $baseUrl = static::getCurrentSite()->getBase();
         foreach ($assets as $key => &$asset) {
             if (!static::isRemoteUri($asset)) {
                 // TODO generate relative urls
@@ -166,5 +167,20 @@ class StyleguideConfigurationManager
     {
         $scheme = parse_url($uri, PHP_URL_SCHEME);
         return ($scheme && in_array(strtolower($scheme), ['http', 'https']));
+    }
+
+    /**
+     * Returns the current Site object to create urls
+     *
+     * @return Site
+     */
+    protected static function getCurrentSite(): Site
+    {
+        // TODO there is probably a better way to do this...
+        if (version_compare(TYPO3_version, '10.0', '<')) {
+            return $GLOBALS['TYPO3_REQUEST']->getAttribute('site');
+        } else {
+            return $GLOBALS['TYPO3_CURRENT_SITE'];
+        }
     }
 }

@@ -14,7 +14,9 @@ use TYPO3\CMS\Core\Http\RedirectResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Reflection\ReflectionService;
-use TYPO3\CMS\Fluid\View\StandaloneView;
+use Sitegeist\FluidStyleguide\View\StandaloneView;
+use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 class StyleguideRouter implements MiddlewareInterface
 {
@@ -25,10 +27,23 @@ class StyleguideRouter implements MiddlewareInterface
      */
     protected $objectManager;
 
+    /**
+     * @var Context
+     */
+    protected $context;
+
+    public function __construct()
+    {
+        $this->context = GeneralUtility::makeInstance(Context::class);
+    }
+
+
     public function process(
         ServerRequestInterface $request,
         RequestHandlerInterface $handler
     ): ResponseInterface {
+        $GLOBALS['TYPO3_CURRENT_SITE'] = $site = $request->getAttribute('site', null);
+
         $prefix = GeneralUtility::makeInstance(ExtensionConfiguration::class)
             ->get('fluid_styleguide', 'uriPrefix');
         $prefixWithoutSlash = rtrim($prefix, '/');
@@ -74,6 +89,16 @@ class StyleguideRouter implements MiddlewareInterface
             );
         }
 
+        $GLOBALS['TSFE'] = GeneralUtility::makeInstance(
+            TypoScriptFrontendController::class,
+            $this->context,
+            $GLOBALS['TYPO3_CURRENT_SITE'],
+            $request->getAttribute('language', $site->getDefaultLanguage()),
+            $request->getAttribute('routing', null),
+            $request->getAttribute('frontend.user', null)
+        );
+
+
         // Create view
         $view = $this->createView('fluidStyleguide', 'Styleguide', $actionName);
         $controller->initializeView($view);
@@ -114,15 +139,26 @@ class StyleguideRouter implements MiddlewareInterface
         string $actionMethod,
         array $actionArguments
     ) {
-        $reflectionService = $this->objectManager->get(ReflectionService::class);
-        $methodParameters = $reflectionService
-            ->getClassSchema(get_class($controller))
-            ->getMethod($actionMethod)['params'] ?? [];
 
-        $mappedActionArguments = [];
-        foreach ($methodParameters as $parameterName => $parameterInfo) {
-            $defaultValue = $parameterInfo['hasDefaultValue'] === true ? $parameterInfo['defaultValue'] : null;
-            $mappedActionArguments[] = $actionArguments[$parameterName] ?? $defaultValue;
+        $reflectionService = $this->objectManager->get(ReflectionService::class);
+        $methodDefinition = $reflectionService
+            ->getClassSchema(get_class($controller))
+            ->getMethod($actionMethod);
+
+        if ($methodDefinition instanceof \TYPO3\CMS\Extbase\Reflection\ClassSchema\Method) {
+            $methodParameters = $methodDefinition->getParameters();
+            $mappedActionArguments = [];
+            foreach ($methodParameters as $parameterName => $parameterInfo) {
+                $defaultValue = $parameterInfo->hasDefaultValue() ? $parameterInfo->getDefaultValue() : null;
+                $mappedActionArguments[] = $actionArguments[$parameterName] ?? $defaultValue;
+            }
+        } else {
+            $methodParameters = $methodDefinition['params'];
+            $mappedActionArguments = [];
+            foreach ($methodParameters as $parameterName => $parameterInfo) {
+                $defaultValue = $parameterInfo['hasDefaultValue'] === true ? $parameterInfo['defaultValue'] : null;
+                $mappedActionArguments[] = $actionArguments[$parameterName] ?? $defaultValue;
+            }
         }
 
         return $controller->$actionMethod(...$mappedActionArguments);
