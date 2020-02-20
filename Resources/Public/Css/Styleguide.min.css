@@ -68,7 +68,7 @@
 
 .fluidStyleguideShow {
   position: fixed;
-  top: 55px;
+  top: 136px;
   left: 0;
   right: 0;
   bottom: 16px; }
@@ -82,12 +82,13 @@
   display: flex;
   position: fixed;
   z-index: 99999;
-  top: 0;
+  top: 80px;
   left: 0;
   right: 0;
   align-items: center;
   background: #222425;
-  font-family: "Open Sans", Helvetica, FreeSans, Arial, sans-serif; }
+  font-family: "Open Sans", Helvetica, FreeSans, Arial, sans-serif;
+  height: 56px; }
   .styleguideHeader .componentNavigation .styleguideSelectSelected {
     position: relative; }
     .styleguideHeader .componentNavigation .styleguideSelectSelected::before {
@@ -594,6 +595,16 @@
     .styleguideToolbar .componentDocumentation pre > code {
       padding: 0;
       border-radius: 0; }
+
+.brandedHeader {
+  position: fixed;
+  height: 80px;
+  top: 0;
+  left: 0;
+  right: 0; }
+  .brandedHeader .brandedHeaderLogo {
+    height: 75px;
+    width: auto; }
 
 body {
   margin: 0; }

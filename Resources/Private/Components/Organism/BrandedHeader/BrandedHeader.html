@@ -1,0 +1,10 @@
+<fc:component>
+    <fc:param name="logo" type="string" optional="1" />
+    <fc:param name="headerBackground" type="string" optional="1" />
+
+    <fc:renderer>
+        <div class="brandedHeader" {f:if(condition: '{headerBackground}', then: 'style=\'background-color: {headerBackground}\'')}>
+            <img class="brandedHeaderLogo" src="{logo}">
+        </div>
+    </fc:renderer>
+</fc:component>

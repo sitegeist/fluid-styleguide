@@ -55,3 +55,6 @@ FluidStyleguide:
             - EXT:fluid_styleguide/Resources/Private/Partials
         LayoutRootPaths:
             - EXT:fluid_styleguide/Resources/Private/Layouts
+    Branding:
+        BodyBackground: '#fff'
+        HeaderBackground: '#fff'

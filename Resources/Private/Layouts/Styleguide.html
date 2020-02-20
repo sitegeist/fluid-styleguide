@@ -12,10 +12,12 @@
 
     <link rel="stylesheet" href="{f:uri.resource(path: 'Css/Styleguide.min.css', absolute: 1)}" />
 </head>
-
-<body>
-
+<body {f:if(condition: '{styleguideConfiguration.BrandingBodyBackground}', then: 'style=\'background-color: {styleguideConfiguration.BrandingBodyBackground}\'')}>
 <div class="fluid-styleguide">
+    <fsc:Organism.BrandedHeader
+        logo="{styleguideConfiguration.brandingLogo}"
+        headerBackground="{styleguideConfiguration.BrandingHeaderBackground}"
+    />
     <div class="styleguideHeader">
         <div class="componentNavigation">
             <fsc:Atom.StyleguideSelect autoSuggest="1">

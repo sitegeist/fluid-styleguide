@@ -131,6 +131,30 @@ class StyleguideConfigurationManager
         return $this->mergedConfiguration['Fluid']['LayoutRootPaths'] ?? [];
     }
 
+    public function getBrandingLogo(): string
+    {
+        $logo = $this->mergedConfiguration['Branding']['Logo'] ?? '';
+        if (!empty($logo)) {
+            $logo = GeneralUtility::getFileAbsFileName($logo);
+            $logo = substr(
+                $logo,
+                strlen(GeneralUtility::getIndpEnv('TYPO3_DOCUMENT_ROOT'))
+            );
+        }
+
+        return $logo;
+    }
+
+    public function getBrandingBodyBackground(): string
+    {
+        return $this->mergedConfiguration['Branding']['BodyBackground'] ?? '';
+    }
+
+    public function getBrandingHeaderBackground(): string
+    {
+        return $this->mergedConfiguration['Branding']['HeaderBackground'] ?? '';
+    }
+
     protected function sanitizeComponentAssets($assets)
     {
         if (is_string($assets)) {

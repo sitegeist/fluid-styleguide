@@ -1,0 +1,12 @@
+.brandedHeader {
+    position: fixed;
+    height: 80px;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    .brandedHeaderLogo {
+        height: $height-branded-header - 5px;
+        width: auto;
+    }
+}
