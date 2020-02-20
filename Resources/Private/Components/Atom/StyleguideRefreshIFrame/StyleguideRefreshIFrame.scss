@@ -1,13 +1,13 @@
 .styleguideRefreshIFrame  {
 
     button {
-        background-color: $sysmex-blue;
+        background-color: $dark-grey-0;
         color: $white;
         border: 0;
         cursor: pointer;
         font-size: 14px;
-        border-radius: 2px;
         padding: 5px 10px;
+        border: 1px solid white;
 
         &:hover {
             background-color: $highlight;
