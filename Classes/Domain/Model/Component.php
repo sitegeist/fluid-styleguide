@@ -72,7 +72,7 @@ class Component
             ];
         }
 
-        foreach($fixtureFilesToSearch as $fixtureFile) {
+        foreach ($fixtureFilesToSearch as $fixtureFile) {
             $path = $this->location->generatePathToFile($this->name->getSimpleName() . $fixtureFile);
             if (file_exists($path)) {
                 return $path;
@@ -101,7 +101,7 @@ class Component
 
         $fixtureFile = $this->getFixtureFile();
         $fileParts = pathinfo($fixtureFile);
-        switch($fileParts['extension']) {
+        switch ($fileParts['extension']) {
             case 'json':
                 $fixtures = \json_decode(file_get_contents($fixtureFile), true) ?? [];
                 break;
@@ -110,7 +110,7 @@ class Component
                     $fixtures = \json5_decode(file_get_contents($fixtureFile), true) ?? [];
                 }
                 break;
-            case 'yaml';
+            case 'yaml':
             case 'yml':
                 $loader = GeneralUtility::makeInstance(YamlFileLoader::class);
                 $fixtures = $loader->load($fixtureFile) ?? [];
