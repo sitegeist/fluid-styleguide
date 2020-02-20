@@ -6,7 +6,9 @@ namespace Sitegeist\FluidStyleguide\Domain\Model;
 use Sitegeist\FluidStyleguide\Domain\Model\ComponentName;
 use Sitegeist\FluidStyleguide\Domain\Model\ComponentLocation;
 use Sitegeist\FluidStyleguide\Domain\Model\ComponentFixture;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Configuration\Loader\YamlFileLoader;
 use SMS\FluidComponents\Fluid\ViewHelper\ComponentRenderer;
 
 class Component
@@ -54,6 +56,29 @@ class Component
 
     public function getFixtureFile(): string
     {
+        if (Environment::isComposerMode()) {
+            $fixtureFilesToSearch = [
+                '.fixture.json',
+                '.fixture.json5',
+                '.fixture.yml',
+                '.fixture.yaml'
+            ];
+        } else {
+            // no composer, no json5 package
+            $fixtureFilesToSearch = [
+                '.fixture.json',
+                '.fixture.yml',
+                '.fixture.yaml'
+            ];
+        }
+
+        foreach ($fixtureFilesToSearch as $fixtureFile) {
+            $path = $this->location->generatePathToFile($this->name->getSimpleName() . $fixtureFile);
+            if (file_exists($path)) {
+                return $path;
+            }
+        }
+        // fallback to .json
         return $this->location->generatePathToFile($this->name->getSimpleName() . '.fixture.json');
     }
 
@@ -75,7 +100,26 @@ class Component
         }
 
         $fixtureFile = $this->getFixtureFile();
-        $fixtures = json_decode(file_get_contents($fixtureFile), true) ?? [];
+        $fileParts = pathinfo($fixtureFile);
+        switch ($fileParts['extension']) {
+            case 'json':
+                $fixtures = \json_decode(file_get_contents($fixtureFile), true) ?? [];
+                break;
+            case 'json5':
+                if (function_exists('json5_decode')) {
+                    $fixtures = \json5_decode(file_get_contents($fixtureFile), true) ?? [];
+                } else {
+                    $fixtures = [];
+                }
+                break;
+            case 'yaml':
+            case 'yml':
+                $loader = GeneralUtility::makeInstance(YamlFileLoader::class);
+                $fixtures = $loader->load($fixtureFile) ?? [];
+                break;
+            default:
+                throw new \Exception('Fixture format unknown', 1582196195);
+        }
         if (!isset($fixtures['default'])) {
             $fixtures['default'] = [];
         }

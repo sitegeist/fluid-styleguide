@@ -18,7 +18,8 @@
         "typo3/cms-core": "^9.5",
         "sitegeist/fluid-components": "^1.3",
         "erusev/parsedown": "^1.7",
-        "php": ">=7.2.0 <8"
+        "php": ">=7.2.0 <8",
+        "colinodell/json5": "^2.1"
     },
     "require-dev": {
         "typo3/testing-framework": "^4.0",
