@@ -108,6 +108,8 @@ class Component
             case 'json5':
                 if (function_exists('json5_decode')) {
                     $fixtures = \json5_decode(file_get_contents($fixtureFile), true) ?? [];
+                } else {
+                    $fixtures = [];
                 }
                 break;
             case 'yaml':
