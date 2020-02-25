@@ -58,3 +58,8 @@ FluidStyleguide:
     Branding:
         BodyBackground: '#fff'
         HeaderBackground: '#fff'
+        FontColor: '#333333'
+        FontFamily: 'Source Sans Pro, sans-serif'
+        Headline: 'Spiegel Styleguide'
+        IntroFile: 'EXT:sitepackage/Resources/Private/FluidStyleguide.md'
+        IntroFileLabel: 'More Information'

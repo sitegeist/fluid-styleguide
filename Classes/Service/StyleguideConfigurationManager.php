@@ -131,6 +131,26 @@ class StyleguideConfigurationManager
         return $this->mergedConfiguration['Fluid']['LayoutRootPaths'] ?? [];
     }
 
+    public function getBrandingFontColor(): string
+    {
+        return $this->mergedConfiguration['Branding']['FontColor'] ?? '';
+    }
+
+    public function getBrandingFontFamily(): string
+    {
+        return $this->mergedConfiguration['Branding']['FontFamily'] ?? '';
+    }
+
+    public function getBrandingBodyBackground(): string
+    {
+        return $this->mergedConfiguration['Branding']['BodyBackground'] ?? '';
+    }
+
+    public function getBrandingHeaderBackground(): string
+    {
+        return $this->mergedConfiguration['Branding']['HeaderBackground'] ?? '';
+    }
+
     public function getBrandingLogo(): string
     {
         $logo = $this->mergedConfiguration['Branding']['Logo'] ?? '';
@@ -145,14 +165,19 @@ class StyleguideConfigurationManager
         return $logo;
     }
 
-    public function getBrandingBodyBackground(): string
+    public function getBrandingHeadline(): string
     {
-        return $this->mergedConfiguration['Branding']['BodyBackground'] ?? '';
+        return $this->mergedConfiguration['Branding']['Headline'] ?? '';
     }
 
-    public function getBrandingHeaderBackground(): string
+    public function getBrandingIntroFile(): string
     {
-        return $this->mergedConfiguration['Branding']['HeaderBackground'] ?? '';
+        return $this->mergedConfiguration['Branding']['IntroFile'] ?? '';
+    }
+
+    public function getBrandingIntroFileLabel(): string
+    {
+        return $this->mergedConfiguration['Branding']['IntroFileLabel'] ?? '';
     }
 
     protected function sanitizeComponentAssets($assets)

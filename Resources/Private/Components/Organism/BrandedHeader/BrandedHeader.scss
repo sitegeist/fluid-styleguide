@@ -1,12 +1,32 @@
 .brandedHeader {
     position: fixed;
-    height: 80px;
+    height: $height-branded-header;
     top: 0;
     left: 0;
     right: 0;
+    z-index: 10;
+
+    .brandedHeaderInner {
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        a {
+            color: $branded-link-color;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
 
     .brandedHeaderLogo {
         height: $height-branded-header - 5px;
         width: auto;
     }
+
 }

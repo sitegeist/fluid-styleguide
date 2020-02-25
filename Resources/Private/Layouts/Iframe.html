@@ -18,7 +18,7 @@
         <link rel="stylesheet" href="{cssFile}" />
     </f:for>
 </head>
-<body>
+<body style="{f:if(condition:'{styleguideConfiguration.BrandingBodyBackground}',then: 'background-color: {styleguideConfiguration.BrandingBodyBackground};')}">
 
 <f:if condition="{styleguideConfiguration.Features.Ruler}">
     <f:then>

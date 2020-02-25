@@ -12,12 +12,18 @@
 
     <link rel="stylesheet" href="{f:uri.resource(path: 'Css/Styleguide.min.css', absolute: 1)}" />
 </head>
-<body {f:if(condition: '{styleguideConfiguration.BrandingBodyBackground}', then: 'style=\'background-color: {styleguideConfiguration.BrandingBodyBackground}\'')}>
+
+<body style="{f:if(condition:'{styleguideConfiguration.BrandingBodyBackground}',then: 'background-color: {styleguideConfiguration.BrandingBodyBackground};')}{f:if(condition:'{styleguideConfiguration.BrandingFontColor}', then: ' color: {styleguideConfiguration.BrandingFontColor};')}{f:if(condition:'{styleguideConfiguration.BrandingFontFamily}', then: ' font-family: {styleguideConfiguration.BrandingFontFamily};')}
+">
 <div class="fluid-styleguide">
     <fsc:Organism.BrandedHeader
         logo="{styleguideConfiguration.brandingLogo}"
         headerBackground="{styleguideConfiguration.BrandingHeaderBackground}"
+        brandingHeadline="{styleguideConfiguration.BrandingHeadline}"
+        link="{styleguideConfiguration.BrandingIntroFile}"
+        linkLabel="{styleguideConfiguration.BrandingIntroFileLabel}"
     />
+
     <div class="styleguideHeader">
         <div class="componentNavigation">
             <fsc:Atom.StyleguideSelect autoSuggest="1">
