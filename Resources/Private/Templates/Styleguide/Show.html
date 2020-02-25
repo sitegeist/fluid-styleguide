@@ -22,7 +22,9 @@
             </select>
         </fsc:Atom.StyleguideSelect>
     </div>
-    <div class=""><fsc:atom.StyleguideRefreshIFrame /></div>
+
+    <fsc:atom.StyleguideRefreshIFrame />
+
     <div class="actions">
         <f:if condition="{styleguideConfiguration.Features.ResponsiveBreakpoints}">
             <fsc:Atom.viewportNavigation viewPorts="{styleguideConfiguration.responsiveBreakpoints}" />
