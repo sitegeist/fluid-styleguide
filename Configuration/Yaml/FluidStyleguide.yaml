@@ -61,5 +61,5 @@ FluidStyleguide:
         FontColor: '#333333'
         FontFamily: 'Source Sans Pro, sans-serif'
         Headline: 'Spiegel Styleguide'
-        IntroFile: 'EXT:sitepackage/Resources/Private/FluidStyleguide.md'
+        IntroFile: '/n/typo3conf/ext/sitepackage/Resources/Public/FluidStyleguide.md'
         IntroFileLabel: 'More Information'
