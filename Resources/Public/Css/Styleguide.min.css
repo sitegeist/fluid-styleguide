@@ -150,6 +150,18 @@
     align-items: center;
     height: 56px; }
 
+.styleguideRefreshIFrame button {
+  background-color: #222425;
+  color: #FFFFFF;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 5px 10px;
+  border: 1px solid white; }
+  .styleguideRefreshIFrame button:hover {
+    background-color: #00d8e6; }
+  .styleguideRefreshIFrame button:focus {
+    outline: none; }
+
 .styleguideSelect {
   font-family: "Open Sans", Helvetica, FreeSans, Arial, sans-serif;
   width: 100%; }

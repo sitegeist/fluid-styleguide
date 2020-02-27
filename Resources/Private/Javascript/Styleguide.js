@@ -1,6 +1,7 @@
 import "@babel/polyfill";
 import "iframe-resizer/js/iframeResizer";
 
+import '../Components/Atom/StyleguideRefreshIFrame/StyleguideRefreshIFrame';
 import '../Components/Atom/StyleguideSelect/StyleguideSelect';
 import '../Components/Organism/StyleguideToolbar/StyleguideToolbar';
 import '../Components/Atom/StyleguideScrollTop/StyleguideScrollTop';
