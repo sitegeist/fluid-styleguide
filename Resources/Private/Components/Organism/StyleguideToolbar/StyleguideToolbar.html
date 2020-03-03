@@ -9,6 +9,7 @@
     <fc:param name="showDocumentation" type="bool" optional="1" default="1" />
     <fc:param name="showZipDownload" type="bool" optional="1" default="1" />
     <fc:param name="showEditor" type="bool" optional="1" default="1" />
+    <fc:param name="showDefaultValues" type="bool" optional="1" default="0" />
 
     <fc:renderer>
         <div class="styleguideToolbar {class}" data-component="StyleguideToolbar">
@@ -52,27 +53,30 @@
                                 <f:if condition="{componentData.arguments}">
                                     <div class="boxMargin">
                                         <h2>API definition</h2>
-                                        <table class="componentArguments">
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Type</th>
-                                                <th class="componentArgumentsRequired">Required</th>
-                                                <f:comment><th>Default</th></f:comment>
-                                                <th>Description</th>
-                                            </tr>
-                                            <f:for each="{componentData.arguments}" as="argument">
-                                                <f:if condition="{argument.name} != 'content'">
-                                                    <tr>
-                                                        <td class="componentArgumentsName">{argument.name}</td>
-                                                        <td>{argument.type}</td>
-                                                        <td class="componentArgumentsRequired">{f:if(condition: argument.required, then: '✔︎')}</td>
-                                                        <f:comment>TODO implement this with fluid_components v2</f:comment>
-                                                        <f:comment><td>{argument.defaultValue}</td></f:comment>
-                                                        <td>{argument.description}</td>
-                                                    </tr>
-                                                </f:if>
-                                            </f:for>
-                                        </table>
+                                        <div class="componentArguments">
+                                            <table>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Type</th>
+                                                    <th class="componentArgumentsRequired">Required</th>
+                                                    <f:if condition="{showDefaultValues}"><th>Default</th></f:if>
+                                                    <th>Description</th>
+                                                </tr>
+                                                <f:for each="{componentData.arguments}" as="argument">
+                                                    <f:if condition="{argument.name} != 'content'">
+                                                        <tr>
+                                                            <td class="componentArgumentsName">{argument.name}</td>
+                                                            <td class="componentArgumentsType">{argument.type}</td>
+                                                            <td class="componentArgumentsRequired">{f:if(condition: argument.required, then: '✔︎')}</td>
+                                                            <f:if condition="{showDefaultValues}">
+                                                                <td class="componentArgumentsDefault">{f:if(condition: '!{argument.required}', then: argument.defaultValue)}</td>
+                                                            </f:if>
+                                                            <td class="componentArgumentsDescription">{argument.description}</td>
+                                                        </tr>
+                                                    </f:if>
+                                                </f:for>
+                                            </table>
+                                        </div>
                                     </div>
                                 </f:if>
 
