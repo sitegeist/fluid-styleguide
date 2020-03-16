@@ -69,7 +69,18 @@
                                                             <td class="componentArgumentsType">{argument.type}</td>
                                                             <td class="componentArgumentsRequired">{f:if(condition: argument.required, then: '✔︎')}</td>
                                                             <f:if condition="{showDefaultValues}">
-                                                                <td class="componentArgumentsDefault">{f:if(condition: '!{argument.required}', then: argument.defaultValue)}</td>
+                                                                <td class="componentArgumentsDefault">
+                                                                    <f:if condition="!{argument.required}">
+                                                                        <f:if condition="{argument.type} == 'boolean'">
+                                                                            <f:then>
+                                                                                {f:if(condition: argument.defaultValue, then: 'true', else: 'false')}
+                                                                            </f:then>
+                                                                            <f:else>
+                                                                                {argument.defaultValue}
+                                                                            </f:else>
+                                                                        </f:if>
+                                                                    </f:if>
+                                                                </td>
                                                             </f:if>
                                                             <td class="componentArgumentsDescription">{argument.description}</td>
                                                         </tr>
