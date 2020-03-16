@@ -555,8 +555,10 @@
         .styleguideToolbar .toolbarTabs .tabContent .downloadZip:hover {
           color: #00d8e6; }
   .styleguideToolbar .componentArguments {
-    border-spacing: 0;
-    width: 100%; }
+    overflow: auto; }
+    .styleguideToolbar .componentArguments table {
+      border-spacing: 0;
+      min-width: 100%; }
     .styleguideToolbar .componentArguments th,
     .styleguideToolbar .componentArguments td {
       padding: 12px 8px;
@@ -565,9 +567,18 @@
       text-align: left;
       font-weight: bold; }
     .styleguideToolbar .componentArguments .componentArgumentsName {
-      font-weight: bold; }
+      font-weight: bold;
+      white-space: nowrap; }
+    .styleguideToolbar .componentArguments .componentArgumentsType {
+      white-space: nowrap; }
     .styleguideToolbar .componentArguments .componentArgumentsRequired {
+      padding-left: 0;
+      padding-right: 0;
       text-align: center; }
+    .styleguideToolbar .componentArguments .componentArgumentsDefault,
+    .styleguideToolbar .componentArguments .componentArgumentsDescription {
+      font-size: 0.85em;
+      word-wrap: break-word; }
 
 body {
   margin: 0; }

@@ -186,8 +186,12 @@
     }
 
     .componentArguments {
-        border-spacing: 0;
-        width: 100%;
+        overflow: auto;
+
+        table {
+            border-spacing: 0;
+            min-width: 100%;
+        }
 
         th,
         td {
@@ -202,10 +206,23 @@
 
         .componentArgumentsName {
             font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .componentArgumentsType {
+            white-space: nowrap;
         }
 
         .componentArgumentsRequired {
+            padding-left: 0;
+            padding-right: 0;
             text-align: center;
+        }
+
+        .componentArgumentsDefault,
+        .componentArgumentsDescription {
+            font-size: 0.85em;
+            word-wrap: break-word;
         }
     }
 
