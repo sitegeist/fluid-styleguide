@@ -541,6 +541,8 @@
       color: #FFFFFF;
       max-height: 200px;
       overflow-y: scroll; }
+      .styleguideToolbar .toolbarTabs .tabContent a {
+        color: #00d8e6; }
       .styleguideToolbar .toolbarTabs .tabContent > :first-child {
         margin-top: 0; }
       .styleguideToolbar .toolbarTabs .tabContent::-webkit-scrollbar {
@@ -579,6 +581,19 @@
     .styleguideToolbar .componentArguments .componentArgumentsDescription {
       font-size: 0.85em;
       word-wrap: break-word; }
+  .styleguideToolbar .componentDocumentation {
+    line-height: 1.8;
+    max-width: 70em; }
+    .styleguideToolbar .componentDocumentation pre, .styleguideToolbar .componentDocumentation code {
+      background: #2b2f31; }
+    .styleguideToolbar .componentDocumentation pre {
+      padding: 16px; }
+    .styleguideToolbar .componentDocumentation code {
+      padding: 0.3em 0.5em;
+      border-radius: 3px; }
+    .styleguideToolbar .componentDocumentation pre > code {
+      padding: 0;
+      border-radius: 0; }
 
 body {
   margin: 0; }
