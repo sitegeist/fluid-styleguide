@@ -92,7 +92,9 @@
                                 </f:if>
 
                                 <f:if condition="{showDocumentation}">
-                                    <fsv:format.markdown>{componentData.documentation}</fsv:format.markdown>
+                                    <div class="componentDocumentation">
+                                        <fsv:format.markdown>{componentData.documentation}</fsv:format.markdown>
+                                    </div>
                                 </f:if>
                             </div>
                         </f:if>
