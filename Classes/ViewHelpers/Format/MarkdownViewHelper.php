@@ -24,6 +24,13 @@ class MarkdownViewHelper extends AbstractViewHelper
     protected $escapeOutput = false;
 
     /**
+     * Don't escape input html
+     *
+     * @var boolean
+     */
+    protected $escapeChildren = false;
+
+    /**
      * Renders markdown code in fluid templates
      *
      * @param array $arguments

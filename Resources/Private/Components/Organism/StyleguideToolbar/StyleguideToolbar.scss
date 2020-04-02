@@ -157,6 +157,10 @@
             max-height: 200px;
             overflow-y: scroll;
 
+            a {
+                color: $highlight;
+            }
+
             > :first-child {
                 margin-top: 0;
             }
@@ -223,6 +227,29 @@
         .componentArgumentsDescription {
             font-size: 0.85em;
             word-wrap: break-word;
+        }
+    }
+
+    .componentDocumentation {
+        line-height: 1.8;
+        max-width: 70em;
+
+        pre, code {
+            background: $dark-grey-1;
+        }
+
+        pre {
+            padding: 16px;
+        }
+
+        code {
+            padding: 0.3em 0.5em;
+            border-radius: 3px;
+        }
+
+        pre > code {
+            padding: 0;
+            border-radius: 0;
         }
     }
 
