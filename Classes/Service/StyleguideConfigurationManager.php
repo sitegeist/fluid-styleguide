@@ -33,10 +33,10 @@ class StyleguideConfigurationManager
      */
     protected $mergedConfiguration;
 
-    public function __construct(YamlFileLoader $yamlFileLoader, PackageManager $packageManager)
+    public function __construct()
     {
-        $this->yamlFileLoader = $yamlFileLoader;
-        $this->packageManager = $packageManager;
+        $this->yamlFileLoader = GeneralUtility::makeInstance(YamlFileLoader::class);
+        $this->packageManager = GeneralUtility::makeInstance(PackageManager::class);
         $this->loadConfiguration();
     }
 
