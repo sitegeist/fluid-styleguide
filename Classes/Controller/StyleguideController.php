@@ -47,8 +47,6 @@ class StyleguideController
         $this->componentRepository = GeneralUtility::makeInstance(ComponentRepository::class);
         $this->componentDownloadService = GeneralUtility::makeInstance(ComponentDownloadService::class);
         $this->styleguideConfigurationManager = GeneralUtility::makeInstance(StyleguideConfigurationManager::class);
-
-        $this->registerDemoComponents();
     }
 
     /**
