@@ -20,7 +20,8 @@ class PackageRepository implements \TYPO3\CMS\Core\SingletonInterface
      */
     protected $componentLoader;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->componentLoader = GeneralUtility::makeInstance(ComponentLoader::class);
         $this->viewHelperResolver = GeneralUtility::makeInstance(ViewHelperResolver::class);
     }

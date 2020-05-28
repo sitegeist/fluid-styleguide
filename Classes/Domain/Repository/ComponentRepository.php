@@ -28,7 +28,8 @@ class ComponentRepository implements \TYPO3\CMS\Core\SingletonInterface
      */
     protected $componentLoader;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->packageRepository = GeneralUtility::makeInstance(PackageRepository::class);
         $this->componentNameRepository = GeneralUtility::makeInstance(ComponentNameRepository::class);
         $this->componentLoader = GeneralUtility::makeInstance(ComponentLoader::class);

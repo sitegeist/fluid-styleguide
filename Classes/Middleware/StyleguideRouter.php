@@ -33,8 +33,7 @@ class StyleguideRouter implements MiddlewareInterface
     public function process(
         ServerRequestInterface $request,
         RequestHandlerInterface $handler
-    ): ResponseInterface
-    {
+    ): ResponseInterface {
         // Re-introduce global variable that contains current site
         // to be able to generate valid styleguide action urls later on
         $GLOBALS['TYPO3_CURRENT_SITE'] = $site = $request->getAttribute('site', null);
@@ -121,8 +120,7 @@ class StyleguideRouter implements MiddlewareInterface
         string $extensionName,
         string $controllerName,
         string $actionName
-    ): StandaloneView
-    {
+    ): StandaloneView {
         $view = GeneralUtility::makeInstance(StandaloneView::class);
         $view->getRenderingContext()->getControllerContext()->getRequest()
             ->setControllerExtensionName($extensionName);
@@ -135,8 +133,7 @@ class StyleguideRouter implements MiddlewareInterface
         object $controller,
         string $actionMethod,
         array $actionArguments
-    )
-    {
+    ) {
         return $controller->$actionMethod($actionArguments);
     }
 }
