@@ -30,14 +30,16 @@ class StyleguideRouter implements MiddlewareInterface
         $this->context = GeneralUtility::makeInstance(Context::class);
     }
 
-
     public function process(
         ServerRequestInterface $request,
         RequestHandlerInterface $handler
     ): ResponseInterface
     {
+        // Re-introduce global variable that contains current site
+        // to be able to generate valid styleguide action urls later on
         $GLOBALS['TYPO3_CURRENT_SITE'] = $site = $request->getAttribute('site', null);
 
+        // Extract url prefix from styleguide configuration
         $prefix = GeneralUtility::makeInstance(ExtensionConfiguration::class)
             ->get('fluid_styleguide', 'uriPrefix');
         $prefixWithoutSlash = rtrim($prefix, '/');
@@ -81,15 +83,17 @@ class StyleguideRouter implements MiddlewareInterface
             );
         }
 
-        $GLOBALS['TSFE'] = GeneralUtility::makeInstance(
-            TypoScriptFrontendController::class,
-            $this->context,
-            $GLOBALS['TYPO3_CURRENT_SITE'],
-            $request->getAttribute('language', $site->getDefaultLanguage()),
-            $request->getAttribute('routing', null),
-            $request->getAttribute('frontend.user', null)
-        );
-
+        // Build simple TSFE object for basic typolink support in styleguide
+        if ((version_compare(TYPO3_version, '10.0', '>='))) {
+            $GLOBALS['TSFE'] = GeneralUtility::makeInstance(
+                TypoScriptFrontendController::class,
+                $this->context,
+                $GLOBALS['TYPO3_CURRENT_SITE'],
+                $request->getAttribute('language', $site->getDefaultLanguage()),
+                $request->getAttribute('routing', null),
+                $request->getAttribute('frontend.user', null)
+            );
+        }
 
         // Create view
         $view = $this->createView('fluidStyleguide', 'Styleguide', $actionName);

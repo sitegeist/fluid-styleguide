@@ -74,7 +74,6 @@ class StyleguideController
      */
     public function showAction(array $arguments = [])
     {
-
         $component = $arguments['component'] ?? '';
         $fixture = $arguments['fixture'] ?? 'default';
 
