@@ -6,7 +6,7 @@ namespace Sitegeist\FluidStyleguide\Service;
 use Sitegeist\FluidStyleguide\Domain\Model\Package;
 use TYPO3\CMS\Core\Configuration\Loader\YamlFileLoader;
 use TYPO3\CMS\Core\Package\PackageManager;
-use TYPO3\CMS\Core\Site\Entity\Site;
+use TYPO3\CMS\Core\Site\Entity\SiteInterface;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
@@ -33,10 +33,10 @@ class StyleguideConfigurationManager
      */
     protected $mergedConfiguration;
 
-    public function __construct(YamlFileLoader $yamlFileLoader, PackageManager $packageManager)
+    public function __construct()
     {
-        $this->yamlFileLoader = $yamlFileLoader;
-        $this->packageManager = $packageManager;
+        $this->yamlFileLoader = GeneralUtility::makeInstance(YamlFileLoader::class);
+        $this->packageManager = GeneralUtility::makeInstance(PackageManager::class);
         $this->loadConfiguration();
     }
 
@@ -172,9 +172,9 @@ class StyleguideConfigurationManager
     /**
      * Returns the current Site object to create urls
      *
-     * @return Site
+     * @return SiteInterface
      */
-    protected static function getCurrentSite(): Site
+    protected static function getCurrentSite(): SiteInterface
     {
         // TODO there is probably a better way to do this...
         if (version_compare(TYPO3_version, '10.0', '<')) {

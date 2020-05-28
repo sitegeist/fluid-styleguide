@@ -5,7 +5,7 @@ namespace Sitegeist\FluidStyleguide\ViewHelpers\Uri;
 
 use Psr\Http\Message\UriInterface;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
-use TYPO3\CMS\Core\Site\Entity\Site;
+use TYPO3\CMS\Core\Site\Entity\SiteInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
@@ -46,9 +46,9 @@ class StyleguideViewHelper extends AbstractViewHelper
     /**
      * Returns the current Site object to create urls
      *
-     * @return Site
+     * @return SiteInterface
      */
-    protected static function getCurrentSite(): Site
+    protected static function getCurrentSite(): SiteInterface
     {
         // TODO there is probably a better way to do this...
         if (version_compare(TYPO3_version, '10.0', '<')) {

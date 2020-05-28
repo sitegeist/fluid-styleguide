@@ -42,6 +42,15 @@ class StyleguideController
      */
     protected $request;
 
+    public function __construct()
+    {
+        $this->componentRepository = GeneralUtility::makeInstance(ComponentRepository::class);
+        $this->componentDownloadService = GeneralUtility::makeInstance(ComponentDownloadService::class);
+        $this->styleguideConfigurationManager = GeneralUtility::makeInstance(StyleguideConfigurationManager::class);
+
+        $this->registerDemoComponents();
+    }
+
     /**
      * Shows a list of all components
      *
@@ -63,8 +72,12 @@ class StyleguideController
      *
      * @return void
      */
-    public function showAction(string $component, string $fixture = 'default')
+    public function showAction(array $arguments = [])
     {
+
+        $component = $arguments['component'] ?? '';
+        $fixture = $arguments['fixture'] ?? 'default';
+
         // Sanitize user input
         $component = $this->sanitizeComponentIdentifier($component);
         $fixture = $this->sanitizeFixtureName($fixture);
@@ -95,8 +108,12 @@ class StyleguideController
      *
      * @return void
      */
-    public function componentAction(string $component, string $fixture = 'default', array $formData = [])
+    public function componentAction(array $arguments = [])
     {
+        $component = $arguments['component'] ?? '';
+        $fixture = $arguments['fixture'] ?? 'default';
+        $formData = $arguments['formData'] ?? [];
+
         // Sanitize user input
         $component = $this->sanitizeComponentIdentifier($component);
         $fixture = $this->sanitizeFixtureName($fixture);
@@ -198,14 +215,14 @@ class StyleguideController
 
             // Convert to integer
             if (MathUtility::canBeInterpretedAsInteger($value)) {
-                $value = (int) $value;
-            // Convert to float
+                $value = (int)$value;
+                // Convert to float
             } elseif (MathUtility::canBeInterpretedAsFloat($value)) {
-                $value = (float) $value;
-            // Convert to boolean
+                $value = (float)$value;
+                // Convert to boolean
             } elseif (mb_strtoupper($value) === 'TRUE' || mb_strtoupper($value) === 'FALSE') {
                 $value = (mb_strtoupper($value) === 'TRUE');
-            // Escape string if necessary
+                // Escape string if necessary
             } elseif ($this->styleguideConfigurationManager->isFeatureEnabled('EscapeInputFromEditor')) {
                 $value = htmlspecialchars($value);
             }
@@ -256,29 +273,5 @@ class StyleguideController
             );
             $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['demo'] = [$demoNamespace];
         }
-    }
-
-    /**
-     * @param \Sitegeist\FluidStyleguide\Domain\Repository\ComponentRepository $componentRepository
-     */
-    public function injectComponentRepository(ComponentRepository $componentRepository)
-    {
-        $this->componentRepository = $componentRepository;
-    }
-
-    /**
-     * @param \Sitegeist\FluidStyleguide\Service\ComponentDownloadService $componentDownloadService
-     */
-    public function injectComponentDownloadService(ComponentDownloadService $componentDownloadService)
-    {
-        $this->componentDownloadService = $componentDownloadService;
-    }
-
-    /**
-     * @param \Sitegeist\FluidStyleguide\Service\StyleguideConfigurationManager $styleguideConfigurationManager
-     */
-    public function injectStyleguideConfigurationManager(StyleguideConfigurationManager $styleguideConfigurationManager)
-    {
-        $this->styleguideConfigurationManager = $styleguideConfigurationManager;
     }
 }

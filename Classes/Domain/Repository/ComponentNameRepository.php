@@ -5,6 +5,7 @@ namespace Sitegeist\FluidStyleguide\Domain\Repository;
 
 use Sitegeist\FluidStyleguide\Domain\Model\ComponentName;
 use Sitegeist\FluidStyleguide\Domain\Repository\PackageRepository;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class ComponentNameRepository implements \TYPO3\CMS\Core\SingletonInterface
 {
@@ -13,9 +14,9 @@ class ComponentNameRepository implements \TYPO3\CMS\Core\SingletonInterface
      */
     protected $packageRepository;
 
-    public function __construct(PackageRepository $packageRepository)
+    public function __construct()
     {
-        $this->packageRepository = $packageRepository;
+        $this->packageRepository = GeneralUtility::makeInstance(PackageRepository::class);
     }
 
     public function findByComponentIdentifier(string $componentIdentifier): ?ComponentName

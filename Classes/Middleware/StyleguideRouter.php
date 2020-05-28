@@ -12,8 +12,6 @@ use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Http\RedirectResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
-use TYPO3\CMS\Extbase\Reflection\ReflectionService;
 use Sitegeist\FluidStyleguide\View\StandaloneView;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
@@ -21,11 +19,6 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 class StyleguideRouter implements MiddlewareInterface
 {
     const DEFAULT_ACTION = 'list';
-
-    /**
-     * @var ObjectManager
-     */
-    protected $objectManager;
 
     /**
      * @var Context
@@ -41,7 +34,8 @@ class StyleguideRouter implements MiddlewareInterface
     public function process(
         ServerRequestInterface $request,
         RequestHandlerInterface $handler
-    ): ResponseInterface {
+    ): ResponseInterface
+    {
         $GLOBALS['TYPO3_CURRENT_SITE'] = $site = $request->getAttribute('site', null);
 
         $prefix = GeneralUtility::makeInstance(ExtensionConfiguration::class)
@@ -61,8 +55,6 @@ class StyleguideRouter implements MiddlewareInterface
             );
         }
 
-        $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-
         // Extract routing information from URI
         $path = substr($request->getUri()->getPath(), strlen($prefix));
         $pathSegments = explode('/', $path);
@@ -77,7 +69,7 @@ class StyleguideRouter implements MiddlewareInterface
         }
 
         // Create controller
-        $controller = $this->objectManager->get(StyleguideController::class);
+        $controller = GeneralUtility::makeInstance(StyleguideController::class);
         $controller->setRequest($request);
 
         // Validate controller action
@@ -115,7 +107,7 @@ class StyleguideRouter implements MiddlewareInterface
             if (!isset($response)) {
                 $response = $view->render();
             }
-            $response = new HtmlResponse((string) $response);
+            $response = new HtmlResponse((string)$response);
         }
 
         return $response;
@@ -125,7 +117,8 @@ class StyleguideRouter implements MiddlewareInterface
         string $extensionName,
         string $controllerName,
         string $actionName
-    ): StandaloneView {
+    ): StandaloneView
+    {
         $view = GeneralUtility::makeInstance(StandaloneView::class);
         $view->getRenderingContext()->getControllerContext()->getRequest()
             ->setControllerExtensionName($extensionName);
@@ -138,29 +131,8 @@ class StyleguideRouter implements MiddlewareInterface
         object $controller,
         string $actionMethod,
         array $actionArguments
-    ) {
-
-        $reflectionService = $this->objectManager->get(ReflectionService::class);
-        $methodDefinition = $reflectionService
-            ->getClassSchema(get_class($controller))
-            ->getMethod($actionMethod);
-
-        if ($methodDefinition instanceof \TYPO3\CMS\Extbase\Reflection\ClassSchema\Method) {
-            $methodParameters = $methodDefinition->getParameters();
-            $mappedActionArguments = [];
-            foreach ($methodParameters as $parameterName => $parameterInfo) {
-                $defaultValue = $parameterInfo->hasDefaultValue() ? $parameterInfo->getDefaultValue() : null;
-                $mappedActionArguments[] = $actionArguments[$parameterName] ?? $defaultValue;
-            }
-        } else {
-            $methodParameters = $methodDefinition['params'];
-            $mappedActionArguments = [];
-            foreach ($methodParameters as $parameterName => $parameterInfo) {
-                $defaultValue = $parameterInfo['hasDefaultValue'] === true ? $parameterInfo['defaultValue'] : null;
-                $mappedActionArguments[] = $actionArguments[$parameterName] ?? $defaultValue;
-            }
-        }
-
-        return $controller->$actionMethod(...$mappedActionArguments);
+    )
+    {
+        return $controller->$actionMethod($actionArguments);
     }
 }
