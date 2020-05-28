@@ -50,11 +50,6 @@ class StyleguideViewHelper extends AbstractViewHelper
      */
     protected static function getCurrentSite(): SiteInterface
     {
-        // TODO there is probably a better way to do this...
-        if (version_compare(TYPO3_version, '10.0', '<')) {
-            return $GLOBALS['TYPO3_REQUEST']->getAttribute('site');
-        } else {
-            return $GLOBALS['TYPO3_CURRENT_SITE'];
-        }
+        return $GLOBALS['TYPO3_CURRENT_SITE'];
     }
 }
