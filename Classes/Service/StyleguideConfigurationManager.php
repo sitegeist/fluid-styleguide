@@ -6,6 +6,7 @@ namespace Sitegeist\FluidStyleguide\Service;
 use Sitegeist\FluidStyleguide\Domain\Model\Package;
 use TYPO3\CMS\Core\Configuration\Loader\YamlFileLoader;
 use TYPO3\CMS\Core\Package\PackageManager;
+use TYPO3\CMS\Core\Site\Entity\SiteInterface;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
@@ -32,10 +33,10 @@ class StyleguideConfigurationManager
      */
     protected $mergedConfiguration;
 
-    public function __construct(YamlFileLoader $yamlFileLoader, PackageManager $packageManager)
+    public function __construct()
     {
-        $this->yamlFileLoader = $yamlFileLoader;
-        $this->packageManager = $packageManager;
+        $this->yamlFileLoader = GeneralUtility::makeInstance(YamlFileLoader::class);
+        $this->packageManager = GeneralUtility::makeInstance(PackageManager::class);
         $this->loadConfiguration();
     }
 
@@ -138,7 +139,7 @@ class StyleguideConfigurationManager
             return [];
         }
 
-        $baseUrl = $GLOBALS['TYPO3_REQUEST']->getAttribute('site')->getBase();
+        $baseUrl = static::getCurrentSite()->getBase();
         foreach ($assets as $key => &$asset) {
             if (!static::isRemoteUri($asset)) {
                 // TODO generate relative urls
@@ -166,5 +167,15 @@ class StyleguideConfigurationManager
     {
         $scheme = parse_url($uri, PHP_URL_SCHEME);
         return ($scheme && in_array(strtolower($scheme), ['http', 'https']));
+    }
+
+    /**
+     * Returns the current Site object to create urls
+     *
+     * @return SiteInterface
+     */
+    protected static function getCurrentSite(): SiteInterface
+    {
+        return $GLOBALS['TYPO3_CURRENT_SITE'];
     }
 }

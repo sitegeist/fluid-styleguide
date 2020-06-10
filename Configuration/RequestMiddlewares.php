@@ -8,7 +8,9 @@ return [
                 'typo3/cms-frontend/site'
             ],
             'before' => [
-                'typo3/cms-frontend/static-route-resolver'
+                (version_compare(TYPO3_version, '10.0', '<'))
+                    ? 'typo3/cms-frontend/static-route-resolver'
+                    : 'typo3/cms-frontend/authentication'
             ]
         ],
     ],

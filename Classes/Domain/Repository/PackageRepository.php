@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Sitegeist\FluidStyleguide\Domain\Repository;
 
 use Sitegeist\FluidStyleguide\Domain\Model\Package;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\Core\ViewHelper\ViewHelperResolver;
 use SMS\FluidComponents\Utility\ComponentLoader;
 
@@ -19,12 +20,10 @@ class PackageRepository implements \TYPO3\CMS\Core\SingletonInterface
      */
     protected $componentLoader;
 
-    public function __construct(
-        ComponentLoader $componentLoader,
-        ViewHelperResolver $viewHelperResolver
-    ) {
-        $this->componentLoader = $componentLoader;
-        $this->viewHelperResolver = $viewHelperResolver;
+    public function __construct()
+    {
+        $this->componentLoader = GeneralUtility::makeInstance(ComponentLoader::class);
+        $this->viewHelperResolver = GeneralUtility::makeInstance(ViewHelperResolver::class);
     }
 
     /**

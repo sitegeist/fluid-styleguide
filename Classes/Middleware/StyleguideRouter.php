@@ -12,23 +12,33 @@ use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Http\RedirectResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
-use TYPO3\CMS\Extbase\Reflection\ReflectionService;
 use TYPO3\CMS\Fluid\View\StandaloneView;
+use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 class StyleguideRouter implements MiddlewareInterface
 {
     const DEFAULT_ACTION = 'list';
 
     /**
-     * @var ObjectManager
+     * @var Context
      */
-    protected $objectManager;
+    protected $context;
+
+    public function __construct()
+    {
+        $this->context = GeneralUtility::makeInstance(Context::class);
+    }
 
     public function process(
         ServerRequestInterface $request,
         RequestHandlerInterface $handler
     ): ResponseInterface {
+        // Re-introduce global variable that contains current site
+        // to be able to generate valid styleguide action urls later on
+        $GLOBALS['TYPO3_CURRENT_SITE'] = $site = $request->getAttribute('site', null);
+
+        // Extract url prefix from styleguide configuration
         $prefix = GeneralUtility::makeInstance(ExtensionConfiguration::class)
             ->get('fluid_styleguide', 'uriPrefix');
         $prefixWithoutSlash = rtrim($prefix, '/');
@@ -46,8 +56,6 @@ class StyleguideRouter implements MiddlewareInterface
             );
         }
 
-        $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-
         // Extract routing information from URI
         $path = substr($request->getUri()->getPath(), strlen($prefix));
         $pathSegments = explode('/', $path);
@@ -62,7 +70,7 @@ class StyleguideRouter implements MiddlewareInterface
         }
 
         // Create controller
-        $controller = $this->objectManager->get(StyleguideController::class);
+        $controller = GeneralUtility::makeInstance(StyleguideController::class);
         $controller->setRequest($request);
 
         // Validate controller action
@@ -71,6 +79,18 @@ class StyleguideRouter implements MiddlewareInterface
             throw new \Exception(
                 'Invalid styleguide action name: ' . $actionName,
                 1566584663
+            );
+        }
+
+        // Build simple TSFE object for basic typolink support in styleguide
+        if ((version_compare(TYPO3_version, '10.0', '>='))) {
+            $GLOBALS['TSFE'] = GeneralUtility::makeInstance(
+                TypoScriptFrontendController::class,
+                $this->context,
+                $GLOBALS['TYPO3_CURRENT_SITE'],
+                $request->getAttribute('language', $site->getDefaultLanguage()),
+                $request->getAttribute('routing', null),
+                $request->getAttribute('frontend.user', null)
             );
         }
 
@@ -90,7 +110,7 @@ class StyleguideRouter implements MiddlewareInterface
             if (!isset($response)) {
                 $response = $view->render();
             }
-            $response = new HtmlResponse((string) $response);
+            $response = new HtmlResponse((string)$response);
         }
 
         return $response;
@@ -114,17 +134,6 @@ class StyleguideRouter implements MiddlewareInterface
         string $actionMethod,
         array $actionArguments
     ) {
-        $reflectionService = $this->objectManager->get(ReflectionService::class);
-        $methodParameters = $reflectionService
-            ->getClassSchema(get_class($controller))
-            ->getMethod($actionMethod)['params'] ?? [];
-
-        $mappedActionArguments = [];
-        foreach ($methodParameters as $parameterName => $parameterInfo) {
-            $defaultValue = $parameterInfo['hasDefaultValue'] === true ? $parameterInfo['defaultValue'] : null;
-            $mappedActionArguments[] = $actionArguments[$parameterName] ?? $defaultValue;
-        }
-
-        return $controller->$actionMethod(...$mappedActionArguments);
+        return $controller->$actionMethod($actionArguments);
     }
 }

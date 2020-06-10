@@ -5,6 +5,7 @@ namespace Sitegeist\FluidStyleguide\ViewHelpers\Uri;
 
 use Psr\Http\Message\UriInterface;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Core\Site\Entity\SiteInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
@@ -37,8 +38,18 @@ class StyleguideViewHelper extends AbstractViewHelper
             ->get('fluid_styleguide', 'uriPrefix');
         $prefix = rtrim($prefix, '/') . '/';
         // TODO generate relative urls
-        return $GLOBALS['TYPO3_REQUEST']->getAttribute('site')->getBase()
+        return static::getCurrentSite()->getBase()
             ->withPath($prefix . $arguments['action'])
             ->withQuery(http_build_query($arguments['arguments']));
+    }
+
+    /**
+     * Returns the current Site object to create urls
+     *
+     * @return SiteInterface
+     */
+    protected static function getCurrentSite(): SiteInterface
+    {
+        return $GLOBALS['TYPO3_CURRENT_SITE'];
     }
 }
