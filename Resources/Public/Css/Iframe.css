@@ -1,3 +1,7 @@
+body {
+    background-color: var(--styleguide-iframe-background) !important;
+}
+
 #fluidStyleguideRuler {
     position: absolute;
     z-index: 1;

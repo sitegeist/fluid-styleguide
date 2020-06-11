@@ -11,6 +11,7 @@
     <meta name="compatible" content="IE=edge" />
     <meta name="robots" content="noindex,nofollow" />
 
+    <style>{styleguideConfiguration.brandingCss -> f:format.raw()}</style>
     <f:for each="{styleguideConfiguration.globalCss}" as="cssFile">
         <link rel="stylesheet" href="{cssFile}" />
     </f:for>
@@ -18,7 +19,7 @@
         <link rel="stylesheet" href="{cssFile}" />
     </f:for>
 </head>
-<body style="{f:if(condition:'{styleguideConfiguration.BrandingBodyBackground}',then: 'background-color: {styleguideConfiguration.BrandingBodyBackground};')}">
+<body>
 
 <f:if condition="{styleguideConfiguration.Features.Ruler}">
     <f:then>

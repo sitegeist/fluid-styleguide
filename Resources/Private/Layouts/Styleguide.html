@@ -3,27 +3,22 @@
 
 <head>
     <meta charset="utf-8" />
-
-    <title>Fluid Styleguide - {sitename}</title>
+    <title>
+        {f:if(condition: activeComponent, then: '{activeComponent.name.name} - ')}
+        {styleguideConfiguration.brandingTitle}
+    </title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="compatible" content="IE=edge" />
     <meta name="robots" content="noindex,nofollow" />
 
+    <style>{styleguideConfiguration.brandingCss -> f:format.raw()}</style>
     <link rel="stylesheet" href="{f:uri.resource(path: 'Css/Styleguide.min.css', absolute: 1)}" />
 </head>
 
-<body style="{f:if(condition:'{styleguideConfiguration.BrandingBodyBackground}',then: 'background-color: {styleguideConfiguration.BrandingBodyBackground};')}{f:if(condition:'{styleguideConfiguration.BrandingFontColor}', then: ' color: {styleguideConfiguration.BrandingFontColor};')}{f:if(condition:'{styleguideConfiguration.BrandingFontFamily}', then: ' font-family: {styleguideConfiguration.BrandingFontFamily};')}
-">
-<div class="fluid-styleguide">
-    <fsc:Organism.BrandedHeader
-        logo="{styleguideConfiguration.brandingLogo}"
-        headerBackground="{styleguideConfiguration.BrandingHeaderBackground}"
-        brandingHeadline="{styleguideConfiguration.BrandingHeadline}"
-        link="{styleguideConfiguration.BrandingIntroFile}"
-        linkLabel="{styleguideConfiguration.BrandingIntroFileLabel}"
-    />
+<body>
 
+<div class="fluid-styleguide">
     <div class="styleguideHeader">
         <div class="componentNavigation">
             <fsc:Atom.StyleguideSelect autoSuggest="1">

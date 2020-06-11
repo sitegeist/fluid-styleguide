@@ -2,13 +2,12 @@
     display: flex;
     position: fixed;
     z-index: 99999;
-    top: 80px;
+    top: 0;
     left: 0;
     right: 0;
     align-items: center;
     background: $dark-grey-0;
     font-family: $styleguide-font;
-    height: $height-styleguide-header;
 
     .componentNavigation .styleguideSelectSelected {
         position: relative;
@@ -85,7 +84,7 @@
         margin: 0 24px 0 auto;
         display: flex;
         align-items: center;
-        height: $height-styleguide-header;
+        height: 56px;
     }
 
 }

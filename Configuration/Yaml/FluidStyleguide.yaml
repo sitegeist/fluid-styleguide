@@ -48,6 +48,13 @@ FluidStyleguide:
         Tablet: '768px'
         Mobile: '375px'
 
+    Branding:
+#       Title: 'My Styleguide'
+#       IntroFile: 'EXT:my_extension/Documentation/FluidStyleguide.md'
+        IframeBackground: '#FFF'
+        HighlightColor: '#00d8e6'
+        FontFamily: "'Open Sans', Helvetica, FreeSans, Arial, sans-serif"
+
     Fluid:
         TemplateRootPaths:
             - EXT:fluid_styleguide/Resources/Private/Templates
@@ -55,11 +62,3 @@ FluidStyleguide:
             - EXT:fluid_styleguide/Resources/Private/Partials
         LayoutRootPaths:
             - EXT:fluid_styleguide/Resources/Private/Layouts
-    Branding:
-        BodyBackground: '#fff'
-        HeaderBackground: '#fff'
-        FontColor: '#333333'
-        FontFamily: 'Source Sans Pro, sans-serif'
-        Headline: 'Spiegel Styleguide'
-        IntroFile: '/n/typo3conf/ext/sitepackage/Resources/Public/FluidStyleguide.md'
-        IntroFileLabel: 'More Information'

@@ -131,9 +131,9 @@ class StyleguideConfigurationManager
         return $this->mergedConfiguration['Fluid']['LayoutRootPaths'] ?? [];
     }
 
-    public function getBrandingFontColor(): string
+    public function getBrandingHighlightColor(): string
     {
-        return $this->mergedConfiguration['Branding']['FontColor'] ?? '';
+        return $this->mergedConfiguration['Branding']['HighlightColor'] ?? '';
     }
 
     public function getBrandingFontFamily(): string
@@ -141,43 +141,43 @@ class StyleguideConfigurationManager
         return $this->mergedConfiguration['Branding']['FontFamily'] ?? '';
     }
 
-    public function getBrandingBodyBackground(): string
+    public function getBrandingIframeBackground(): string
     {
-        return $this->mergedConfiguration['Branding']['BodyBackground'] ?? '';
+        return $this->mergedConfiguration['Branding']['IframeBackground'] ?? '';
     }
 
-    public function getBrandingHeaderBackground(): string
+    public function getBrandingCss(): string
     {
-        return $this->mergedConfiguration['Branding']['HeaderBackground'] ?? '';
+        $variables = array_filter([
+            '--styleguide-highlight-color' => $this->getBrandingHighlightColor(),
+            '--styleguide-font-family' => $this->getBrandingFontFamily(),
+            '--styleguide-iframe-background' => $this->getBrandingIframeBackground()
+        ]);
+
+        return ':root {' . array_reduce(
+            array_keys($variables),
+            function ($css, $variable) use ($variables) {
+                return $css . $variable . ':' . $variables[$variable] . ';';
+            },
+            ''
+        ) . '}';
     }
 
-    public function getBrandingLogo(): string
+    public function getBrandingTitle(): string
     {
-        $logo = $this->mergedConfiguration['Branding']['Logo'] ?? '';
-        if (!empty($logo)) {
-            $logo = GeneralUtility::getFileAbsFileName($logo);
-            $logo = substr(
-                $logo,
-                strlen(GeneralUtility::getIndpEnv('TYPO3_DOCUMENT_ROOT'))
+        return $this->mergedConfiguration['Branding']['Title'] ?? $GLOBALS['TYPO3_CONF_VARS']['SYS']['sitename'];
+    }
+
+    public function getBrandingIntro(): string
+    {
+        if ($this->mergedConfiguration['Branding']['IntroFile']) {
+            $introFile = GeneralUtility::getFileAbsFileName(
+                $this->mergedConfiguration['Branding']['IntroFile']
             );
+            return file_get_contents($introFile);
+        } else {
+            return '';
         }
-
-        return $logo;
-    }
-
-    public function getBrandingHeadline(): string
-    {
-        return $this->mergedConfiguration['Branding']['Headline'] ?? '';
-    }
-
-    public function getBrandingIntroFile(): string
-    {
-        return $this->mergedConfiguration['Branding']['IntroFile'] ?? '';
-    }
-
-    public function getBrandingIntroFileLabel(): string
-    {
-        return $this->mergedConfiguration['Branding']['IntroFileLabel'] ?? '';
     }
 
     protected function sanitizeComponentAssets($assets)

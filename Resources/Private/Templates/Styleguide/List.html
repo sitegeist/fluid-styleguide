@@ -14,9 +14,14 @@
 
 <f:section name="Content">
     <div class="fluidStyleguideList">
+        <div class="fluidStyleguideIntro">
+            <h1 class="fluidStyleguideTitle">{styleguideConfiguration.brandingTitle}</h1>
+            <fsv:format.markdown>{styleguideConfiguration.brandingIntro}</fsv:format.markdown>
+        </div>
+
         <f:for each="{packages}" as="components" key="namespace">
             <div class="fluidStyleguidePackageItem">
-                <h1 class="fluidStyleguidePackageName">Package: {namespace}</h1>
+                <h2 class="fluidStyleguidePackageName">Package: {namespace}</h2>
                 <div class="fluidStyleguideComponent-items">
                     <f:for each="{components}" as="component">
                         <f:variable name="iframeUri" value="{fsv:uri.styleguide(
