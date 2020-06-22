@@ -108,6 +108,27 @@ FluidStyleguide:
         DemoComponents: false
 ```
 
+## Intro text and branding
+
+Some of the colors and styles the styleguide uses can be customized to match the customer's branding:
+
+```yaml
+FluidStyleguide:
+    Branding:
+        IframeBackground: '#FFF'
+        HighlightColor: '#00d8e6'
+        FontFamily: "'Open Sans', Helvetica, FreeSans, Arial, sans-serif"
+```
+
+You can define both a title and an intro text (in a separate markdown file) for the styleguide that will both appear above the component listing:
+
+```yaml
+FluidStyleguide:
+    Branding:
+        Title: 'Customer Styleguide'
+        IntroFile: 'EXT:my_extension/Documentation/FluidStyleguide.md'
+```
+
 ## Specifying responsive breakpoints for testing
 
 The default responsive breakpoints can be altered or extended.

@@ -48,6 +48,13 @@ FluidStyleguide:
         Tablet: '768px'
         Mobile: '375px'
 
+    Branding:
+#       Title: 'My Styleguide'
+#       IntroFile: 'EXT:my_extension/Documentation/FluidStyleguide.md'
+        IframeBackground: '#FFF'
+        HighlightColor: '#00d8e6'
+        FontFamily: "'Open Sans', Helvetica, FreeSans, Arial, sans-serif"
+
     Fluid:
         TemplateRootPaths:
             - EXT:fluid_styleguide/Resources/Private/Templates

@@ -3,13 +3,16 @@
 
 <head>
     <meta charset="utf-8" />
-
-    <title>Fluid Styleguide - {sitename}</title>
+    <title>
+        {f:if(condition: activeComponent, then: '{activeComponent.name.name} - ')}
+        {styleguideConfiguration.brandingTitle}
+    </title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="compatible" content="IE=edge" />
     <meta name="robots" content="noindex,nofollow" />
 
+    <style>{styleguideConfiguration.brandingCss -> f:format.raw()}</style>
     <link rel="stylesheet" href="{f:uri.resource(path: 'Css/Styleguide.min.css', absolute: 1)}" />
 </head>
 
