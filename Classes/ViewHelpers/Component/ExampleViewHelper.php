@@ -7,6 +7,7 @@ use Sitegeist\FluidStyleguide\Domain\Model\Component;
 use Sitegeist\FluidStyleguide\Domain\Model\ComponentName;
 use Sitegeist\FluidStyleguide\Exception\RequiredComponentArgumentException;
 use SMS\FluidComponents\Fluid\ViewHelper\ComponentRenderer;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\Variables\StandardVariableProvider;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
@@ -211,6 +212,9 @@ class ExampleViewHelper extends AbstractViewHelper
         RenderingContextInterface $renderingContext = null,
         array $data = []
     ): string {
+        // Check if the context should be fetched from a file
+        $context = self::checkObtainComponentContextFromFile($context);
+
         if (isset($renderingContext)) {
             // Use unique value as component markup marker
             $marker = '###COMPONENT_MARKUP_' . mt_rand() . '###';
@@ -227,6 +231,29 @@ class ExampleViewHelper extends AbstractViewHelper
         } else {
             return str_replace('|', $componentMarkup, $context);
         }
+    }
+
+    /**
+     * Checks if the provided component context is a file path and returns its contents;
+     * falls back to the specified context string.
+     *
+     * @param string $context
+     * @return string
+     */
+    protected static function checkObtainComponentContextFromFile(string $context): string
+    {
+        // Probably not a file path
+        if (strpos($context, '|') !== false) {
+            return $context;
+        }
+
+        // Check if the value is a valid file
+        $path = GeneralUtility::getFileAbsFileName($context);
+        if (!file_exists($path)) {
+            return $context;
+        }
+
+        return file_get_contents($path);
     }
 
     /**

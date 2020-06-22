@@ -79,6 +79,27 @@ Button.fixture.json:
 }
 ```
 
+Instead of inline html, you can also specify a path to a file which contains the context markup:
+
+```yaml
+FluidStyleguide:
+    ComponentContext: 'EXT:my_extension/Resources/Private/Components/ComponentContext.html'
+```
+
+or per component:
+
+```json
+{
+    "default": {
+        ...
+    },
+    "onDarkBackground": {
+        ...
+        "styleguideComponentContext": "EXT:my_extension/Resources/Private/Components/DarkComponentContext.html"
+    }
+}
+```
+
 ## Enabling and disabling styleguide features
 
 Specific features of the styleguide can be enabled and disabled:
