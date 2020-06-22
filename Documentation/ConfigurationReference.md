@@ -54,8 +54,9 @@ FluidStyleguide:
     ComponentContext: '<div class="fluidStyleguideComponentSpacing">|</div>'
 ```
 
-Every pipe character within the specified context markup will be replaced with
-the component markup.
+Fluid markup is supported in the component context, which means that you can wrap
+your components in other components in the styleguide. Every pipe character within
+the specified context markup will be replaced with the component markup.
 
 This context can be modified either globally in your FluidStyleguide.yaml or
 individually for each variant of a component in the appropriate fixture file:

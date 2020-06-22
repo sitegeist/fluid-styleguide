@@ -8,6 +8,7 @@ use Sitegeist\FluidStyleguide\Domain\Model\ComponentName;
 use Sitegeist\FluidStyleguide\Exception\RequiredComponentArgumentException;
 use SMS\FluidComponents\Fluid\ViewHelper\ComponentRenderer;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\Variables\StandardVariableProvider;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
 use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
@@ -112,7 +113,9 @@ class ExampleViewHelper extends AbstractViewHelper
 
         return self::applyComponentContext(
             $componentMarkup,
-            $componentContext
+            $componentContext,
+            $renderingContext,
+            $fixtureData
         );
     }
 
@@ -193,14 +196,37 @@ class ExampleViewHelper extends AbstractViewHelper
     /**
      * Wraps component markup in the specified component context (HTML markup)
      * The component markup will replace all pipe characters (|) in the context string
+     * Optionally, a renderingContext and template data can be provided, in which case
+     * the context markup will be treated as fluid markup
      *
      * @param string $componentMarkup
      * @param string $context
+     * @param RenderingContextInterface $renderingContext
+     * @param array $data
      * @return string
      */
-    public static function applyComponentContext(string $componentMarkup, string $context): string
-    {
-        return str_replace('|', $componentMarkup, $context);
+    public static function applyComponentContext(
+        string $componentMarkup,
+        string $context,
+        RenderingContextInterface $renderingContext = null,
+        array $data = []
+    ): string {
+        if (isset($renderingContext)) {
+            // Use unique value as component markup marker
+            $marker = '###COMPONENT_MARKUP_' . mt_rand() . '###';
+            $context = str_replace('|', $marker, $context);
+
+            // Parse fluid tags in context string
+            $originalVariableContainer = $renderingContext->getVariableProvider();
+            $renderingContext->setVariableProvider(new StandardVariableProvider($data));
+            $context = $renderingContext->getTemplateParser()->parse($context)->render($renderingContext);
+            $renderingContext->setVariableProvider($originalVariableContainer);
+
+            // Wrap component markup
+            return str_replace($marker, $componentMarkup, $context);
+        } else {
+            return str_replace('|', $componentMarkup, $context);
+        }
     }
 
     /**
