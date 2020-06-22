@@ -93,6 +93,16 @@ class ExampleViewHelper extends AbstractViewHelper
                     $fixtureData,
                     $renderingContext
                 );
+
+                $componentWithContext = self::applyComponentContext(
+                    $componentMarkup,
+                    $componentContext,
+                    $renderingContext,
+                    array_replace(
+                        $arguments['component']->getDefaultValues(),
+                        $fixtureData
+                    )
+                );
             } catch (\Exception $e) {
                 if ($arguments['handleExceptions']) {
                     return sprintf(
@@ -110,17 +120,14 @@ class ExampleViewHelper extends AbstractViewHelper
                 $arguments['component']->getName(),
                 $fixtureData
             );
+
+            $componentWithContext = self::applyComponentContext(
+                $componentMarkup,
+                $componentContext
+            );
         }
 
-        return self::applyComponentContext(
-            $componentMarkup,
-            $componentContext,
-            $renderingContext,
-            array_replace(
-                $arguments['component']->getDefaultValues(),
-                $fixtureData
-            )
-        );
+        return $componentWithContext;
     }
 
     /**
