@@ -6,6 +6,7 @@ namespace Sitegeist\FluidStyleguide\ViewHelpers\Component;
 use Sitegeist\FluidStyleguide\Domain\Model\Component;
 use Sitegeist\FluidStyleguide\Domain\Model\ComponentName;
 use Sitegeist\FluidStyleguide\Exception\RequiredComponentArgumentException;
+use Sitegeist\FluidStyleguide\ViewHelpers\Component\RenderExampleViewHelper;
 use SMS\FluidComponents\Fluid\ViewHelper\ComponentRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
@@ -60,16 +61,17 @@ class ExampleViewHelper extends AbstractViewHelper
             ), 1566377563);
         }
 
-        $fixtureData = $arguments['fixtureData'] ?? [];
+        $component = $arguments['component'];
         $componentContext = $arguments['context'];
+        $fixtureData = $arguments['fixtureData'] ?? [];
 
         if (isset($arguments['fixtureName'])) {
-            $componentFixture = $arguments['component']->getFixture($arguments['fixtureName']);
+            $componentFixture = $component->getFixture($arguments['fixtureName']);
             if (!$componentFixture) {
                 throw new \InvalidArgumentException(sprintf(
                     'Invalid fixture name "%s" specified for component %s.',
                     $arguments['fixtureName'],
-                    $arguments['component']->getName()->getIdentifier()
+                    $component->getName()->getIdentifier()
                 ), 1566377564);
             }
 
@@ -84,25 +86,36 @@ class ExampleViewHelper extends AbstractViewHelper
         }
 
         if ($arguments['execute']) {
-            try {
+            $closure = function (RenderingContextInterface $renderingContext) use ($fixtureData, $component) {
                 // Parse fluid code in fixtures
                 $fixtureData = self::renderFluidInExampleData($fixtureData, $renderingContext);
 
-                $componentMarkup = self::renderComponent(
-                    $arguments['component'],
+                // Render component
+                return self::renderComponent(
+                    $component,
                     $fixtureData,
                     $renderingContext
                 );
+            };
+
+            $contextData = array_replace(
+                $component->getDefaultValues(),
+                $fixtureData
+            );
+
+            try {
+                $viewHelperVariableContainer = $renderingContext->getViewHelperVariableContainer();
+                $previousClosure = $viewHelperVariableContainer->get(RenderExampleViewHelper::class, 'closure');
+                $viewHelperVariableContainer->add(RenderExampleViewHelper::class, 'closure', $closure);
 
                 $componentWithContext = self::applyComponentContext(
-                    $componentMarkup,
+                    '<fsv:component.renderExample />',
                     $componentContext,
                     $renderingContext,
-                    array_replace(
-                        $arguments['component']->getDefaultValues(),
-                        $fixtureData
-                    )
+                    $contextData
                 );
+
+                $viewHelperVariableContainer->add(RenderExampleViewHelper::class, 'closure', $previousClosure);
             } catch (\Exception $e) {
                 if ($arguments['handleExceptions']) {
                     return sprintf(
@@ -117,7 +130,7 @@ class ExampleViewHelper extends AbstractViewHelper
             }
         } else {
             $componentMarkup = static::renderComponentTag(
-                $arguments['component']->getName(),
+                $component->getName(),
                 $fixtureData
             );
 
@@ -226,9 +239,12 @@ class ExampleViewHelper extends AbstractViewHelper
         $context = self::checkObtainComponentContextFromFile($context);
 
         if (isset($renderingContext)) {
-            // Use unique value as component markup marker
-            $marker = '###COMPONENT_MARKUP_' . mt_rand() . '###';
-            $context = str_replace('|', $marker, $context);
+            $renderingContext->getViewHelperResolver()->addNamespace(
+                'fsv',
+                'Sitegeist\\FluidStyleguide\\ViewHelpers'
+            );
+
+            $context = str_replace('|', $componentMarkup, $context);
 
             // Parse fluid tags in context string
             $originalVariableContainer = $renderingContext->getVariableProvider();
@@ -236,8 +252,7 @@ class ExampleViewHelper extends AbstractViewHelper
             $context = $renderingContext->getTemplateParser()->parse($context)->render($renderingContext);
             $renderingContext->setVariableProvider($originalVariableContainer);
 
-            // Wrap component markup
-            return str_replace($marker, $componentMarkup, $context);
+            return $context;
         } else {
             return str_replace('|', $componentMarkup, $context);
         }
