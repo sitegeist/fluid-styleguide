@@ -116,7 +116,10 @@ class ExampleViewHelper extends AbstractViewHelper
             $componentMarkup,
             $componentContext,
             $renderingContext,
-            $fixtureData
+            array_replace(
+                $arguments['component']->getDefaultValues(),
+                $fixtureData
+            )
         );
     }
 
