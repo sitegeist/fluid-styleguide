@@ -142,8 +142,10 @@ class StyleguideController
      *
      * @return void
      */
-    public function downloadComponentZipAction(string $component)
+    public function downloadComponentZipAction(array $arguments = [])
     {
+        $component = $arguments['component'] ?? '';
+
         // Sanitize user input
         if (!$this->styleguideConfigurationManager->isFeatureEnabled('ZipDownload')) {
             return new Response('Zip download is not available', 403);
