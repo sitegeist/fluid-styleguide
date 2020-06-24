@@ -174,7 +174,7 @@ class StyleguideConfigurationManager
             $introFile = GeneralUtility::getFileAbsFileName(
                 $this->mergedConfiguration['Branding']['IntroFile']
             );
-            return file_get_contents($introFile);
+            return ($introFile && file_exists($introFile)) ? (string) file_get_contents($introFile) : '';
         } else {
             return '';
         }
