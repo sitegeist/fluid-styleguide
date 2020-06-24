@@ -171,6 +171,16 @@ class Component
         return $this->arguments;
     }
 
+    public function getDefaultValues(): array
+    {
+        return array_reduce($this->getArguments(), function ($defaults, $argument) {
+            if (!$argument->isRequired()) {
+                $defaults[$argument->getName()] = $argument->getDefaultValue();
+            }
+            return $defaults;
+        }, []);
+    }
+
     protected function getComponentRenderer()
     {
         $componentRenderer = GeneralUtility::makeInstance(ComponentRenderer::class);

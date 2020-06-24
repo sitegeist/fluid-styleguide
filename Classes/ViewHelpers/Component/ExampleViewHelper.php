@@ -7,7 +7,9 @@ use Sitegeist\FluidStyleguide\Domain\Model\Component;
 use Sitegeist\FluidStyleguide\Domain\Model\ComponentName;
 use Sitegeist\FluidStyleguide\Exception\RequiredComponentArgumentException;
 use SMS\FluidComponents\Fluid\ViewHelper\ComponentRenderer;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\Variables\StandardVariableProvider;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
 use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
@@ -91,6 +93,16 @@ class ExampleViewHelper extends AbstractViewHelper
                     $fixtureData,
                     $renderingContext
                 );
+
+                $componentWithContext = self::applyComponentContext(
+                    $componentMarkup,
+                    $componentContext,
+                    $renderingContext,
+                    array_replace(
+                        $arguments['component']->getDefaultValues(),
+                        $fixtureData
+                    )
+                );
             } catch (\Exception $e) {
                 if ($arguments['handleExceptions']) {
                     return sprintf(
@@ -108,12 +120,14 @@ class ExampleViewHelper extends AbstractViewHelper
                 $arguments['component']->getName(),
                 $fixtureData
             );
+
+            $componentWithContext = self::applyComponentContext(
+                $componentMarkup,
+                $componentContext
+            );
         }
 
-        return self::applyComponentContext(
-            $componentMarkup,
-            $componentContext
-        );
+        return $componentWithContext;
     }
 
     /**
@@ -193,14 +207,63 @@ class ExampleViewHelper extends AbstractViewHelper
     /**
      * Wraps component markup in the specified component context (HTML markup)
      * The component markup will replace all pipe characters (|) in the context string
+     * Optionally, a renderingContext and template data can be provided, in which case
+     * the context markup will be treated as fluid markup
      *
      * @param string $componentMarkup
      * @param string $context
+     * @param RenderingContextInterface $renderingContext
+     * @param array $data
      * @return string
      */
-    public static function applyComponentContext(string $componentMarkup, string $context): string
+    public static function applyComponentContext(
+        string $componentMarkup,
+        string $context,
+        RenderingContextInterface $renderingContext = null,
+        array $data = []
+    ): string {
+        // Check if the context should be fetched from a file
+        $context = self::checkObtainComponentContextFromFile($context);
+
+        if (isset($renderingContext)) {
+            // Use unique value as component markup marker
+            $marker = '###COMPONENT_MARKUP_' . mt_rand() . '###';
+            $context = str_replace('|', $marker, $context);
+
+            // Parse fluid tags in context string
+            $originalVariableContainer = $renderingContext->getVariableProvider();
+            $renderingContext->setVariableProvider(new StandardVariableProvider($data));
+            $context = $renderingContext->getTemplateParser()->parse($context)->render($renderingContext);
+            $renderingContext->setVariableProvider($originalVariableContainer);
+
+            // Wrap component markup
+            return str_replace($marker, $componentMarkup, $context);
+        } else {
+            return str_replace('|', $componentMarkup, $context);
+        }
+    }
+
+    /**
+     * Checks if the provided component context is a file path and returns its contents;
+     * falls back to the specified context string.
+     *
+     * @param string $context
+     * @return string
+     */
+    protected static function checkObtainComponentContextFromFile(string $context): string
     {
-        return str_replace('|', $componentMarkup, $context);
+        // Probably not a file path
+        if (strpos($context, '|') !== false) {
+            return $context;
+        }
+
+        // Check if the value is a valid file
+        $path = GeneralUtility::getFileAbsFileName($context);
+        if (!file_exists($path)) {
+            return $context;
+        }
+
+        return file_get_contents($path);
     }
 
     /**

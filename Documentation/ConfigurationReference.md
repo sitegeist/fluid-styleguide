@@ -54,8 +54,9 @@ FluidStyleguide:
     ComponentContext: '<div class="fluidStyleguideComponentSpacing">|</div>'
 ```
 
-Every pipe character within the specified context markup will be replaced with
-the component markup.
+Fluid markup is supported in the component context, which means that you can wrap
+your components in other components in the styleguide. Every pipe character within
+the specified context markup will be replaced with the component markup.
 
 This context can be modified either globally in your FluidStyleguide.yaml or
 individually for each variant of a component in the appropriate fixture file:
@@ -74,6 +75,27 @@ Button.fixture.json:
     "inTwoColumnGrid": {
         ...
         "styleguideComponentContext": "<div class=\"myGrid\"><div class=\"myColumn\">|</div><div class=\"myColumn\">|</div></div>"
+    }
+}
+```
+
+Instead of inline html, you can also specify a path to a file which contains the context markup:
+
+```yaml
+FluidStyleguide:
+    ComponentContext: 'EXT:my_extension/Resources/Private/Components/ComponentContext.html'
+```
+
+or per component:
+
+```json
+{
+    "default": {
+        ...
+    },
+    "onDarkBackground": {
+        ...
+        "styleguideComponentContext": "EXT:my_extension/Resources/Private/Components/DarkComponentContext.html"
     }
 }
 ```
