@@ -15,6 +15,8 @@
     padding-bottom: 64px;
     font-family: var(--styleguide-font-family);
     line-height: 1.7; }
+    .fluidStyleguideList .fluidStyleguideIntro a {
+      color: var(--styleguide-highlight-color); }
     .fluidStyleguideList .fluidStyleguideIntro p {
       max-width: 60em; }
     .fluidStyleguideList .fluidStyleguideIntro::after {

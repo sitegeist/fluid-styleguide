@@ -20,6 +20,10 @@
         font-family: $styleguide-font;
         line-height: 1.7;
 
+        a {
+            color: $highlight;
+        }
+
         p {
             max-width: 60em;
         }
