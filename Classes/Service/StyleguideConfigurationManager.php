@@ -130,7 +130,7 @@ class StyleguideConfigurationManager
                 return $language['identifier'] === $languageKey;
             }
         );
-        return reset($languageMatch) ?? null;
+        return reset($languageMatch) ?: null;
     }
 
     public function getTemplateRootPaths(): array
