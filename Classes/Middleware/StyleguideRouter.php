@@ -72,7 +72,6 @@ class StyleguideRouter implements MiddlewareInterface
 
         // Create controller
         $controller = GeneralUtility::makeInstance(StyleguideController::class);
-        $controller->setRequest($request);
 
         // Validate controller action
         $actionMethod = $actionName . 'Action';
@@ -95,10 +94,6 @@ class StyleguideRouter implements MiddlewareInterface
             );
         }
 
-        // Create view
-        $view = $this->createView('fluidStyleguide', 'Styleguide', $actionName);
-        $controller->initializeView($view);
-
         // Call action
         $actionArguments = array_replace(
             $request->getQueryParams() ?? [],
@@ -120,7 +115,7 @@ class StyleguideRouter implements MiddlewareInterface
                 $GLOBALS['TSFE']->lang = $styleguideLanguage['identifier'];
 
                 // Replace language in request
-                $GLOBALS['TYPO3_REQUEST'] = $request->withAttribute('language', new \TYPO3\CMS\Core\Site\Entity\SiteLanguage(
+                $request = $request->withAttribute('language', new \TYPO3\CMS\Core\Site\Entity\SiteLanguage(
                     0,
                     $styleguideLanguage['locale'],
                     $request->getAttribute('site')->getBase(),
@@ -129,13 +124,19 @@ class StyleguideRouter implements MiddlewareInterface
                         'typo3Language' => $styleguideLanguage['identifier'],
                         'hreflang' => $styleguideLanguage['hreflang'],
                         'direction' => $styleguideLanguage['direction'],
+                        'twoLetterIsoCode' => $styleguideLanguage['twoLetterIsoCode']
                     ]
                 ));
-
-                $view->assign('styleguideLanguage', $styleguideLanguage);
+                $GLOBALS['TYPO3_REQUEST'] = $request;
             }
         }
 
+        // Create view
+        $view = $this->createView('fluidStyleguide', 'Styleguide', $actionName);
+        $controller->setRequest($request);
+        $controller->initializeView($view);
+
+        // Call controller action
         $response = $this->callControllerAction($controller, $actionMethod, $actionArguments);
 
         // Normalize response

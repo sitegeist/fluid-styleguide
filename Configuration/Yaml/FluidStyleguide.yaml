@@ -61,6 +61,7 @@ FluidStyleguide:
     Languages:
         default:
             identifier: default
+            twoLetterIsoCode: en
             locale: en_US.UTF-8
             hreflang: en
             direction: ltr
