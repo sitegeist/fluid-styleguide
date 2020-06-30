@@ -5,6 +5,11 @@
 
 <f:section name="Header">
     <div class="actions">
+        <f:comment>
+            <f:if condition="{styleguideConfiguration.Features.Languages}">
+                <fsc:Atom.languageNavigation listView="1" languages="{styleguideConfiguration.languages}" />
+            </f:if>
+        </f:comment>
         <f:if condition="{styleguideConfiguration.Features.ResponsiveBreakpoints}">
             <fsc:Atom.viewportNavigation listView="1" viewPorts="{styleguideConfiguration.responsiveBreakpoints}" />
         </f:if>

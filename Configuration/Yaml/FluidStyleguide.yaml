@@ -22,6 +22,9 @@ FluidStyleguide:
         # Show demo components in styleguide even if other components exist
         DemoComponents: false
 
+        # Enable/Disable support for multiple languages
+        Languages: false
+
     # Markup that will be wrapped around the component output in the styleguide
     # This can be overwritten per component fixture by specifying
     # "styleguideComponentContext" in the fixture data
@@ -62,3 +65,11 @@ FluidStyleguide:
             - EXT:fluid_styleguide/Resources/Private/Partials
         LayoutRootPaths:
             - EXT:fluid_styleguide/Resources/Private/Layouts
+
+    Languages:
+        -
+            identifier: default
+            locale: en_US.UTF-8
+            hreflang: en
+            direction: ltr
+            label: English
