@@ -8,12 +8,13 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Sitegeist\FluidStyleguide\Controller\StyleguideController;
+use Sitegeist\FluidStyleguide\Service\StyleguideConfigurationManager;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Http\RedirectResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
-use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 class StyleguideRouter implements MiddlewareInterface
@@ -103,6 +104,38 @@ class StyleguideRouter implements MiddlewareInterface
             $request->getQueryParams() ?? [],
             $request->getParsedBody() ?? []
         );
+
+        // Initialize styleguide configuration
+        $styleguideConfigurationManager = GeneralUtility::makeInstance(StyleguideConfigurationManager::class);
+
+        // Initialize language handling
+        if ($styleguideConfigurationManager->isFeatureEnabled('Languages')) {
+            // Determine language based on GET parameter
+            $styleguideLanguage = $styleguideConfigurationManager->getLanguage(
+                $actionArguments['language'] ?? 'default'
+            );
+
+            if ($styleguideLanguage) {
+                // Set language in TSFE object
+                $GLOBALS['TSFE']->lang = $styleguideLanguage['identifier'];
+
+                // Replace language in request
+                $GLOBALS['TYPO3_REQUEST'] = $request->withAttribute('language', new \TYPO3\CMS\Core\Site\Entity\SiteLanguage(
+                    0,
+                    $styleguideLanguage['locale'],
+                    $request->getAttribute('site')->getBase(),
+                    [
+                        'title' => $styleguideLanguage['label'],
+                        'typo3Language' => $styleguideLanguage['identifier'],
+                        'hreflang' => $styleguideLanguage['hreflang'],
+                        'direction' => $styleguideLanguage['direction'],
+                    ]
+                ));
+
+                $view->assign('styleguideLanguage', $styleguideLanguage);
+            }
+        }
+
         $response = $this->callControllerAction($controller, $actionMethod, $actionArguments);
 
         // Normalize response
