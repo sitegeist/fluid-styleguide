@@ -13,6 +13,7 @@ use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Http\RedirectResponse;
+use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
@@ -100,10 +101,8 @@ class StyleguideRouter implements MiddlewareInterface
             $request->getParsedBody() ?? []
         );
 
-        // Initialize styleguide configuration
-        $styleguideConfigurationManager = GeneralUtility::makeInstance(StyleguideConfigurationManager::class);
-
         // Initialize language handling
+        $styleguideConfigurationManager = GeneralUtility::makeInstance(StyleguideConfigurationManager::class);
         if ($styleguideConfigurationManager->isFeatureEnabled('Languages')) {
             // Determine language based on GET parameter
             $styleguideLanguage = $styleguideConfigurationManager->getLanguage(
@@ -115,7 +114,7 @@ class StyleguideRouter implements MiddlewareInterface
                 $GLOBALS['TSFE']->lang = $styleguideLanguage['identifier'];
 
                 // Replace language in request
-                $request = $request->withAttribute('language', new \TYPO3\CMS\Core\Site\Entity\SiteLanguage(
+                $request = $request->withAttribute('language', new SiteLanguage(
                     0,
                     $styleguideLanguage['locale'],
                     $request->getAttribute('site')->getBase(),
