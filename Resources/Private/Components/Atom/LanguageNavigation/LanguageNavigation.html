@@ -1,0 +1,21 @@
+<fc:component>
+    <fc:param name="languages" type="array" />
+    <fc:param name="listView" type="boolean" optional="1" default="0"/>
+
+    <fc:renderer>
+        <div class="languageNavigation" {f:if(condition: listView, then: 'data-listview="true"')} data-component="LanguageNavigation">
+            <div class="dropdownLabel">
+                <f:for each="{languages}" as="item" iteration="iterator">
+                    <f:if condition="{iterator.isFirst}">
+                        <li>{item.label}</li>
+                    </f:if>
+                </f:for>
+            </div>
+            <ul class="dropdownContent">
+                <f:for each="{languages}" as="item" iteration="iterator">
+                    <li {f:if(condition: iterator.isFirst, then: 'style="display:none"')} class="languageItem {f:if(condition: iterator.isFirst, then: 'active')}" data-language="{item.identifier}">{item.label}</li>
+                </f:for>
+            </ul>
+        </div>
+    </fc:renderer>
+</fc:component>

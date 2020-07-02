@@ -128,6 +128,9 @@ FluidStyleguide:
 
         # Show demo components in styleguide even if other components exist
         DemoComponents: false
+
+        # Enable/Disable support for multiple languages
+        Languages: false
 ```
 
 ## Intro text and branding
@@ -161,4 +164,25 @@ FluidStyleguide:
         Desktop: '100%'
         Tablet: '800px'
         Mobile: '400px'
+```
+
+## Support for multiple languages
+
+The styleguide has basic support for multiple languages. First, you need to enable the feature
+flag. Then you can specify the languages that should be available in the styleguide. The `default`
+language is predefined in the [default configuration file](./Configuration/Yaml/FluidStyleguide.yaml).
+
+```yaml
+FluidStyleguide:
+    Features:
+        Languages: true
+
+    Languages:
+        de:
+            identifier: de
+            twoLetterIsoCode: de
+            locale: de_DE.UTF-8
+            hreflang: de
+            direction: ltr
+            label: Deutsch
 ```

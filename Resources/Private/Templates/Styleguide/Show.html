@@ -26,6 +26,9 @@
 
     <div class="actions">
         <fsc:atom.StyleguideRefreshIFrame />
+        <f:if condition="{styleguideConfiguration.Features.Languages}">
+            <fsc:Atom.languageNavigation languages="{styleguideConfiguration.languages}" />
+        </f:if>
         <f:if condition="{styleguideConfiguration.Features.ResponsiveBreakpoints}">
             <fsc:Atom.viewportNavigation viewPorts="{styleguideConfiguration.responsiveBreakpoints}" />
         </f:if>
