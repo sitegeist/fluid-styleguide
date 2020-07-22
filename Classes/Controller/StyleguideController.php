@@ -142,8 +142,10 @@ class StyleguideController
      *
      * @return void
      */
-    public function downloadComponentZipAction(string $component)
+    public function downloadComponentZipAction(array $arguments = [])
     {
+        $component = $arguments['component'] ?? '';
+
         // Sanitize user input
         if (!$this->styleguideConfigurationManager->isFeatureEnabled('ZipDownload')) {
             return new Response('Zip download is not available', 403);
@@ -183,6 +185,7 @@ class StyleguideController
 
         $this->view->assignMultiple([
             'styleguideConfiguration' => $this->styleguideConfigurationManager,
+            'styleguideLanguage' => $this->request->getAttribute('language'),
             'sitename' => $GLOBALS['TYPO3_CONF_VARS']['SYS']['sitename'] ?? '',
             'baseUri' => $this->request->getAttribute('site')->getBase()
         ]);

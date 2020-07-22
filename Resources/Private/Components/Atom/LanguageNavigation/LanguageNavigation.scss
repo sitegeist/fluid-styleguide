@@ -1,0 +1,62 @@
+.languageNavigation {
+    display: flex;
+    color: $white;
+    height: 100%;
+    align-items: center;
+    font-size: 13px;
+    list-style: none;
+
+    &:hover .dropdownContent {
+        display: block;
+    }
+
+    .dropdownLabel {
+        color: $highlight;
+        padding: 16px 0;
+        border: 0 none;
+        cursor: pointer;
+        margin: 0 16px;
+    }
+
+    .dropdownContent  {
+        position: absolute;
+        background-color: $dark-grey-0;
+        padding: 16px;
+        min-width: 82px;
+        z-index: 1;
+        top: 43px;
+        display: none;
+        padding-top: 0;
+
+        &:hover {
+            display: block;
+        }
+
+        li {
+            color: $white;
+            margin-top: 16px;
+            text-decoration: none;
+            cursor: pointer;
+            list-style: none;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+
+            &.rulerOption {
+                &.activeRulerOption {
+                    color: $highlight;
+                }
+            }
+
+            &:hover {
+                color: $highlight;
+            }
+        }
+    }
+
+}
+
+
+
+

@@ -15,6 +15,8 @@
     padding-bottom: 64px;
     font-family: var(--styleguide-font-family);
     line-height: 1.7; }
+    .fluidStyleguideList .fluidStyleguideIntro a {
+      color: inherit; }
     .fluidStyleguideList .fluidStyleguideIntro p {
       max-width: 60em; }
     .fluidStyleguideList .fluidStyleguideIntro::after {
@@ -372,6 +374,45 @@
       .viewportNavigation .dropdownContent li.rulerOption.activeRulerOption {
         color: var(--styleguide-highlight-color); }
       .viewportNavigation .dropdownContent li:hover {
+        color: var(--styleguide-highlight-color); }
+
+.languageNavigation {
+  display: flex;
+  color: #FFFFFF;
+  height: 100%;
+  align-items: center;
+  font-size: 13px;
+  list-style: none; }
+  .languageNavigation:hover .dropdownContent {
+    display: block; }
+  .languageNavigation .dropdownLabel {
+    color: var(--styleguide-highlight-color);
+    padding: 16px 0;
+    border: 0 none;
+    cursor: pointer;
+    margin: 0 16px; }
+  .languageNavigation .dropdownContent {
+    position: absolute;
+    background-color: #222425;
+    padding: 16px;
+    min-width: 82px;
+    z-index: 1;
+    top: 43px;
+    display: none;
+    padding-top: 0; }
+    .languageNavigation .dropdownContent:hover {
+      display: block; }
+    .languageNavigation .dropdownContent li {
+      color: #FFFFFF;
+      margin-top: 16px;
+      text-decoration: none;
+      cursor: pointer;
+      list-style: none; }
+      .languageNavigation .dropdownContent li:last-child {
+        margin-bottom: 0; }
+      .languageNavigation .dropdownContent li.rulerOption.activeRulerOption {
+        color: var(--styleguide-highlight-color); }
+      .languageNavigation .dropdownContent li:hover {
         color: var(--styleguide-highlight-color); }
 
 .editFixtures .editFixturesFixtureFormItem {

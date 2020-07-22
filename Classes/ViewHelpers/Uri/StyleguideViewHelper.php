@@ -19,6 +19,7 @@ class StyleguideViewHelper extends AbstractViewHelper
     {
         $this->registerArgument('action', 'string', 'Action name', true);
         $this->registerArgument('arguments', 'array', 'Action arguments', false, []);
+        $this->registerArgument('section', 'string', 'the anchor to be added to the URI', false, '');
     }
 
     /**
@@ -40,7 +41,8 @@ class StyleguideViewHelper extends AbstractViewHelper
         // TODO generate relative urls
         return static::getCurrentSite()->getBase()
             ->withPath($prefix . $arguments['action'])
-            ->withQuery(http_build_query($arguments['arguments']));
+            ->withQuery(http_build_query($arguments['arguments']))
+            ->withFragment($arguments['section']);
     }
 
     /**

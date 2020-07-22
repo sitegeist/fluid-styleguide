@@ -3,6 +3,8 @@
 Fluid Styleguide is a design collaboration tool for TYPO3 projects. It supports frontend developers in creating reusable
 components and encourages effective communication across all project stakeholders.
 
+**[Try the live demo](https://fluidcomponents.sitegeist.de/fluid-styleguide/list)**
+
 ## Target Groups
 
 Fluid Styleguide can be a useful tool for all project stakeholders:

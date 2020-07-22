@@ -74,6 +74,7 @@ class StyleguideConfigurationManager
         }
 
         $this->mergedConfiguration['ResponsiveBreakpoints'] = array_filter($this->mergedConfiguration['ResponsiveBreakpoints']);
+        $this->mergedConfiguration['Languages'] = array_filter($this->mergedConfiguration['Languages']);
     }
 
     public function getFeatures(): array
@@ -114,6 +115,22 @@ class StyleguideConfigurationManager
     public function getResponsiveBreakpoints(): array
     {
         return $this->mergedConfiguration['ResponsiveBreakpoints'] ?? [];
+    }
+
+    public function getLanguages(): array
+    {
+        return $this->mergedConfiguration['Languages'] ?? [];
+    }
+
+    public function getLanguage($languageKey): ?array
+    {
+        $languageMatch = array_filter(
+            $this->getLanguages(),
+            function ($language) use ($languageKey) {
+                return $language['identifier'] === $languageKey;
+            }
+        );
+        return reset($languageMatch) ?: null;
     }
 
     public function getTemplateRootPaths(): array
@@ -174,7 +191,7 @@ class StyleguideConfigurationManager
             $introFile = GeneralUtility::getFileAbsFileName(
                 $this->mergedConfiguration['Branding']['IntroFile']
             );
-            return file_get_contents($introFile);
+            return ($introFile && file_exists($introFile)) ? (string) file_get_contents($introFile) : '';
         } else {
             return '';
         }

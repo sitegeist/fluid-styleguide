@@ -8,12 +8,14 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Sitegeist\FluidStyleguide\Controller\StyleguideController;
+use Sitegeist\FluidStyleguide\Service\StyleguideConfigurationManager;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Http\RedirectResponse;
+use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
-use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 class StyleguideRouter implements MiddlewareInterface
@@ -71,7 +73,6 @@ class StyleguideRouter implements MiddlewareInterface
 
         // Create controller
         $controller = GeneralUtility::makeInstance(StyleguideController::class);
-        $controller->setRequest($request);
 
         // Validate controller action
         $actionMethod = $actionName . 'Action';
@@ -94,15 +95,47 @@ class StyleguideRouter implements MiddlewareInterface
             );
         }
 
-        // Create view
-        $view = $this->createView('fluidStyleguide', 'Styleguide', $actionName);
-        $controller->initializeView($view);
-
         // Call action
         $actionArguments = array_replace(
             $request->getQueryParams() ?? [],
             $request->getParsedBody() ?? []
         );
+
+        // Initialize language handling
+        $styleguideConfigurationManager = GeneralUtility::makeInstance(StyleguideConfigurationManager::class);
+        if ($styleguideConfigurationManager->isFeatureEnabled('Languages')) {
+            // Determine language based on GET parameter
+            $styleguideLanguage = $styleguideConfigurationManager->getLanguage(
+                $actionArguments['language'] ?? 'default'
+            );
+
+            if ($styleguideLanguage) {
+                // Set language in TSFE object
+                $GLOBALS['TSFE']->lang = $styleguideLanguage['identifier'];
+
+                // Replace language in request
+                $request = $request->withAttribute('language', new SiteLanguage(
+                    0,
+                    $styleguideLanguage['locale'],
+                    $request->getAttribute('site')->getBase(),
+                    [
+                        'title' => $styleguideLanguage['label'],
+                        'typo3Language' => $styleguideLanguage['identifier'],
+                        'hreflang' => $styleguideLanguage['hreflang'],
+                        'direction' => $styleguideLanguage['direction'],
+                        'twoLetterIsoCode' => $styleguideLanguage['twoLetterIsoCode']
+                    ]
+                ));
+                $GLOBALS['TYPO3_REQUEST'] = $request;
+            }
+        }
+
+        // Create view
+        $view = $this->createView('fluidStyleguide', 'Styleguide', $actionName);
+        $controller->setRequest($request);
+        $controller->initializeView($view);
+
+        // Call controller action
         $response = $this->callControllerAction($controller, $actionMethod, $actionArguments);
 
         // Normalize response
