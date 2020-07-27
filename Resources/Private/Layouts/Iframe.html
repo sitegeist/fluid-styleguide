@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="{cssFile}" />
     </f:for>
     <f:for each="{componentCss}" as="cssFile">
-        <link rel="stylesheet" href="{cssFile}" />
+        <link rel="stylesheet" href="{fsv:uri.asset(fileName: cssFile)}" />
     </f:for>
 </head>
 <body>
@@ -39,7 +39,7 @@
     <script src="{javascriptFile}"></script>
 </f:for>
 <f:for each="{componentJavascript}" as="javascriptFile">
-    <script src="{javascriptFile}"></script>
+    <script src="{fsv:uri.asset(fileName: javascriptFile)}"></script>
 </f:for>
 
 </body>
