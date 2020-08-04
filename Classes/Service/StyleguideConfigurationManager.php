@@ -211,10 +211,11 @@ class StyleguideConfigurationManager
                 // TODO generate relative urls
                 $asset = GeneralUtility::getFileAbsFileName($asset);
                 if ($asset) {
+                    $modified = filemtime($asset);
                     $asset = $baseUrl->withPath(
                         $baseUrl->getPath() .
                         PathUtility::stripPathSitePrefix(GeneralUtility::getFileAbsFileName($asset))
-                    );
+                    )->withQuery('?' . $modified);
                 } else {
                     unset($assets[$key]);
                 }
