@@ -79,6 +79,8 @@ To add your own components to the styleguide, just follow these additional steps
 
 5. Start [building your own components](./Documentation/BuildingComponents.md) using Fluid Components and fixture files
 
+If you have any questions, need support or want to discuss components in TYPO3, feel free to join [#ext-fluid_components](https://typo3.slack.com/archives/ext-fluid_components).
+
 ## Documentation
 
 * [Building Components with Fluid Styleguide](./Documentation/BuildingComponents.md)
