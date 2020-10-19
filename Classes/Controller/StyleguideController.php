@@ -6,13 +6,16 @@ namespace Sitegeist\FluidStyleguide\Controller;
 use Psr\Http\Message\ServerRequestInterface;
 use Sitegeist\FluidStyleguide\Domain\Model\ComponentMetadata;
 use Sitegeist\FluidStyleguide\Domain\Repository\ComponentRepository;
+use Sitegeist\FluidStyleguide\Event\PostProcessComponentViewEvent;
 use Sitegeist\FluidStyleguide\Service\ComponentDownloadService;
 use Sitegeist\FluidStyleguide\Service\StyleguideConfigurationManager;
 use SMS\FluidComponents\Utility\ComponentLoader;
+use TYPO3\CMS\Core\EventDispatcher\EventDispatcher;
 use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
 use TYPO3Fluid\Fluid\View\TemplateView;
 
 class StyleguideController
@@ -135,6 +138,23 @@ class StyleguideController
             'fixtureName' => $fixture,
             'fixtureData' => $formData
         ]);
+
+        $renderedView = $this->view->render();
+
+        $event = new PostProcessComponentViewEvent($component, $fixture, $formData, $renderedView);
+        if (version_compare(TYPO3_version, '10.0', '>=')) {
+            $eventDispatcher = GeneralUtility::makeInstance(EventDispatcher::class);
+            $event = $eventDispatcher->dispatch($event);
+        } else {
+            $signalSlotDispatcher = GeneralUtility::makeInstance(Dispatcher::class);
+            $signalSlotDispatcher->dispatch(__CLASS__, 'postProcessComponentView', [$event]);
+        }
+
+        $renderedView = $event->getRenderedView();
+        $renderedView = str_replace('<!-- ###ADDITIONAL_HEADER_DATA### -->', implode('', $event->getHeaderData()), $renderedView);
+        $renderedView = str_replace('<!-- ###ADDITIONAL_FOOTER_DATA### -->', implode('', $event->getFooterData()), $renderedView);
+
+        return $renderedView;
     }
 
     /**
