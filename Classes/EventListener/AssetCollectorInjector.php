@@ -20,7 +20,7 @@ final class AssetCollectorInjector
 
         // Add css files to head
         foreach ($assetCollector->getStyleSheets() as $assetData) {
-            $assetData['attributes']['href'] = $this->getAbsoluteWebPath($cssFile['source']);
+            $assetData['attributes']['href'] = $this->getAbsoluteWebPath($assetData['source']);
             $assetData['attributes']['rel'] = $assetData['attributes']['rel'] ?? 'stylesheet';
             $assetData['attributes']['type'] = $assetData['attributes']['type'] ?? 'text/css';
             $event->addHeaderData(
