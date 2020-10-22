@@ -251,16 +251,10 @@
       color: var(--styleguide-highlight-color); }
     .styleguideSelect input[type='text']:focus {
       color: var(--styleguide-highlight-color); }
-    .styleguideSelect input[type='text']::-webkit-input-placeholder {
-      color: #757575;
-      font-size: 13px; }
     .styleguideSelect input[type='text']::-moz-placeholder {
       color: #757575;
       font-size: 13px; }
     .styleguideSelect input[type='text']:-ms-input-placeholder {
-      color: #757575;
-      font-size: 13px; }
-    .styleguideSelect input[type='text']::-ms-input-placeholder {
       color: #757575;
       font-size: 13px; }
     .styleguideSelect input[type='text']::placeholder {
