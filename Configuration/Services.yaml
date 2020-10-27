@@ -1,0 +1,14 @@
+services:
+    Sitegeist\FluidStyleguide\EventListener\AssetCollectorExtensionInjector:
+        tags:
+            -
+                name: event.listener
+                method: 'injectJsAndCssFromAssetCollectorExtension'
+                event: Sitegeist\FluidStyleguide\Event\PostProcessComponentViewEvent
+
+    Sitegeist\FluidStyleguide\EventListener\AssetCollectorInjector:
+        tags:
+            -
+                name: event.listener
+                method: 'injectJsAndCssFromAssetCollector'
+                event: Sitegeist\FluidStyleguide\Event\PostProcessComponentViewEvent
