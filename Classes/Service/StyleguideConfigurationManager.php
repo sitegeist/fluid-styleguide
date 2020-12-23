@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace Sitegeist\FluidStyleguide\Service;
 
 use Sitegeist\FluidStyleguide\Domain\Model\Package;
+use Sitegeist\FluidStyleguide\Exception\InvalidAssetException;
 use TYPO3\CMS\Core\Configuration\Loader\YamlFileLoader;
+use TYPO3\CMS\Core\Http\Uri;
 use TYPO3\CMS\Core\Package\PackageManager;
 use TYPO3\CMS\Core\Site\Entity\SiteInterface;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
@@ -112,6 +114,16 @@ class StyleguideConfigurationManager
         return $this->mergedConfiguration['ComponentAssets']['Packages'][$package->getNamespace()]['Javascript'] ?? [];
     }
 
+    public function getStyleguideCss(): Uri
+    {
+        return $this->generateAssetUrl('EXT:fluid_styleguide/Resources/Public/Css/Styleguide.min.css');
+    }
+
+    public function getStyleguideJavascript(): Uri
+    {
+        return $this->generateAssetUrl('EXT:fluid_styleguide/Resources/Public/Javascript/Styleguide.min.js');
+    }
+
     public function getResponsiveBreakpoints(): array
     {
         return $this->mergedConfiguration['ResponsiveBreakpoints'] ?? [];
@@ -205,23 +217,37 @@ class StyleguideConfigurationManager
             return [];
         }
 
-        $baseUrl = static::getCurrentSite()->getBase();
         foreach ($assets as $key => &$asset) {
             if (!static::isRemoteUri($asset)) {
-                // TODO generate relative urls
-                $asset = GeneralUtility::getFileAbsFileName($asset);
-                if ($asset) {
-                    $modified = filemtime($asset);
-                    $asset = $baseUrl->withPath(
-                        $baseUrl->getPath() .
-                        PathUtility::stripPathSitePrefix(GeneralUtility::getFileAbsFileName($asset))
-                    )->withQuery('?' . $modified);
-                } else {
+                try {
+                    $asset = $this->generateAssetUrl($asset);
+                } catch (InvalidAssetException $e) {
                     unset($assets[$key]);
                 }
             }
         }
         return $assets;
+    }
+
+    /**
+     * Generates an asset (js/css) url without throwing away any url prefixes
+     *
+     * @param string $path
+     * @return Uri
+     */
+    protected function generateAssetUrl(string $path): Uri
+    {
+        $path = GeneralUtility::getFileAbsFileName($path);
+        if (!$path) {
+            throw new InvalidAssetException(sprintf('Asset not found: %s', $path), 1608723092);
+        }
+
+        $baseUrl = static::getCurrentSite()->getBase();
+        $modified = filemtime($path);
+        return $baseUrl->withPath(
+            $baseUrl->getPath() .
+            PathUtility::stripPathSitePrefix(GeneralUtility::getFileAbsFileName($path))
+        )->withQuery('?' . $modified);
     }
 
     /**
