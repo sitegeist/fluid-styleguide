@@ -1,4 +1,3 @@
-import "@babel/polyfill";
 import "iframe-resizer/js/iframeResizer";
 
 import '../Components/Atom/StyleguideRefreshIFrame/StyleguideRefreshIFrame';
