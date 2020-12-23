@@ -13,10 +13,20 @@
 
     <style>{styleguideConfiguration.brandingCss -> f:format.raw()}</style>
     <f:for each="{styleguideConfiguration.globalCss}" as="cssFile">
-        <link rel="stylesheet" href="{cssFile}" />
+        <link rel="stylesheet" href="{f:if(condition: cssFile.file, then: cssFile.file, else: cssFile)}" />
     </f:for>
     <f:for each="{componentCss}" as="cssFile">
-        <link rel="stylesheet" href="{cssFile}" />
+        <link rel="stylesheet" href="{f:if(condition: cssFile.file, then: cssFile.file, else: cssFile)}" />
+    </f:for>
+    <f:for each="{styleguideConfiguration.globalJavascript}" as="javascriptFile">
+        <f:if condition="{javascriptFile.position} == 'head'">
+            <script src="{f:if(condition: javascriptFile.file, then: javascriptFile.file, else: javascriptFile)}"></script>
+        </f:if>
+    </f:for>
+    <f:for each="{componentJavascript}" as="javascriptFile">
+        <f:if condition="{javascriptFile.position} == 'head'">
+            <script src="{f:if(condition: javascriptFile.file, then: javascriptFile.file, else: javascriptFile)}"></script>
+        </f:if>
     </f:for>
     <!-- ###ADDITIONAL_HEADER_DATA### -->
 </head>
@@ -37,10 +47,14 @@
 <div data-iframe-height="1"></div>
 
 <f:for each="{styleguideConfiguration.globalJavascript}" as="javascriptFile">
-    <script src="{javascriptFile}"></script>
+    <f:if condition="{javascriptFile.position} != 'head'">
+        <script src="{f:if(condition: javascriptFile.file, then: javascriptFile.file, else: javascriptFile)}"></script>
+    </f:if>
 </f:for>
 <f:for each="{componentJavascript}" as="javascriptFile">
-    <script src="{javascriptFile}"></script>
+    <f:if condition="{javascriptFile.position} != 'head'">
+        <script src="{f:if(condition: javascriptFile.file, then: javascriptFile.file, else: javascriptFile)}"></script>
+    </f:if>
 </f:for>
 <!-- ###ADDITIONAL_FOOTER_DATA### -->
 

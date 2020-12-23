@@ -36,6 +36,19 @@ FluidStyleguide:
                 - EXT:my_extension/Resources/Public/Javascript/Global.min.js
 ```
 
+For JavaScript assets, you can define if they should be added to the `<head>` or to the
+bottom of the page (which is the default):
+
+```yaml
+FluidStyleguide:
+    ComponentAssets:
+        Global:
+            Javascript:
+                - 
+                    file: EXT:my_extension/Resources/Public/Javascript/Global.min.js
+                    position: head
+```
+
 ## Modifying the component context
 
 While most components can function without a specific context around them, for
