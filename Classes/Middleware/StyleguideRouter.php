@@ -13,9 +13,11 @@ use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Http\RedirectResponse;
+use TYPO3\CMS\Core\Routing\PageArguments;
 use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
+use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 class StyleguideRouter implements MiddlewareInterface
@@ -90,8 +92,8 @@ class StyleguideRouter implements MiddlewareInterface
                 $this->context,
                 $GLOBALS['TYPO3_CURRENT_SITE'],
                 $request->getAttribute('language', $site->getDefaultLanguage()),
-                $request->getAttribute('routing', null),
-                $request->getAttribute('frontend.user', null)
+                new PageArguments(0, '0', []),
+                GeneralUtility::makeInstance(FrontendUserAuthentication::class)
             );
         }
 
