@@ -218,9 +218,16 @@ class StyleguideConfigurationManager
         }
 
         foreach ($assets as $key => &$asset) {
-            if (!static::isRemoteUri($asset)) {
+            // Support both strings and arrays with additional asset information
+            if (is_array($asset) && $asset['file']) {
+                $file =& $asset['file'];
+            } else {
+                $file =& $asset;
+            }
+
+            if (!static::isRemoteUri($file)) {
                 try {
-                    $asset = $this->generateAssetUrl($asset);
+                    $file = $this->generateAssetUrl($file);
                 } catch (InvalidAssetException $e) {
                     unset($assets[$key]);
                 }
