@@ -38,7 +38,8 @@
     "extra": {
         "typo3/cms": {
             "cms-package-dir": "{$vendor-dir}/typo3/cms",
-            "web-dir": ".Build/Web"
+            "web-dir": ".Build/Web",
+            "extension-key": "fluid_styleguide"
         }
     },
     "scripts": {
@@ -48,6 +49,9 @@
         ],
         "lint:php": "phpcs --standard=PSR2 --extensions=php --exclude=Generic.Files.LineLength --ignore='\\.Build,Tests,ext_emconf\\.php,Resources/Private/Php/' .",
         "lint:editorconfig": "ec .",
-        "test": "phpunit -c .Build/vendor/typo3/testing-framework/Resources/Core/Build/UnitTests.xml Tests/"
+        "test": "phpunit -c .Build/vendor/typo3/testing-framework/Resources/Core/Build/UnitTests.xml Tests/",
+        "prepare-release": [
+            "rm -r .github .ecrc .sass-lint.yml .editorconfig .gitattributes Tests"
+        ]
     }
 }
