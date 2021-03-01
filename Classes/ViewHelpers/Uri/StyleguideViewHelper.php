@@ -39,10 +39,13 @@ class StyleguideViewHelper extends AbstractViewHelper
             ->get('fluid_styleguide', 'uriPrefix');
         $prefix = rtrim($prefix, '/') . '/';
         // TODO generate relative urls
-        return static::getCurrentSite()->getBase()
+
+        $baseUrl = static::getCurrentSite()->getBase();
+        return $baseUrl
             ->withPath($prefix . $arguments['action'])
             ->withQuery(http_build_query($arguments['arguments']))
-            ->withFragment($arguments['section']);
+            ->withFragment($arguments['section'])
+            ->withPort(GeneralUtility::getIndpEnv('TYPO3_PORT') ?: null);
     }
 
     /**

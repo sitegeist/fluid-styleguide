@@ -251,10 +251,13 @@ class StyleguideConfigurationManager
 
         $baseUrl = static::getCurrentSite()->getBase();
         $modified = filemtime($path);
-        return $baseUrl->withPath(
-            $baseUrl->getPath() .
-            PathUtility::stripPathSitePrefix(GeneralUtility::getFileAbsFileName($path))
-        )->withQuery('?' . $modified);
+        return $baseUrl
+            ->withPath(
+                $baseUrl->getPath() .
+                PathUtility::stripPathSitePrefix(GeneralUtility::getFileAbsFileName($path))
+            )
+            ->withQuery('?' . $modified)
+            ->withPort(GeneralUtility::getIndpEnv('TYPO3_PORT') ?: null);
     }
 
     /**
