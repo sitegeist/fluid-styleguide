@@ -20,6 +20,7 @@ class StyleguideViewHelper extends AbstractViewHelper
         $this->registerArgument('action', 'string', 'Action name', true);
         $this->registerArgument('arguments', 'array', 'Action arguments', false, []);
         $this->registerArgument('section', 'string', 'the anchor to be added to the URI', false, '');
+        $this->registerArgument('relative', 'bool', 'generate a relative path', false, true);
     }
 
     /**
@@ -38,9 +39,19 @@ class StyleguideViewHelper extends AbstractViewHelper
         $prefix = GeneralUtility::makeInstance(ExtensionConfiguration::class)
             ->get('fluid_styleguide', 'uriPrefix');
         $prefix = rtrim($prefix, '/') . '/';
-        // TODO generate relative urls
 
         $baseUrl = static::getCurrentSite()->getBase();
+
+        // reset scheme and host to return a relative path
+        if ($arguments['relative'] === true) {
+            return $baseUrl
+                ->withScheme('')
+                ->withHost('')
+                ->withPath($prefix . $arguments['action'])
+                ->withQuery(http_build_query($arguments['arguments']))
+                ->withFragment($arguments['section']);
+        }
+
         return $baseUrl
             ->withPath($prefix . $arguments['action'])
             ->withQuery(http_build_query($arguments['arguments']))
