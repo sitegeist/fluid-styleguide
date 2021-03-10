@@ -16,7 +16,7 @@
                             component: activeComponent.name.identifier
                         }
                     )}" {f:if(condition: '{fixture.name} == {activeFixture}', then: 'selected')}>
-                        {fixture.name}
+                        {f:if(condition: fixture.data.styleguideFixtureLabel, then: fixture.data.styleguideFixtureLabel, else: fixture.name)}
                     </option>
                 </f:for>
             </select>
