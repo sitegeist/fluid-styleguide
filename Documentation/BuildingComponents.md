@@ -146,6 +146,14 @@ You can use [data structures with argument converters](https://github.com/sitege
 }
 ```
 
+You can provide a label for each fixture:
+
+```json
+    "onDarkBackground": {
+        "styleguideFixtureLabel": "On dark background",
+    },
+```
+
 You can override the default [component context](./ConfigurationReference.md) for each fixture:
 
 ```json
