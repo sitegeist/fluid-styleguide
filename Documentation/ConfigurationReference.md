@@ -144,6 +144,10 @@ FluidStyleguide:
 
         # Enable/Disable support for multiple languages
         Languages: false
+
+        # Show code quality tab in component detail view
+        # uses fluid-components-linter to provide hints to potential problems
+        CodeQuality: true
 ```
 
 ## Intro text and branding
@@ -178,6 +182,19 @@ FluidStyleguide:
         Tablet: '800px'
         Mobile: '400px'
 ```
+
+## Check for code quality problems
+
+If [fluid-components-linter](https://github.com/sitegeist/fluid-components-linter) is installed in
+your project and the code quality feature is enabled, a code quality tab will appear in the styleguide
+detail view. It lists all code quality problems of the current component.
+
+The default configuration of the linter will be used, however the styleguide checks the following
+locations for a `.fclint.json` file:
+
+* component directory (e. g. `EXT:my_extension/Resources/Private/Components/MyComponent/.fclint.json`)
+* component package directory (e. g. `EXT:my_extension/Resources/Private/Components/.fclint.json`)
+* extension directory (e. g. `EXT:my_extension/.fclint.json`)
 
 ## Support for multiple languages
 

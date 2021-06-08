@@ -26,7 +26,7 @@ FluidStyleguide:
         Languages: false
 
         # Show code quality tab in component detail view
-        # uses fluid-components-linter provide hints to potential problems
+        # uses fluid-components-linter to provide hints to potential problems
         CodeQuality: true
 
     # Markup that will be wrapped around the component output in the styleguide

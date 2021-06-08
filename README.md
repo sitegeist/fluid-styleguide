@@ -22,6 +22,7 @@ Fluid Styleguide can be a useful tool for all project stakeholders:
 * integrated component documentation
 * support for multiple languages
 * support for frontend assets provided by TYPO3's asset collector
+* shows code quality problems based on [fluid-components-linter](https://github.com/sitegeist/fluid-components-linter)
 * basic skinning to fit the project's brand colors
 * zip download
 * easy and flexible configuration via [yaml file](./Documentation/ConfigurationReference.md)
