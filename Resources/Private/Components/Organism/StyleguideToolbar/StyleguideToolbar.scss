@@ -253,4 +253,51 @@
         }
     }
 
+    .qualityIssues {
+        list-style: none;
+        padding: 0;
+        border-bottom: $white solid;
+        border-width: 1px 1px 0;
+        border-spacing: 0;
+        min-width: 100%;
+
+        th, td {
+            padding: 12px 8px;
+            border-bottom: 1px $white solid;
+        }
+
+        th {
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .qualityIssueSeverity {
+            text-align: center;
+            padding: 12px 4px;
+
+            span {
+                padding: .4em .8em;
+            }
+        }
+
+        .qualityIssueMessage {
+            width: 100%;
+        }
+
+        .qualityIssue {
+            &--major,
+            &--critical,
+            &--blocker {
+                .qualityIssueSeverity span {
+                    background: $issue-major;
+                    font-weight: bold;
+                }
+            }
+
+            &--minor .qualityIssueSeverity span {
+                background: $issue-minor;
+                font-weight: bold;
+            }
+        }
+    }
 }

@@ -25,6 +25,10 @@ FluidStyleguide:
         # Enable/Disable support for multiple languages
         Languages: false
 
+        # Show code quality tab in component detail view
+        # uses fluid-components-linter provide hints to potential problems
+        CodeQuality: true
+
     # Markup that will be wrapped around the component output in the styleguide
     # This can be overwritten per component fixture by specifying
     # "styleguideComponentContext" in the fixture data

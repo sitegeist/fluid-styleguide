@@ -650,6 +650,32 @@
     .styleguideToolbar .componentDocumentation pre > code {
       padding: 0;
       border-radius: 0; }
+  .styleguideToolbar .qualityIssues {
+    list-style: none;
+    padding: 0;
+    border-bottom: #FFFFFF solid;
+    border-width: 1px 1px 0;
+    border-spacing: 0;
+    min-width: 100%; }
+    .styleguideToolbar .qualityIssues th, .styleguideToolbar .qualityIssues td {
+      padding: 12px 8px;
+      border-bottom: 1px #FFFFFF solid; }
+    .styleguideToolbar .qualityIssues th {
+      text-align: left;
+      font-weight: bold; }
+    .styleguideToolbar .qualityIssues .qualityIssueSeverity {
+      text-align: center;
+      padding: 12px 4px; }
+      .styleguideToolbar .qualityIssues .qualityIssueSeverity span {
+        padding: .4em .8em; }
+    .styleguideToolbar .qualityIssues .qualityIssueMessage {
+      width: 100%; }
+    .styleguideToolbar .qualityIssues .qualityIssue--major .qualityIssueSeverity span, .styleguideToolbar .qualityIssues .qualityIssue--critical .qualityIssueSeverity span, .styleguideToolbar .qualityIssues .qualityIssue--blocker .qualityIssueSeverity span {
+      background: #ff8080;
+      font-weight: bold; }
+    .styleguideToolbar .qualityIssues .qualityIssue--minor .qualityIssueSeverity span {
+      background: #ffb380;
+      font-weight: bold; }
 
 body {
   margin: 0; }

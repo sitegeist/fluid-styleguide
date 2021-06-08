@@ -6,10 +6,12 @@
     <fc:param name="zipDownloadUri" type="string" />
     <fc:param name="iframeUri" type="string" />
     <fc:param name="activeFixture" type="string" />
+    <fc:param name="qualityIssues" type="string[]" />
     <fc:param name="showDocumentation" type="bool" optional="1" default="1" />
     <fc:param name="showZipDownload" type="bool" optional="1" default="1" />
     <fc:param name="showEditor" type="bool" optional="1" default="1" />
     <fc:param name="showDefaultValues" type="bool" optional="1" default="0" />
+    <fc:param name="showQualityIssues" type="bool" optional="1" default="0" />
 
     <fc:renderer>
         <div class="styleguideToolbar {class}" data-component="StyleguideToolbar">
@@ -26,6 +28,11 @@
                         <f:if condition="{componentData.arguments} || ({showDocumentation} && {componentData.documentation})">
                             <div class="tabOpener active">
                                 DOC
+                            </div>
+                        </f:if>
+                        <f:if condition="{showQualityIssues}">
+                            <div class="tabOpener">
+                                CODE QUALITY
                             </div>
                         </f:if>
                         <div class="tabOpener">
@@ -95,6 +102,30 @@
                                     <div class="componentDocumentation">
                                         <fsv:format.markdown>{componentData.documentation}</fsv:format.markdown>
                                     </div>
+                                </f:if>
+                            </div>
+                        </f:if>
+
+                        <f:if condition="{showQualityIssues}">
+                            <div class="tabContent">
+                                <f:if condition="{qualityIssues -> f:count()} > 0">
+                                    <f:then>
+                                        <table class="qualityIssues">
+                                            <tr>
+                                                <th class="qualityIssueSeverity">Severity</th>
+                                                <th>Issue</th>
+                                            </tr>
+                                            <f:for each="{qualityIssues}" as="issue">
+                                                <tr class="qualityIssue qualityIssue--{issue.severity}">
+                                                    <td class="qualityIssueSeverity"><span>{issue.severity}</span></td>
+                                                    <td class="qualityIssueMessage">{issue.message}</td>
+                                                </tr>
+                                            </f:for>
+                                        </table>
+                                    </f:then>
+                                    <f:else>
+                                        Move along, everything is fine!
+                                    </f:else>
                                 </f:if>
                             </div>
                         </f:if>
