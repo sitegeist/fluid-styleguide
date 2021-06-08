@@ -181,6 +181,22 @@ class Component
         }, []);
     }
 
+    public function getCodeQualityConfiguration(): ?string
+    {
+        $configurationFileLocations = [
+            $this->getLocation()->getDirectory(),
+            $this->getName()->getPackage()->getPath(),
+            rtrim($this->getName()->getPackage()->getExtension()->getPackagePath(), '/')
+        ];
+        foreach ($configurationFileLocations as $configurationFileLocation) {
+            $configurationFile = $configurationFileLocation . '/.fclint.json';
+            if (file_exists($configurationFile)) {
+                return $configurationFile;
+            }
+        }
+        return null;
+    }
+
     protected function getComponentRenderer()
     {
         $componentRenderer = GeneralUtility::makeInstance(ComponentRenderer::class);
