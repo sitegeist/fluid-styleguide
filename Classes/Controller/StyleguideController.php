@@ -97,10 +97,7 @@ class StyleguideController
             '>='
         );
 
-        if (
-            $this->styleguideConfigurationManager->isFeatureEnabled('CodeQuality') &&
-            class_exists(CodeQualityService::class)
-        ) {
+        if ($this->styleguideConfigurationManager->isFeatureEnabled('CodeQuality') && class_exists(CodeQualityService::class)) {
             $showQualityIssues = true;
 
             // Initialize code quality service
