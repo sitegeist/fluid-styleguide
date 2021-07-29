@@ -102,7 +102,7 @@ class StyleguideController
 
             // Initialize code quality service
             $configurationService = new ConfigurationService;
-            $configuration = $configurationService->getFinalConfiguration(false, $component->getCodeQualityConfiguration());
+            $configuration = $configurationService->getFinalConfiguration(false, $component->getCodeQualityConfiguration() ?? false);
             $registeredChecks = $configurationService->getRegisteredChecks();
             $codeQualityService = new CodeQualityService($configuration, $registeredChecks);
 
