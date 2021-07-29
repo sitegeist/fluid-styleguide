@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace Sitegeist\FluidStyleguide\Controller;
 
 use Psr\Http\Message\ServerRequestInterface;
+use Sitegeist\FluidComponentsLinter\Service\CodeQualityService;
+use Sitegeist\FluidComponentsLinter\Service\ConfigurationService;
 use Sitegeist\FluidStyleguide\Domain\Model\ComponentMetadata;
 use Sitegeist\FluidStyleguide\Domain\Repository\ComponentRepository;
 use Sitegeist\FluidStyleguide\Event\PostProcessComponentViewEvent;
@@ -95,11 +97,31 @@ class StyleguideController
             '>='
         );
 
+        if ($this->styleguideConfigurationManager->isFeatureEnabled('CodeQuality') && class_exists(CodeQualityService::class)) {
+            $showQualityIssues = true;
+
+            // Initialize code quality service
+            $configurationService = new ConfigurationService;
+            $configuration = $configurationService->getFinalConfiguration(false, $component->getCodeQualityConfiguration() ?? false);
+            $registeredChecks = $configurationService->getRegisteredChecks();
+            $codeQualityService = new CodeQualityService($configuration, $registeredChecks);
+
+            // Get code quality issues for component
+            $qualityIssues = $codeQualityService->validateComponent(
+                $component->getLocation()->getFilePath()
+            );
+        } else {
+            $showQualityIssues = false;
+            $qualityIssues = [];
+        }
+
         $this->view->assignMultiple([
             'navigation' => $this->componentRepository->findWithFixtures(),
             'activeComponent' => $component,
             'activeFixture' => $fixture,
-            'showDefaultValues' => $showDefaultValues
+            'showDefaultValues' => $showDefaultValues,
+            'showQualityIssues' => $showQualityIssues,
+            'qualityIssues' => $qualityIssues
         ]);
     }
 

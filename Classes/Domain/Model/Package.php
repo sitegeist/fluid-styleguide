@@ -3,6 +3,10 @@ declare(strict_types=1);
 
 namespace Sitegeist\FluidStyleguide\Domain\Model;
 
+use TYPO3\CMS\Core\Package\PackageManager;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 class Package
 {
     /**
@@ -19,10 +23,25 @@ class Package
      */
     protected $alias;
 
-    public function __construct(string $namespace, string $alias)
+    /**
+     * Path for the component package
+     *
+     * @var string
+     */
+    protected $path;
+
+    /**
+     * Associated TYPO3 extension
+     *
+     * @var \TYPO3\CMS\Core\Package\PackageInterface
+     */
+    protected $extension;
+
+    public function __construct(string $namespace, string $alias, string $path)
     {
         $this->namespace = trim($namespace, '\\');
         $this->alias = $alias;
+        $this->path = $path;
     }
 
     public function getNamespace(): string
@@ -33,6 +52,25 @@ class Package
     public function getAlias(): string
     {
         return $this->alias;
+    }
+
+    public function getPath(): string
+    {
+        return $this->path;
+    }
+
+    public function getExtension(): ?\TYPO3\CMS\Core\Package\PackageInterface
+    {
+        if (!$this->extension) {
+            $activeExtensions = GeneralUtility::makeInstance(PackageManager::class)->getActivePackages();
+            foreach ($activeExtensions as $extension) {
+                if (strpos($this->getPath(), $extension->getPackagePath()) === 0) {
+                    $this->extension = $extension;
+                    break;
+                }
+            }
+        }
+        return $this->extension;
     }
 
     /**

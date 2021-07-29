@@ -47,7 +47,8 @@ class PackageRepository implements \TYPO3\CMS\Core\SingletonInterface
 
             $packages[] = new Package(
                 $namespace,
-                $matchingNamespaceAlias
+                $matchingNamespaceAlias,
+                $path
             );
         }
 

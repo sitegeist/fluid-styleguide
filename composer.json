@@ -26,6 +26,9 @@
         "squizlabs/php_codesniffer": "^3.0",
         "editorconfig-checker/editorconfig-checker": "^10.0"
     },
+    "suggest": {
+        "sitegeist/fluid-components-linter": "Checks fluid components for code quality problems via CLI and in the styleguide"
+    },
     "autoload": {
         "psr-4": {
             "Sitegeist\\FluidStyleguide\\": "Classes/"
