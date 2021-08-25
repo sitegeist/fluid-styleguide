@@ -6,10 +6,10 @@ namespace Sitegeist\FluidStyleguide\Domain\Repository;
 use Sitegeist\FluidStyleguide\Domain\Model\Component;
 use Sitegeist\FluidStyleguide\Domain\Model\ComponentLocation;
 use Sitegeist\FluidStyleguide\Domain\Model\ComponentName;
+use Sitegeist\FluidStyleguide\Domain\Model\Package;
 use Sitegeist\FluidStyleguide\Domain\Repository\ComponentNameRepository;
 use Sitegeist\FluidStyleguide\Domain\Repository\PackageRepository;
 use SMS\FluidComponents\Utility\ComponentLoader;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class ComponentRepository implements \TYPO3\CMS\Core\SingletonInterface
 {
@@ -28,11 +28,11 @@ class ComponentRepository implements \TYPO3\CMS\Core\SingletonInterface
      */
     protected $componentLoader;
 
-    public function __construct()
+    public function __construct(PackageRepository $packageRepository, ComponentNameRepository $componentNameRepository, ComponentLoader $componentLoader)
     {
-        $this->packageRepository = GeneralUtility::makeInstance(PackageRepository::class);
-        $this->componentNameRepository = GeneralUtility::makeInstance(ComponentNameRepository::class);
-        $this->componentLoader = GeneralUtility::makeInstance(ComponentLoader::class);
+        $this->packageRepository = $packageRepository;
+        $this->componentNameRepository = $componentNameRepository;
+        $this->componentLoader = $componentLoader;
     }
 
     /**

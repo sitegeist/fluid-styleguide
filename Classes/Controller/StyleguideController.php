@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Sitegeist\FluidStyleguide\Controller;
 
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Sitegeist\FluidComponentsLinter\Service\CodeQualityService;
 use Sitegeist\FluidComponentsLinter\Service\ConfigurationService;
@@ -15,7 +16,6 @@ use SMS\FluidComponents\Utility\ComponentLoader;
 use TYPO3\CMS\Core\EventDispatcher\EventDispatcher;
 use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
 use TYPO3Fluid\Fluid\View\TemplateView;
@@ -38,6 +38,11 @@ class StyleguideController
     protected $styleguideConfigurationManager;
 
     /**
+     * @var ContainerInterface
+     */
+    protected ContainerInterface $container;
+
+    /**
      * @var TemplateView
      */
     protected $view;
@@ -47,11 +52,16 @@ class StyleguideController
      */
     protected $request;
 
-    public function __construct()
-    {
-        $this->componentRepository = GeneralUtility::makeInstance(ComponentRepository::class);
-        $this->componentDownloadService = GeneralUtility::makeInstance(ComponentDownloadService::class);
-        $this->styleguideConfigurationManager = GeneralUtility::makeInstance(StyleguideConfigurationManager::class);
+    public function __construct(
+        ComponentRepository $componentRepository,
+        ComponentDownloadService $componentDownloadService,
+        StyleguideConfigurationManager $styleguideConfigurationManager,
+        ContainerInterface $container
+    ) {
+        $this->componentRepository = $componentRepository;
+        $this->componentDownloadService = $componentDownloadService;
+        $this->styleguideConfigurationManager = $styleguideConfigurationManager;
+        $this->container = $container;
     }
 
     /**
@@ -165,10 +175,10 @@ class StyleguideController
 
         $event = new PostProcessComponentViewEvent($component, $fixture, $formData, $renderedView);
         if (version_compare(TYPO3_version, '10.0', '>=')) {
-            $eventDispatcher = GeneralUtility::makeInstance(EventDispatcher::class);
+            $eventDispatcher = $this->container->get(EventDispatcher::class);
             $event = $eventDispatcher->dispatch($event);
         } else {
-            $signalSlotDispatcher = GeneralUtility::makeInstance(Dispatcher::class);
+            $signalSlotDispatcher = $this->container->get(Dispatcher::class);
             $signalSlotDispatcher->dispatch(__CLASS__, 'postProcessComponentView', [$event]);
         }
 
@@ -297,7 +307,7 @@ class StyleguideController
 
     protected function registerDemoComponents(): void
     {
-        $componentLoader = GeneralUtility::makeInstance(ComponentLoader::class);
+        $componentLoader = $this->container->get(ComponentLoader::class);
         if (count($componentLoader->getNamespaces()) === 1 ||
             $this->styleguideConfigurationManager->isFeatureEnabled('DemoComponents')
         ) {

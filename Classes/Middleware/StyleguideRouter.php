@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Sitegeist\FluidStyleguide\Middleware;
 
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -29,9 +30,31 @@ class StyleguideRouter implements MiddlewareInterface
      */
     protected $context;
 
-    public function __construct()
-    {
-        $this->context = GeneralUtility::makeInstance(Context::class);
+    /**
+     * @var ContainerInterface
+     */
+    protected ContainerInterface $container;
+
+    /**
+     * @var ExtensionConfiguration
+     */
+    protected ExtensionConfiguration $extensionConfiguration;
+
+    /**
+     * @var FrontendUserAuthentication
+     */
+    protected FrontendUserAuthentication $frontendUserAuthentication;
+
+    public function __construct(
+        Context $context,
+        ContainerInterface $container,
+        ExtensionConfiguration $extensionConfiguration,
+        FrontendUserAuthentication $frontendUserAuthentication
+    ) {
+        $this->context = $context;
+        $this->container = $container;
+        $this->extensionConfiguration = $extensionConfiguration;
+        $this->frontendUserAuthentication = $frontendUserAuthentication;
     }
 
     public function process(
@@ -43,8 +66,7 @@ class StyleguideRouter implements MiddlewareInterface
         $GLOBALS['TYPO3_CURRENT_SITE'] = $site = $request->getAttribute('site', null);
 
         // Extract url prefix from styleguide configuration
-        $prefix = GeneralUtility::makeInstance(ExtensionConfiguration::class)
-            ->get('fluid_styleguide', 'uriPrefix');
+        $prefix = $this->extensionConfiguration->get('fluid_styleguide', 'uriPrefix');
         $prefixWithoutSlash = rtrim($prefix, '/');
         $prefix = $prefixWithoutSlash . '/';
 
@@ -74,7 +96,7 @@ class StyleguideRouter implements MiddlewareInterface
         }
 
         // Create controller
-        $controller = GeneralUtility::makeInstance(StyleguideController::class);
+        $controller = $this->container->get(StyleguideController::class);
 
         // Validate controller action
         $actionMethod = $actionName . 'Action';
@@ -93,7 +115,7 @@ class StyleguideRouter implements MiddlewareInterface
                 $GLOBALS['TYPO3_CURRENT_SITE'],
                 $request->getAttribute('language', $site->getDefaultLanguage()),
                 new PageArguments(0, '0', []),
-                GeneralUtility::makeInstance(FrontendUserAuthentication::class)
+                $this->frontendUserAuthentication
             );
         }
 
@@ -104,7 +126,7 @@ class StyleguideRouter implements MiddlewareInterface
         );
 
         // Initialize language handling
-        $styleguideConfigurationManager = GeneralUtility::makeInstance(StyleguideConfigurationManager::class);
+        $styleguideConfigurationManager = $this->container->get(StyleguideConfigurationManager::class);
         if ($styleguideConfigurationManager->isFeatureEnabled('Languages')) {
             // Determine language based on GET parameter
             $styleguideLanguage = $styleguideConfigurationManager->getLanguage(
@@ -156,7 +178,7 @@ class StyleguideRouter implements MiddlewareInterface
         string $controllerName,
         string $actionName
     ): StandaloneView {
-        $view = GeneralUtility::makeInstance(StandaloneView::class);
+        $view = $this->container->get(StandaloneView::class);
         $view->getRenderingContext()->getControllerContext()->getRequest()
             ->setControllerExtensionName($extensionName);
         $view->getRenderingContext()->setControllerName($controllerName);

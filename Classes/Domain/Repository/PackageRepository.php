@@ -4,26 +4,25 @@ declare(strict_types=1);
 namespace Sitegeist\FluidStyleguide\Domain\Repository;
 
 use Sitegeist\FluidStyleguide\Domain\Model\Package;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Fluid\Core\ViewHelper\ViewHelperResolver;
 use SMS\FluidComponents\Utility\ComponentLoader;
+use TYPO3\CMS\Fluid\Core\ViewHelper\ViewHelperResolverFactory;
 
 class PackageRepository implements \TYPO3\CMS\Core\SingletonInterface
 {
     /**
-     * @var ViewHelperResolver
+     * @var ViewHelperResolverFactory
      */
-    protected $viewHelperResolver;
+    protected $viewHelperResolverFactory;
 
     /**
      * @var ComponentLoader
      */
     protected $componentLoader;
 
-    public function __construct()
+    public function __construct(ComponentLoader $componentLoader, ViewHelperResolverFactory $viewHelperResolverFactory)
     {
-        $this->componentLoader = GeneralUtility::makeInstance(ComponentLoader::class);
-        $this->viewHelperResolver = GeneralUtility::makeInstance(ViewHelperResolver::class);
+        $this->componentLoader = $componentLoader;
+        $this->viewHelperResolverFactory = $viewHelperResolverFactory;
     }
 
     /**
@@ -33,7 +32,7 @@ class PackageRepository implements \TYPO3\CMS\Core\SingletonInterface
      */
     public function findAll(): array
     {
-        $fluidNamespaces = $this->viewHelperResolver->getNamespaces();
+        $fluidNamespaces = $this->viewHelperResolverFactory->create()->getNamespaces();
         $componentNamespaces = $this->componentLoader->getNamespaces();
         $packages = [];
         foreach ($componentNamespaces as $namespace => $path) {

@@ -14,9 +14,9 @@ class ComponentNameRepository implements \TYPO3\CMS\Core\SingletonInterface
      */
     protected $packageRepository;
 
-    public function __construct()
+    public function __construct(PackageRepository $packageRepository)
     {
-        $this->packageRepository = GeneralUtility::makeInstance(PackageRepository::class);
+        $this->packageRepository = $packageRepository;
     }
 
     public function findByComponentIdentifier(string $componentIdentifier): ?ComponentName
