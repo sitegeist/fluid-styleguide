@@ -3,26 +3,29 @@ declare(strict_types=1);
 
 namespace Sitegeist\FluidStyleguide\Domain\Repository;
 
+use Psr\Container\ContainerInterface;
 use Sitegeist\FluidStyleguide\Domain\Model\Package;
 use SMS\FluidComponents\Utility\ComponentLoader;
-use TYPO3\CMS\Fluid\Core\ViewHelper\ViewHelperResolverFactory;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Fluid\Core\ViewHelper\ViewHelperResolver;
+use TYPO3\CMS\Fluid\Core\ViewHelper\ViewHelperResolverFactoryInterface;
 
 class PackageRepository implements \TYPO3\CMS\Core\SingletonInterface
 {
-    /**
-     * @var ViewHelperResolverFactory
-     */
-    protected $viewHelperResolverFactory;
-
     /**
      * @var ComponentLoader
      */
     protected $componentLoader;
 
-    public function __construct(ComponentLoader $componentLoader, ViewHelperResolverFactory $viewHelperResolverFactory)
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
+
+    public function __construct(ComponentLoader $componentLoader, ContainerInterface $container)
     {
         $this->componentLoader = $componentLoader;
-        $this->viewHelperResolverFactory = $viewHelperResolverFactory;
+        $this->container = $container;
     }
 
     /**
@@ -32,7 +35,7 @@ class PackageRepository implements \TYPO3\CMS\Core\SingletonInterface
      */
     public function findAll(): array
     {
-        $fluidNamespaces = $this->viewHelperResolverFactory->create()->getNamespaces();
+        $fluidNamespaces = $this->getViewHelperResolver()->getNamespaces();
         $componentNamespaces = $this->componentLoader->getNamespaces();
         $packages = [];
         foreach ($componentNamespaces as $namespace => $path) {
@@ -79,5 +82,14 @@ class PackageRepository implements \TYPO3\CMS\Core\SingletonInterface
         }
 
         return $componentPackage;
+    }
+
+    protected function getViewHelperResolver(): ViewHelperResolver
+    {
+        if (version_compare(TYPO3_version, '11.4', '>=')) {
+            return $this->container->get(ViewHelperResolverFactoryInterface::class)->create();
+        } else {
+            return GeneralUtility::makeInstance(ViewHelperResolver::class);
+        }
     }
 }
