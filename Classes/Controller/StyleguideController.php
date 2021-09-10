@@ -18,7 +18,7 @@ use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
-use TYPO3Fluid\Fluid\View\TemplateView;
+use TYPO3\CMS\Fluid\View\StandaloneView;
 
 class StyleguideController
 {
@@ -43,7 +43,7 @@ class StyleguideController
     protected ContainerInterface $container;
 
     /**
-     * @var TemplateView
+     * @var StandaloneView
      */
     protected $view;
 
@@ -227,7 +227,7 @@ class StyleguideController
         return $componentPackages;
     }
 
-    public function initializeView(TemplateView $view)
+    public function initializeView(StandaloneView $view)
     {
         $this->view = $view;
 
