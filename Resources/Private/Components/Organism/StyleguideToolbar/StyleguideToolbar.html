@@ -10,7 +10,6 @@
     <fc:param name="showDocumentation" type="bool" optional="1" default="1" />
     <fc:param name="showZipDownload" type="bool" optional="1" default="1" />
     <fc:param name="showEditor" type="bool" optional="1" default="1" />
-    <fc:param name="showDefaultValues" type="bool" optional="1" default="0" />
     <fc:param name="showQualityIssues" type="bool" optional="1" default="0" />
 
     <fc:renderer>
@@ -66,7 +65,7 @@
                                                     <th>Name</th>
                                                     <th>Type</th>
                                                     <th class="componentArgumentsRequired">Required</th>
-                                                    <f:if condition="{showDefaultValues}"><th>Default</th></f:if>
+                                                    <th>Default</th>
                                                     <th>Description</th>
                                                 </tr>
                                                 <f:for each="{componentData.arguments}" as="argument">
@@ -75,20 +74,18 @@
                                                             <td class="componentArgumentsName">{argument.name}</td>
                                                             <td class="componentArgumentsType">{argument.type}</td>
                                                             <td class="componentArgumentsRequired">{f:if(condition: argument.required, then: '✔︎')}</td>
-                                                            <f:if condition="{showDefaultValues}">
-                                                                <td class="componentArgumentsDefault">
-                                                                    <f:if condition="!{argument.required}">
-                                                                        <f:if condition="{argument.type} == 'boolean'">
-                                                                            <f:then>
-                                                                                {f:if(condition: argument.defaultValue, then: 'true', else: 'false')}
-                                                                            </f:then>
-                                                                            <f:else>
-                                                                                {argument.defaultValue}
-                                                                            </f:else>
-                                                                        </f:if>
+                                                            <td class="componentArgumentsDefault">
+                                                                <f:if condition="!{argument.required}">
+                                                                    <f:if condition="{argument.type} == 'boolean'">
+                                                                        <f:then>
+                                                                            {f:if(condition: argument.defaultValue, then: 'true', else: 'false')}
+                                                                        </f:then>
+                                                                        <f:else>
+                                                                            {argument.defaultValue}
+                                                                        </f:else>
                                                                     </f:if>
-                                                                </td>
-                                                            </f:if>
+                                                                </f:if>
+                                                            </td>
                                                             <td class="componentArgumentsDescription">{argument.description}</td>
                                                         </tr>
                                                     </f:if>

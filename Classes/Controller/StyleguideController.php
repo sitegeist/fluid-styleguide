@@ -100,13 +100,6 @@ class StyleguideController
             return new Response('Component not found', 404);
         }
 
-        // Default values of component parameters can only be displayed with fluid components v2
-        $showDefaultValues = version_compare(
-            ExtensionManagementUtility::getExtensionVersion('fluid_components'),
-            '2.0.0',
-            '>='
-        );
-
         if ($this->styleguideConfigurationManager->isFeatureEnabled('CodeQuality') && class_exists(CodeQualityService::class)) {
             $showQualityIssues = true;
 
@@ -129,7 +122,6 @@ class StyleguideController
             'navigation' => $this->componentRepository->findWithFixtures(),
             'activeComponent' => $component,
             'activeFixture' => $fixture,
-            'showDefaultValues' => $showDefaultValues,
             'showQualityIssues' => $showQualityIssues,
             'qualityIssues' => $qualityIssues
         ]);
