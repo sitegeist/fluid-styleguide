@@ -9,7 +9,8 @@
         ".git",
         ".DS_Store",
         "Resources/Private/Php/",
-        "node_modules"
+        "node_modules",
+        "var/"
     ],
     "AllowedContentTypes": [],
     "PassedFiles": [],
