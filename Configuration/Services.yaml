@@ -1,5 +1,16 @@
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Sitegeist\FluidStyleguide\:
+        resource: '../Classes/*'
+        exclude: '../Classes/Domain/Model/*'
+
+
     Sitegeist\FluidStyleguide\EventListener\AssetCollectorExtensionInjector:
+        autowire: false
         tags:
             -
                 name: event.listener
@@ -7,8 +18,15 @@ services:
                 event: Sitegeist\FluidStyleguide\Event\PostProcessComponentViewEvent
 
     Sitegeist\FluidStyleguide\EventListener\AssetCollectorInjector:
+        autowire: false
         tags:
             -
                 name: event.listener
                 method: 'injectJsAndCssFromAssetCollector'
                 event: Sitegeist\FluidStyleguide\Event\PostProcessComponentViewEvent
+
+    Sitegeist\FluidStyleguide\Controller\StyleguideController:
+        public: true
+
+    Sitegeist\FluidStyleguide\Service\StyleguideConfigurationManager:
+        public: true
