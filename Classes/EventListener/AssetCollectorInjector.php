@@ -12,10 +12,6 @@ final class AssetCollectorInjector
 {
     public function injectJsAndCssFromAssetCollector(PostProcessComponentViewEvent $event, string $eventName = ''): void
     {
-        if (version_compare(TYPO3_version, '10.3', '<')) {
-            return;
-        }
-
         $assetCollector = GeneralUtility::makeInstance(AssetCollector::class);
 
         // Add css files to head

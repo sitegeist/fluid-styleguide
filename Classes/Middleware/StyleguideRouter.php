@@ -108,16 +108,14 @@ class StyleguideRouter implements MiddlewareInterface
         }
 
         // Build simple TSFE object for basic typolink support in styleguide
-        if ((version_compare(TYPO3_version, '10.0', '>='))) {
-            $GLOBALS['TSFE'] = GeneralUtility::makeInstance(
-                TypoScriptFrontendController::class,
-                $this->context,
-                $GLOBALS['TYPO3_CURRENT_SITE'],
-                $request->getAttribute('language', $site->getDefaultLanguage()),
-                new PageArguments(0, '0', []),
-                $this->frontendUserAuthentication
-            );
-        }
+        $GLOBALS['TSFE'] = GeneralUtility::makeInstance(
+            TypoScriptFrontendController::class,
+            $this->context,
+            $GLOBALS['TYPO3_CURRENT_SITE'],
+            $request->getAttribute('language', $site->getDefaultLanguage()),
+            new PageArguments(0, '0', []),
+            $this->frontendUserAuthentication
+        );
 
         // Call action
         $actionArguments = array_replace(

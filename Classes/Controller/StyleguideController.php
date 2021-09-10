@@ -174,13 +174,8 @@ class StyleguideController
         $renderedView = $this->view->render();
 
         $event = new PostProcessComponentViewEvent($component, $fixture, $formData, $renderedView);
-        if (version_compare(TYPO3_version, '10.0', '>=')) {
-            $eventDispatcher = $this->container->get(EventDispatcher::class);
-            $event = $eventDispatcher->dispatch($event);
-        } else {
-            $signalSlotDispatcher = $this->container->get(Dispatcher::class);
-            $signalSlotDispatcher->dispatch(__CLASS__, 'postProcessComponentView', [$event]);
-        }
+        $eventDispatcher = $this->container->get(EventDispatcher::class);
+        $event = $eventDispatcher->dispatch($event);
 
         $renderedView = $event->getRenderedView();
         $renderedView = str_replace('<!-- ###ADDITIONAL_HEADER_DATA### -->', implode('', $event->getHeaderData()), $renderedView);
