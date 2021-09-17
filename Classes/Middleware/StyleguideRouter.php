@@ -12,6 +12,7 @@ use Sitegeist\FluidStyleguide\Controller\StyleguideController;
 use Sitegeist\FluidStyleguide\Service\StyleguideConfigurationManager;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Core\SystemEnvironmentBuilder;
 use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Http\RedirectResponse;
 use TYPO3\CMS\Core\Routing\PageArguments;
@@ -177,8 +178,10 @@ class StyleguideRouter implements MiddlewareInterface
         string $actionName
     ): StandaloneView {
         $view = $this->container->get(StandaloneView::class);
-        $view->getRenderingContext()->getControllerContext()->getRequest()
-            ->setControllerExtensionName($extensionName);
+        $request = $view->getRenderingContext()->getControllerContext()->getRequest()
+            ->withAttribute('applicationType', SystemEnvironmentBuilder::REQUESTTYPE_FE);
+        $request->setControllerExtensionName($extensionName);
+        $view->getRenderingContext()->getControllerContext()->setRequest($request);
         $view->getRenderingContext()->setControllerName($controllerName);
         $view->getRenderingContext()->setControllerAction($actionName);
         return $view;
