@@ -117,7 +117,7 @@ You can define the content of a component if the component supports it:
 }
 ```
 
-You can use fluid in your fixture data to nest components:
+You can use fluid in your fixture data to nest components (as long as the Fluid namespace [is defined globally](https://docs.typo3.org/c/typo3/cms-core/master/en-us/Changelog/8.5/Feature-78415-GlobalFluidViewHelperNamespacesMovedToTYPO3Configuration.html)):
 
 ```json
 {
