@@ -178,10 +178,12 @@ class StyleguideRouter implements MiddlewareInterface
         string $actionName
     ): StandaloneView {
         $view = $this->container->get(StandaloneView::class);
-        $request = $view->getRenderingContext()->getControllerContext()->getRequest()
-            ->withAttribute('applicationType', SystemEnvironmentBuilder::REQUESTTYPE_FE);
-        $request->setControllerExtensionName($extensionName);
-        $view->getRenderingContext()->getControllerContext()->setRequest($request);
+        if (version_compare(TYPO3_version, '11.0', '>=')) {
+            $request = $view->getRenderingContext()->getControllerContext()->getRequest()
+                ->withAttribute('applicationType', SystemEnvironmentBuilder::REQUESTTYPE_FE);
+            $request->setControllerExtensionName($extensionName);
+            $view->getRenderingContext()->getControllerContext()->setRequest($request);
+        }
         $view->getRenderingContext()->setControllerName($controllerName);
         $view->getRenderingContext()->setControllerAction($actionName);
         return $view;
