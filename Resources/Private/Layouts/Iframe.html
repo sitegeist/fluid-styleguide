@@ -28,6 +28,12 @@
             <script src="{f:if(condition: javascriptFile.file, then: javascriptFile.file, else: javascriptFile)}"></script>
         </f:if>
     </f:for>
+    <f:if condition="{inlineLanguageLabels}">
+        <script type="text/javascript">
+            var TYPO3 = TYPO3 || {};
+            TYPO3.lang = {inlineLanguageLabels -> f:format.json() -> f:format.raw()};
+        </script>
+    </f:if>
     <!-- ###ADDITIONAL_HEADER_DATA### -->
 </head>
 <body>

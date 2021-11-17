@@ -78,3 +78,6 @@ FluidStyleguide:
             - EXT:fluid_styleguide/Resources/Private/Partials
         LayoutRootPaths:
             - EXT:fluid_styleguide/Resources/Private/Layouts
+
+#    InlineLanguageFiles:
+#        example: EXT:myExt/Resources/Private/Language/locallang.xlf

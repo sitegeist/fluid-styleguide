@@ -160,7 +160,8 @@ class StyleguideController
             'componentCss' => $this->styleguideConfigurationManager->getCssForPackage($package),
             'componentJavascript' => $this->styleguideConfigurationManager->getJavascriptForPackage($package),
             'fixtureName' => $fixture,
-            'fixtureData' => $formData
+            'fixtureData' => $formData,
+            'inlineLanguageLabels' => $this->styleguideConfigurationManager->getInlineLanguageLabels()
         ]);
 
         $renderedView = $this->view->render();

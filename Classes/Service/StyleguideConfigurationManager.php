@@ -7,6 +7,7 @@ use Sitegeist\FluidStyleguide\Domain\Model\Package;
 use Sitegeist\FluidStyleguide\Exception\InvalidAssetException;
 use TYPO3\CMS\Core\Configuration\Loader\YamlFileLoader;
 use TYPO3\CMS\Core\Http\Uri;
+use TYPO3\CMS\Core\Localization\LocalizationFactory;
 use TYPO3\CMS\Core\Package\PackageManager;
 use TYPO3\CMS\Core\Site\Entity\SiteInterface;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
@@ -211,6 +212,56 @@ class StyleguideConfigurationManager
         } else {
             return '';
         }
+    }
+
+    public function getInlineLanguageLabels(): array
+    {
+        $labels = [];
+        if ($this->mergedConfiguration['InlineLanguageFiles']) {
+            foreach ($this->mergedConfiguration['InlineLanguageFiles'] as $key => $languageFile) {
+                if (!empty($languageFile)) {
+                    ArrayUtility::mergeRecursiveWithOverrule(
+                        $labels,
+                        $this->getLabelsFromLocalizationFile($languageFile)
+                    );
+                }
+            }
+        }
+
+        return $labels;
+    }
+
+    /**
+     * Parse a language file and get a label/value array from it.
+     *
+     * @param string $file EXT:path/to/file
+     * @return array Label/value array
+     */
+    protected function getLabelsFromLocalizationFile($file)
+    {
+        /** @var LocalizationFactory $languageFactory */
+        $languageFactory = GeneralUtility::makeInstance(LocalizationFactory::class);
+        $language = $GLOBALS['LANG'] ?? 'default';
+        $localizationArray = $languageFactory->getParsedData($file, $language);
+        if (is_array($localizationArray) && !empty($localizationArray)) {
+            if (!empty($localizationArray[$language])) {
+                $xlfLabelArray = $localizationArray['default'];
+                ArrayUtility::mergeRecursiveWithOverrule($xlfLabelArray, $localizationArray[$language], true, false);
+            } else {
+                $xlfLabelArray = $localizationArray['default'];
+            }
+        } else {
+            $xlfLabelArray = [];
+        }
+        $labelArray = [];
+        foreach ($xlfLabelArray as $key => $value) {
+            if (isset($value[0]['target'])) {
+                $labelArray[$key] = $value[0]['target'];
+            } else {
+                $labelArray[$key] = '';
+            }
+        }
+        return $labelArray;
     }
 
     protected function sanitizeComponentAssets($assets)
