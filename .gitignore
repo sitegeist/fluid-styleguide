@@ -5,3 +5,6 @@ node_modules
 # *.min.js.map
 # *.min.css
 # *.min.css.map
+/var
+/Build/.phpunit.result.cache
+/Build/testing-docker/.env
