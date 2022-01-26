@@ -8,6 +8,7 @@
         ".Build",
         ".git",
         ".DS_Store",
+        ".idea",
         "Resources/Private/Php/",
         "node_modules",
         "var/"
