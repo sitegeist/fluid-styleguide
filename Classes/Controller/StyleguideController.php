@@ -214,7 +214,8 @@ class StyleguideController
         return $componentPackages;
     }
 
-     public function initializeView(StandaloneView $view) {
+    public function initializeView(StandaloneView $view)
+    {
         $this->view = $view;
 
         $this->view->setTemplateRootPaths($this->styleguideConfigurationManager->getTemplateRootPaths());
