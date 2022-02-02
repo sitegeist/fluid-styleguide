@@ -276,7 +276,7 @@ services:
                 fi
                 php -v | grep '^PHP';
                 .Build/bin/phpcs --version;
-                .Build/bin/phpcs -p --version --standard=PSR2 --extensions=php --exclude=Generic.Files.LineLength --ignore=.Build,Tests,ext_emconf.php,Resources/Private/Php/,var/ .
+                .Build/bin/phpcs -p --standard=PSR2 --extensions=php --exclude=Generic.Files.LineLength --ignore=.Build,Tests,ext_emconf.php,Resources/Private/Php/,var/ .
             "
 
     lint_editorconfig:
