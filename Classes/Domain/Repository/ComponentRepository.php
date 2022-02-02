@@ -6,9 +6,7 @@ namespace Sitegeist\FluidStyleguide\Domain\Repository;
 use Sitegeist\FluidStyleguide\Domain\Model\Component;
 use Sitegeist\FluidStyleguide\Domain\Model\ComponentLocation;
 use Sitegeist\FluidStyleguide\Domain\Model\ComponentName;
-use Sitegeist\FluidStyleguide\Domain\Model\Package;
-use Sitegeist\FluidStyleguide\Domain\Repository\ComponentNameRepository;
-use Sitegeist\FluidStyleguide\Domain\Repository\PackageRepository;
+use Sitegeist\FluidStyleguide\Factory\Component\ComponentFactoryInterface;
 use SMS\FluidComponents\Utility\ComponentLoader;
 
 class ComponentRepository implements \TYPO3\CMS\Core\SingletonInterface
@@ -28,11 +26,17 @@ class ComponentRepository implements \TYPO3\CMS\Core\SingletonInterface
      */
     protected $componentLoader;
 
-    public function __construct(PackageRepository $packageRepository, ComponentNameRepository $componentNameRepository, ComponentLoader $componentLoader)
+    /**
+     * @var ComponentFactoryInterface
+     */
+    protected $componentFactory;
+
+    public function __construct(PackageRepository $packageRepository, ComponentNameRepository $componentNameRepository, ComponentLoader $componentLoader, ComponentFactoryInterface $componentFactory)
     {
         $this->packageRepository = $packageRepository;
         $this->componentNameRepository = $componentNameRepository;
         $this->componentLoader = $componentLoader;
+        $this->componentFactory = $componentFactory;
     }
 
     /**
@@ -52,11 +56,8 @@ class ComponentRepository implements \TYPO3\CMS\Core\SingletonInterface
             );
 
             foreach ($detectedComponents as $componentIdentifier => $componentFilePath) {
-                $component = new Component(
-                    new ComponentName(
-                        $package->extractComponentName($componentIdentifier),
-                        $package
-                    ),
+                $component = $this->componentFactory->build(
+                    new ComponentName($package->extractComponentName($componentIdentifier), $package),
                     new ComponentLocation($componentFilePath)
                 );
 
@@ -88,7 +89,7 @@ class ComponentRepository implements \TYPO3\CMS\Core\SingletonInterface
             return null;
         }
 
-        $component = new Component($componentName, new ComponentLocation($componentFile));
+        $component = $this->componentFactory->build($componentName, new ComponentLocation($componentFile));
         if (!$component->hasFixtures()) {
             return null;
         }
