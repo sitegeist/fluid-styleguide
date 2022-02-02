@@ -275,6 +275,7 @@ services:
                     set -x
                 fi
                 php -v | grep '^PHP';
+                .Build/bin/phpcs --version;
                 .Build/bin/phpcs -p --version --standard=PSR2 --extensions=php --exclude=Generic.Files.LineLength --ignore=.Build,Tests,ext_emconf.php,Resources/Private/Php/,var/ .
             "
 
@@ -294,7 +295,7 @@ services:
                 php -v | grep '^PHP';
                 echo -n 'ec version: ';
                 .Build/bin/ec -version;
-                .Build/bin/ec -v -exclude .phpunit.result.cache . | grep -v -e '^Don.t add' -e '^Add' -e '^Exclude Regexp'
+                .Build/bin/ec -exclude .phpunit.result.cache .
             "
 
     unit:
