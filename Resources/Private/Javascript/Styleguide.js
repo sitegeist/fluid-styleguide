@@ -8,4 +8,4 @@ import '../Components/Atom/ViewportNavigation/ViewportNavigation';
 import '../Components/Atom/LanguageNavigation/LanguageNavigation';
 import '../Components/Molecule/EditFixtures/EditFixtures';
 
-iFrameResize({ heightCalculationMethod: 'taggedElement' }, '.iframeResize');
+iFrameResize({ heightCalculationMethod: 'taggedElement', warningTimeout: 10000 }, '.iframeResize');
