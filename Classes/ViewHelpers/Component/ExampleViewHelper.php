@@ -177,10 +177,7 @@ class ExampleViewHelper extends AbstractViewHelper
             if (is_string($value)) {
                 return $renderingContext->getTemplateParser()->parse($value)->render($renderingContext);
             } else if (is_array($value)) {
-                foreach ($value as $key => $innerValue) {
-                    $value[$key] = static::renderFluidInExampleData($innerValue,$renderingContext);
-                }
-                return $value;
+                return static::renderFluidInExampleData($value,$renderingContext);
             } else {
                 return $value;
             }
