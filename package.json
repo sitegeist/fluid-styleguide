@@ -19,6 +19,6 @@
         "iframe-resizer": "^4.1.1"
     },
     "devDependencies": {
-        "@sitegeist/conventional": "^1.4.1",
+        "@sitegeist/conventional": "^1.4.1"
     }
 }
