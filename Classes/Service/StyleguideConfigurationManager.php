@@ -203,14 +203,14 @@ class StyleguideConfigurationManager
 
     public function getBrandingIntro(): string
     {
-        if ($this->mergedConfiguration['Branding']['IntroFile']) {
+        if ($this->mergedConfiguration['Branding']['IntroFile'] ?? '') {
             $introFile = GeneralUtility::getFileAbsFileName(
                 $this->mergedConfiguration['Branding']['IntroFile']
             );
             return ($introFile && file_exists($introFile)) ? (string) file_get_contents($introFile) : '';
-        } else {
-            return '';
         }
+
+        return '';
     }
 
     protected function sanitizeComponentAssets($assets)
