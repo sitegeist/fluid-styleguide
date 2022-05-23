@@ -1002,10 +1002,10 @@
   dependencies:
     execa "^2.0.1"
 
-"@sitegeist/conventional@^1.4.1":
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/@sitegeist/conventional/-/conventional-1.4.1.tgz#5f2f7012b4659913f4c82d70bc7a1dbfa93bea54"
-  integrity sha512-W9Q5VnKBXjFPqCGH5LFTosGvoTD3ObRiOsnnzMOFmn87bzDCndVc5Mr3lsbNTBxiTMExPEgBc8nJ1B1dAjPRWw==
+"@sitegeist/conventional@^1.4":
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/@sitegeist/conventional/-/conventional-1.4.3.tgz#582e0fc8d13570ee535672d06782e84c9dadf089"
+  integrity sha512-vgUUeMrtAouUsWUw+mgcQXhu05m9W2RvAZ3si6qo6/tZdFiP9D0s9kLuvne6q9zIwF0O2/6i3C1REp3GSVlpPA==
   dependencies:
     "@babel/core" "^7.8.6"
     "@babel/preset-env" "^7.8.6"
@@ -1020,7 +1020,7 @@
     dotenv "^10.0.0"
     json5 "^2.1.1"
     mini-css-extract-plugin "^2.4.3"
-    node-sass "^6.0.0"
+    node-sass "^6.0.1"
     node-sass-json-importer "git+https://github.com/sitegeist/node-sass-json-importer.git#dev"
     node-sass-magic-importer "^5.3.2"
     postcss "^8.3.6"
@@ -4872,7 +4872,7 @@ node-sass-magic-importer@^5.3.2:
     postcss-scss "^2.0.0"
     resolve "^1.10.1"
 
-node-sass@^6.0.0:
+node-sass@^6.0.1:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/node-sass/-/node-sass-6.0.1.tgz#cad1ccd0ce63e35c7181f545d8b986f3a9a887fe"
   integrity sha512-f+Rbqt92Ful9gX0cGtdYwjTrWAaGURgaK5rZCWOgCNyGWusFYHhbqCCBoFBeat+HKETOU02AyTxNhJV0YZf2jQ==
