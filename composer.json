@@ -56,7 +56,17 @@
             "TYPO3\\TestingFramework\\Composer\\ExtensionTestEnvironment::prepare"
         ],
         "prepare-release": [
-            "rm -r .github .ecrc .sass-lint.yml .editorconfig .gitattributes Tests Build"
+            "rm -r .github .ecrc .editorconfig .gitattributes Tests Build"
+        ],
+        "lint": [
+            "@lint:editorconfig",
+            "@lint:frontend"
+        ],
+        "lint:editorconfig": [
+            "ec"
+        ],
+        "lint:frontend": [
+            "yarn lint"
         ]
     }
 }

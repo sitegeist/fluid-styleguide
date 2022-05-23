@@ -1,40 +1,24 @@
 {
     "name": "fluidstyleguide",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "main": "index.js",
-    "author": "Lukas Gurschler",
+    "author": "Clemens Kauczor",
     "license": "MIT",
     "scripts": {
-        "build": "yarn build:css && yarn build:js",
-        "watch": "yarn watch:css & yarn watch:js",
-        "build:css": "node-sass Resources/Private/Scss/Main.scss Resources/Public/Css/Styleguide.min.css --source-map true && postcss Resources/Public/Css/Styleguide.min.css -u autoprefixer -d Resources/Public/Css/ --map",
-        "watch:css": "nodemon -e scss -x 'yarn build:css'",
-        "build:js": "webpack -p",
-        "watch:js": "webpack -w",
-        "lint": "yarn lint:css",
-        "lint:css": "sass-lint --max-warnings 0 --verbose --no-exit"
-    },
-    "devDependencies": {
-        "@babel/core": "^7.2.0",
-        "@babel/plugin-proposal-class-properties": "^7.12.1",
-        "@babel/plugin-transform-runtime": "^7.2.0",
-        "@babel/polyfill": "^7.4.3",
-        "@babel/preset-env": "^7.2.0",
-        "@babel/runtime": "^7.4.0",
-        "autoprefixer": "^9.4.2",
-        "babel-loader": "^8.0.4",
-        "core-js": "^3.6.5",
-        "node": "14",
-        "node-sass": "^4.10.0",
-        "nodemon": "^1.18.7",
-        "postcss-cli": "^7.0.0",
-        "sass-lint": "^1.12.1",
-        "uglifyjs-webpack-plugin": "^2.0.1",
-        "webpack": "^4.27.1",
-        "webpack-cli": "^3.1.2"
+        "build": "conventional build",
+        "build:css": "conventional build:sass",
+        "build:js": "conventional build:js",
+        "watch": "conventional watch",
+        "watch:css": "conventional watch:sass",
+        "watch:js": "conventional watch:js",
+        "lint": "conventional lint",
+        "lint:css": "conventional lint:sass",
+        "lint:js": "conventional lint:js"
     },
     "dependencies": {
-        "bootstrap": "^4.3.1",
         "iframe-resizer": "^4.1.1"
+    },
+    "devDependencies": {
+        "@sitegeist/conventional": "^1.4.1"
     }
 }

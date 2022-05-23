@@ -1,0 +1,21 @@
+{
+    "minify": true,
+    "autoprefixer": true,
+    "sourceMaps": true,
+    "browserUpdateNote": false,
+    "sass": {
+        "inputFiles": {
+            "Styleguide": "./Resources/Private/Scss/Main.scss"
+        },
+        "outputPath": "./Resources/Public/Css/",
+        "outputFilePattern": "[name].min.css"
+    },
+    "js": {
+        "inputFiles": {
+            "Styleguide": "./Resources/Private/Javascript/Styleguide.js",
+            "Iframe": "./Resources/Private/Javascript/Iframe.js"
+        },
+        "outputPath": "./Resources/Public/Javascript/",
+        "outputFilePattern": "[name].min.js"
+    }
+}

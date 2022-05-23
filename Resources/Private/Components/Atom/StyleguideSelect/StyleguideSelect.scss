@@ -1,4 +1,3 @@
-// sass-lint:disable no-important
 .styleguideSelect {
     font-family: $styleguide-font;
     width: 100%;
@@ -143,7 +142,6 @@
 
     &Items div:hover,
     &Active {
-        // sass-lint:disable no-important
         color: $highlight !important;
         transition: color .25s ease;
     }

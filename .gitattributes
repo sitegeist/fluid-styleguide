@@ -1,6 +1,5 @@
 /.github export-ignore
 /.gitattributes export-ignore
 /.editorconfig export-ignore
-/.sass-lint.yml export-ignore
 /.ecrc export-ignore
 /Tests/ export-ignore
