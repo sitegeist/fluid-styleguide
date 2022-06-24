@@ -4,7 +4,7 @@ Fluid Styleguide can be configured in various ways by creating a YAML configurat
 
 **Configuration/Yaml/FluidStyleguide.yaml**
 
-Each extension can add its own configuration to the styleguide, all available files will be picked up automatically and merged with the [default configuration file](./Configuration/Yaml/FluidStyleguide.yaml).
+Each extension can add its own configuration to the styleguide, all available files will be picked up automatically and merged with the [default configuration file](../Configuration/Yaml/FluidStyleguide.yaml).
 
 ## Adding frontend assets
 
