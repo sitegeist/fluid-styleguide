@@ -8,50 +8,48 @@
             <form method="post" target="componentIframe" action="{iframeUri}">
 
                 <f:for each="{api}" as="item">
-                    <f:if condition="{item.name} != 'class' && {item.name} != 'content'">
-                        <f:variable name="prefillValue" value="" />
-                        <f:if condition="{activeFixture}">
-                            <f:for each="{activeFixture}" as="fixtureValue" key="fixtureKey">
-                                <f:if condition="{fixtureKey} == {item.name}">
-                                    <f:variable name="prefillValue" value="{fixtureValue}" />
-                                </f:if>
-                            </f:for>
-                        </f:if>
-
-                        <div class="editFixturesFixtureFormItem">
-                            <f:if condition="{item.type} == 'string'">
-                                <div class="editFixturesLabelContainer">
-                                    <label for="formData[{item.name}]">{item.name}</label>
-                                    <f:if condition="{item.description}">
-                                        <small class="editFixturesLabelDescription">({item.description})</small>
-                                    </f:if>
-                                </div>
-                                <input class="editFixturesInput" name="formData[{item.name}]" type="text" value="{prefillValue}" />
+                    <f:variable name="prefillValue" value="" />
+                    <f:if condition="{activeFixture}">
+                        <f:for each="{activeFixture}" as="fixtureValue" key="fixtureKey">
+                            <f:if condition="{fixtureKey} == {item.name}">
+                                <f:variable name="prefillValue" value="{fixtureValue}" />
                             </f:if>
-                            <f:if condition="{item.type} == 'integer'">
-                                <div class="editFixturesLabelContainer">
-                                    <label for="formData[{item.name}]">{item.name}</label>
-                                    <f:if condition="{item.description}">
-                                        <small class="editFixturesLabelDescription">({item.description})</small>
-                                    </f:if>
-                                </div>
-                                <input class="editFixturesInput" name="formData[{item.name}]" type="number" value="{prefillValue}" />
-                            </f:if>
-                            <f:if condition="{item.type} == 'boolean'">
-                                <div class="editFixturesLabelContainer">
-                                    <div for="formData[{item.name}]">{item.name}</div>
-                                    <f:if condition="{item.description}">
-                                        <small class="editFixturesLabelDescription">({item.description})</small>
-                                    </f:if>
-                                </div>
-                                <label class="editFixturesCheckboxContainer">
-                                    <input name="formData[{item.name}]" type="hidden" value="FALSE" />
-                                    <input class="editFixturesCheckbox" name="formData[{item.name}]" type="checkbox" value="TRUE" {f:if(condition: prefillValue, then: 'checked')} />
-                                    <span class="editFixturesCheckboxCheckmark"></span>
-                                </label>
-                            </f:if>
-                        </div>
+                        </f:for>
                     </f:if>
+
+                    <div class="editFixturesFixtureFormItem">
+                        <f:if condition="{item.type} == 'string'">
+                            <div class="editFixturesLabelContainer">
+                                <label for="formData[{item.name}]">{item.name}</label>
+                                <f:if condition="{item.description}">
+                                    <small class="editFixturesLabelDescription">({item.description})</small>
+                                </f:if>
+                            </div>
+                            <input class="editFixturesInput" name="formData[{item.name}]" type="text" value="{prefillValue}" />
+                        </f:if>
+                        <f:if condition="{item.type} == 'integer'">
+                            <div class="editFixturesLabelContainer">
+                                <label for="formData[{item.name}]">{item.name}</label>
+                                <f:if condition="{item.description}">
+                                    <small class="editFixturesLabelDescription">({item.description})</small>
+                                </f:if>
+                            </div>
+                            <input class="editFixturesInput" name="formData[{item.name}]" type="number" value="{prefillValue}" />
+                        </f:if>
+                        <f:if condition="{item.type} == 'boolean'">
+                            <div class="editFixturesLabelContainer">
+                                <div for="formData[{item.name}]">{item.name}</div>
+                                <f:if condition="{item.description}">
+                                    <small class="editFixturesLabelDescription">({item.description})</small>
+                                </f:if>
+                            </div>
+                            <label class="editFixturesCheckboxContainer">
+                                <input name="formData[{item.name}]" type="hidden" value="FALSE" />
+                                <input class="editFixturesCheckbox" name="formData[{item.name}]" type="checkbox" value="TRUE" {f:if(condition: prefillValue, then: 'checked')} />
+                                <span class="editFixturesCheckboxCheckmark"></span>
+                            </label>
+                        </f:if>
+                    </div>
                 </f:for>
             </form>
         </div>
