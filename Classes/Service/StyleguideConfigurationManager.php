@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace Sitegeist\FluidStyleguide\Service;
 
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Sitegeist\FluidStyleguide\Domain\Model\Package;
+use Sitegeist\FluidStyleguide\Event\AfterConfigurationLoadedEvent;
 use Sitegeist\FluidStyleguide\Exception\InvalidAssetException;
 use TYPO3\CMS\Core\Configuration\Loader\YamlFileLoader;
 use TYPO3\CMS\Core\Http\Uri;
@@ -25,6 +27,8 @@ class StyleguideConfigurationManager
      */
     protected $packageManager;
 
+    protected EventDispatcherInterface $eventDispatcher;
+
     /**
      * @var string
      */
@@ -35,14 +39,14 @@ class StyleguideConfigurationManager
      */
     protected $mergedConfiguration;
 
-    /**
-     * @param YamlFileLoader $yamlFileLoader
-     * @param PackageManager $packageManager
-     */
-    public function __construct(YamlFileLoader $yamlFileLoader, PackageManager $packageManager)
-    {
+    public function __construct(
+        YamlFileLoader $yamlFileLoader,
+        PackageManager $packageManager,
+        EventDispatcherInterface $eventDispatcher
+    ) {
         $this->yamlFileLoader = $yamlFileLoader;
         $this->packageManager = $packageManager;
+        $this->eventDispatcher = $eventDispatcher;
         $this->loadConfiguration();
     }
 
@@ -66,6 +70,10 @@ class StyleguideConfigurationManager
                 );
             }
         }
+
+        $this->mergedConfiguration = $this->eventDispatcher
+            ->dispatch(new AfterConfigurationLoadedEvent($this->mergedConfiguration, self::getCurrentSite()))
+            ->getConfiguration();
 
         // Sanitize component assets
         $this->mergedConfiguration['ComponentAssets']['Global']['Css'] = $this->sanitizeComponentAssets(
