@@ -266,7 +266,7 @@ class StyleguideConfigurationManager
         return $baseUrl
             ->withPath(
                 $baseUrl->getPath() .
-                PathUtility::stripPathSitePrefix(GeneralUtility::getFileAbsFileName($path))
+                PathUtility::getAbsoluteWebPath($path, false)
             )
             ->withQuery('?' . $modified)
             ->withPort(GeneralUtility::getIndpEnv('TYPO3_PORT') ?: null);
