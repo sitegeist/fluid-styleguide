@@ -4,17 +4,18 @@ declare(strict_types=1);
 namespace Sitegeist\FluidStyleguide\ViewHelpers\Component;
 
 use Sitegeist\FluidStyleguide\Domain\Model\Component;
-use Sitegeist\FluidStyleguide\Domain\Model\ComponentName;
+use Sitegeist\FluidStyleguide\Domain\Repository\ComponentRepository;
 use Sitegeist\FluidStyleguide\Exception\RequiredComponentArgumentException;
+use Sitegeist\FluidStyleguide\Service\StyleguideConfigurationManager;
 use SMS\FluidComponents\Fluid\ViewHelper\ComponentRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\Variables\StandardVariableProvider;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
 use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 
-class ExampleViewHelper extends AbstractViewHelper
+class RenderFixtureViewHelper extends AbstractViewHelper
 {
     use CompileWithRenderStatic;
 
@@ -25,19 +26,9 @@ class ExampleViewHelper extends AbstractViewHelper
 
     public function initializeArguments()
     {
-        $this->registerArgument('component', Component::class, 'Component that should be rendered', true);
-        $this->registerArgument('fixtureName', 'string', 'Name of the fixture that should be used in the example');
-        $this->registerArgument('fixtureData', 'array', 'Additional dynamic fixture data that should be used in the example');
-        $this->registerArgument('context', 'string', 'The context (html markup) in which the component should be displayed in the styleguide', false, '|');
-        $this->registerArgument(
-            'applyContextFromFixture',
-            'bool',
-            'Component context from fixture data (styleguideComponentContext property) will overrule context specified in ViewHelper call',
-            false,
-            false
-        );
-        $this->registerArgument('execute', 'bool', 'Set to true if the component example should be executed', false, false);
-        $this->registerArgument('handleExceptions', 'bool', 'Handle exceptions that occur during execution of the example', false, false);
+        $this->registerArgument('component', 'string', 'Name of the component that should be rendered', true);
+        $this->registerArgument('fixtureName', 'string', 'Name of the fixture that the component should be rendered with', false, 'default');
+        $this->registerArgument('fixtureData', 'array', 'Additional dynamic fixture data that should be used');
     }
 
     /**
@@ -53,81 +44,89 @@ class ExampleViewHelper extends AbstractViewHelper
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
     ): string {
+
+        $componentIdentifier = self::sanitizeComponentIdentifier($arguments['component'] ?? '');
+
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        $componentRepository = $objectManager->get(ComponentRepository::class);
+
+        $component = $componentRepository->findWithFixturesByIdentifier($componentIdentifier);
+        if (!$component) {
+            return sprintf('Component %s not found', $componentIdentifier);
+        }
+
         if (!isset($arguments['fixtureName']) && !isset($arguments['fixtureData'])) {
             throw new \InvalidArgumentException(sprintf(
-                'A fixture name or fixture data has to be specified to render the component example of %s.',
-                $arguments['component']->getName()->getIdentifier()
+                'A fixture name or fixture data has to be specified to render the component %s.',
+                $arguments['component']
             ), 1566377563);
         }
 
         $fixtureData = $arguments['fixtureData'] ?? [];
-        $componentContext = $arguments['context'];
 
-        if (isset($arguments['fixtureName'])) {
-            $componentFixture = $arguments['component']->getFixture($arguments['fixtureName']);
+        $fixtureName = self::sanitizeFixtureName($arguments['fixtureName'] ?? 'default');
+
+        if (isset($fixtureName)) {
+            $componentFixture = $component->getFixture($fixtureName);
             if (!$componentFixture) {
                 throw new \InvalidArgumentException(sprintf(
                     'Invalid fixture name "%s" specified for component %s.',
-                    $arguments['fixtureName'],
-                    $arguments['component']->getName()->getIdentifier()
+                    $fixtureName,
+                    $componentIdentifier
                 ), 1566377564);
             }
 
             // Merge static fixture data with manually edited data
             $fixtureData = array_replace($componentFixture->getData(), $fixtureData);
-
-            // Overrule component context if specified in fixture data
-            if ($arguments['applyContextFromFixture'] && isset($fixtureData['styleguideComponentContext'])) {
-                $componentContext = $fixtureData['styleguideComponentContext'];
-            }
-            unset($fixtureData['styleguideComponentContext']);
         }
 
-        if ($arguments['execute']) {
-            try {
-                // Parse fluid code in fixtures
-                $fixtureData = self::renderFluidInExampleData($fixtureData, $renderingContext);
+        $renderingContext->getViewHelperResolver()->addNamespace('fsv', 'Sitegeist\FluidStyleguide\ViewHelpers');
 
-                $componentMarkup = self::renderComponent(
-                    $arguments['component'],
-                    $fixtureData,
-                    $renderingContext
-                );
+        // Parse fluid code in fixtures
+        $fixtureData = self::renderFluidInExampleData($fixtureData, $renderingContext);
 
-                $componentWithContext = self::applyComponentContext(
-                    $componentMarkup,
-                    $componentContext,
-                    $renderingContext,
-                    array_replace(
-                        $arguments['component']->getDefaultValues(),
-                        $fixtureData
-                    )
-                );
-            } catch (\Exception $e) {
-                if ($arguments['handleExceptions']) {
-                    return sprintf(
-                        'Exception: %s (#%d %s)',
-                        $e->getMessage(),
-                        $e->getCode(),
-                        get_class($e)
-                    );
-                } else {
-                    throw $e;
-                }
-            }
-        } else {
-            $componentMarkup = static::renderComponentTag(
-                $arguments['component']->getName(),
+        $styleguideConfigurationManager = $objectManager->get(StyleguideConfigurationManager::class);
+        $componentContext = $styleguideConfigurationManager->getComponentContext();
+
+        $componentMarkup = self::renderComponent(
+            $component,
+            $fixtureData,
+            $renderingContext
+        );
+
+        $componentWithContext = self::applyComponentContext(
+            $componentMarkup,
+            $componentContext,
+            $renderingContext,
+            array_replace(
+                $component->getDefaultValues(),
                 $fixtureData
-            );
-
-            $componentWithContext = self::applyComponentContext(
-                $componentMarkup,
-                $componentContext
-            );
-        }
+            )
+        );
 
         return $componentWithContext;
+    }
+
+    /**
+     * Make sure that the component identifier doesn't include any malicious characters
+     *
+     * @param string $componentIdentifier
+     * @return string
+     */
+    protected static function sanitizeComponentIdentifier(string $componentIdentifier): string
+    {
+        return trim(preg_replace('#[^a-z0-9_\\\\]#i', '', $componentIdentifier), '\\');
+    }
+
+    /**
+     * Make sure that the fixture name doesn't include any malicious characters
+     *
+     * @param string $fixtureName
+     * @return string
+     */
+    protected static function sanitizeFixtureName(string $fixtureName): string
+    {
+        return preg_replace('#[^a-z0-9_]#i', '', $fixtureName);
     }
 
     /**
@@ -182,28 +181,6 @@ class ExampleViewHelper extends AbstractViewHelper
         } else {
             return $data;
         }
-    }
-
-    /**
-     * Renders fluid code of a component call
-     *
-     * @param ComponentName $componentName
-     * @param array $data
-     * @return string
-     */
-    public static function renderComponentTag(ComponentName $componentName, array $data): string
-    {
-        $fluidComponent = new TagBuilder($componentName->getTagName());
-        $data = array_map([static::class, 'encodeFluidVariable'], $data);
-
-        if (isset($data['content'])) {
-            $fluidComponent->setContent($data['content']);
-            unset($data['content']);
-        }
-
-        $fluidComponent->addAttributes($data, false);
-
-        return $fluidComponent->render();
     }
 
     /**
@@ -266,33 +243,5 @@ class ExampleViewHelper extends AbstractViewHelper
         }
 
         return file_get_contents($path);
-    }
-
-    /**
-     * Encodes a fluid variable for use in component/viewhelper call
-     *
-     * @param $input mixed
-     * @param $isRoot bool
-     * @return string
-     */
-    public static function encodeFluidVariable($input, bool $isRoot = true): string
-    {
-        if (is_array($input)) {
-            $fluidArray = [];
-            foreach ($input as $key => $value) {
-                $fluidArray[] = (string) $key . ': ' . static::encodeFluidVariable($value, false);
-            }
-            return '{' . implode(', ', $fluidArray) . '}';
-        }
-
-        if (is_string($input) && !$isRoot) {
-            return "'" . addcslashes($input, "'") . "'";
-        }
-
-        if (is_bool($input)) {
-            return ($input) ? 'TRUE' : 'FALSE';
-        }
-
-        return (string) $input;
     }
 }
