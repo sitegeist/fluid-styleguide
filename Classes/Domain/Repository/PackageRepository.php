@@ -6,7 +6,6 @@ namespace Sitegeist\FluidStyleguide\Domain\Repository;
 use Psr\Container\ContainerInterface;
 use Sitegeist\FluidStyleguide\Domain\Model\Package;
 use SMS\FluidComponents\Utility\ComponentLoader;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\Core\ViewHelper\ViewHelperResolver;
 use TYPO3\CMS\Fluid\Core\ViewHelper\ViewHelperResolverFactoryInterface;
 
@@ -86,10 +85,6 @@ class PackageRepository implements \TYPO3\CMS\Core\SingletonInterface
 
     protected function getViewHelperResolver(): ViewHelperResolver
     {
-        if (version_compare(TYPO3_version, '11.4', '>=')) {
-            return $this->container->get(ViewHelperResolverFactoryInterface::class)->create();
-        } else {
-            return GeneralUtility::makeInstance(ViewHelperResolver::class);
-        }
+        return $this->container->get(ViewHelperResolverFactoryInterface::class)->create();
     }
 }

@@ -15,10 +15,9 @@
         "issues": "https://github.com/sitegeist/fluid-styleguide/issues"
     },
     "require": {
-        "typo3/cms-core": "^11.4 || ^10.4",
-        "sitegeist/fluid-components": "^3.0",
+        "typo3/cms-core": "^12.2 || ^11.5",
+        "sitegeist/fluid-components": "^3.0 || ^4.0",
         "erusev/parsedown": "^1.7.4",
-        "php": ">=7.4.0",
         "colinodell/json5": "^2.1"
     },
     "require-dev": {
