@@ -168,12 +168,14 @@ class StyleguideRouter implements MiddlewareInterface
             ->withAttribute('extbase', $extbaseAttribute)
             ->withAttribute('applicationType', SystemEnvironmentBuilder::REQUESTTYPE_FE)
             ->withAttribute('frontend.typoscript', new FrontendTypoScript(new RootNode(), []))
+            ->withAttribute('frontend.controller', $GLOBALS['TSFE'])
         );
 
         $view->setRequest($request);
         $controller->setRequest($request);
 
-//        $GLOBALS['TYPO3_REQUEST'] = $request;
+        // set the global, since some ViewHelper still fallback to $GLOBALS['TYPO3_REQUEST']
+        $GLOBALS['TYPO3_REQUEST'] = $request;
         $controller->initializeView($view);
 
         // Call controller action
