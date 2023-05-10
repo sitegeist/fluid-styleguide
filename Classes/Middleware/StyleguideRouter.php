@@ -168,8 +168,7 @@ class StyleguideRouter implements MiddlewareInterface
             ->withAttribute('extbase', $extbaseAttribute)
             ->withAttribute('applicationType', SystemEnvironmentBuilder::REQUESTTYPE_FE)
             ->withAttribute('frontend.typoscript', new FrontendTypoScript(new RootNode(), []))
-            ->withAttribute('frontend.controller', $GLOBALS['TSFE'])
-        );
+            ->withAttribute('frontend.controller', $GLOBALS['TSFE']));
 
         $view->setRequest($request);
         $controller->setRequest($request);
