@@ -15,6 +15,7 @@ use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Core\SystemEnvironmentBuilder;
 use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Http\RedirectResponse;
+use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Routing\PageArguments;
 use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
 use TYPO3\CMS\Core\TypoScript\AST\Node\RootNode;
@@ -163,8 +164,11 @@ class StyleguideRouter implements MiddlewareInterface
         $request = new Request($request
             ->withAttribute('extbase', $extbaseAttribute)
             ->withAttribute('applicationType', SystemEnvironmentBuilder::REQUESTTYPE_FE)
-            ->withAttribute('frontend.typoscript', new FrontendTypoScript(new RootNode(), []))
             ->withAttribute('frontend.controller', $GLOBALS['TSFE']));
+
+        if ((new Typo3Version())->getMajorVersion() >= 12) {
+            $request = $request->withAttribute('frontend.typoscript', new FrontendTypoScript(new RootNode(), []));
+        }
 
         $view->setRequest($request);
         $controller->setRequest($request);
