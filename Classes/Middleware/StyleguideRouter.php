@@ -137,9 +137,6 @@ class StyleguideRouter implements MiddlewareInterface
             );
 
             if ($styleguideLanguage) {
-                // Set language in TSFE object
-//                $GLOBALS['TSFE']->lang = $styleguideLanguage['identifier'];
-
                 // Replace language in request
                 $request = $request->withAttribute('language', new SiteLanguage(
                     0,
@@ -153,7 +150,6 @@ class StyleguideRouter implements MiddlewareInterface
                         'twoLetterIsoCode' => $styleguideLanguage['twoLetterIsoCode']
                     ]
                 ));
-                $GLOBALS['TYPO3_REQUEST'] = $request;
             }
         }
 
