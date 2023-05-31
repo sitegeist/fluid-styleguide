@@ -56,20 +56,14 @@ class Component
 
     public function getFixtureFile(): string
     {
+        $fixtureFilesToSearch = [
+            '.fixture.php',
+            '.fixture.json',
+            '.fixture.yml',
+            '.fixture.yaml'
+        ];
         if (Environment::isComposerMode()) {
-            $fixtureFilesToSearch = [
-                '.fixture.json',
-                '.fixture.json5',
-                '.fixture.yml',
-                '.fixture.yaml'
-            ];
-        } else {
-            // no composer, no json5 package
-            $fixtureFilesToSearch = [
-                '.fixture.json',
-                '.fixture.yml',
-                '.fixture.yaml'
-            ];
+            $fixtureFilesToSearch[] = '.fixture.json5';
         }
 
         foreach ($fixtureFilesToSearch as $fixtureFile) {
@@ -116,6 +110,9 @@ class Component
             case 'yml':
                 $loader = GeneralUtility::makeInstance(YamlFileLoader::class);
                 $fixtures = $loader->load($fixtureFile) ?? [];
+                break;
+            case 'php':
+                $fixtures = require $fixtureFile;
                 break;
             default:
                 throw new \Exception('Fixture format unknown', 1582196195);
