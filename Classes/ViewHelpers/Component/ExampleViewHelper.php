@@ -291,6 +291,10 @@ class ExampleViewHelper extends AbstractViewHelper
             return ($input) ? 'TRUE' : 'FALSE';
         }
 
+        if ($input instanceof \UnitEnum) {
+            return $input::class . '::' . $input->name;
+        }
+
         return (string) $input;
     }
 }
