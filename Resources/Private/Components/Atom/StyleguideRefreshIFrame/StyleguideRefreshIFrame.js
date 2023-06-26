@@ -1,9 +1,11 @@
+import { findAll } from '../../../Javascript/Utils';
 const button = document.getElementById('styleguideRefreshIframe_button')
-const iframe = document.getElementById('componentIframe')
 
 if (button != null) {
     button.addEventListener('click', function () {
-        iframe.contentWindow.location.reload(true)
+        findAll(`iframe[name="componentIframe"]`).forEach(iframe => {
+            iframe.contentWindow.location.reload(true)
+        })
     })
 }
 

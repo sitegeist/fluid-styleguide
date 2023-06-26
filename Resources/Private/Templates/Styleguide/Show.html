@@ -23,11 +23,13 @@
         </fsc:Atom.StyleguideSelect>
     </div>
 
-
     <div class="actions">
         <fsc:atom.StyleguideRefreshIFrame />
         <f:if condition="{styleguideConfiguration.Features.Languages}">
             <fsc:Atom.languageNavigation languages="{styleguideConfiguration.languages}" />
+        </f:if>
+        <f:if condition="{styleguideConfiguration.Features.VariantsToggle}">
+            <fsc:Atom.variantsToggleNavigation checked="{showAllVariants}"/>
         </f:if>
         <f:if condition="{styleguideConfiguration.Features.ResponsiveBreakpoints}">
             <fsc:Atom.viewportNavigation viewPorts="{styleguideConfiguration.responsiveBreakpoints}" />
@@ -37,14 +39,30 @@
 </f:section>
 
 <f:section name="Content">
-    <f:variable name="iframeUri" value="{fsv:uri.styleguide(
-        action: 'component',
-        arguments: {component: activeComponent.name.identifier, fixture: activeFixture}
-    )}" />
+    <f:if condition="{showAllVariants}">
+        <f:then>
+            <f:for each="{activeComponent.fixtures}" as="fixture">
+                <f:variable name="iframeUri" value="{fsv:uri.styleguide(
+                action: 'component',
+                arguments: { component: activeComponent.name.identifier, fixture: fixture.name}
+            )}" />
+                <div class="fluidStyleguideShow showAllVariants">
+                    <h4 class="fluidStyleguideFixtureName">{fixture.name}</h4>
+                    <iframe class="fluidStyleguideComponent iframeResize" name="componentIframe" src="{iframeUri}" loading="lazy"></iframe>
+                </div>
+            </f:for>
+        </f:then>
+        <f:else>
+            <f:variable name="iframeUri" value="{fsv:uri.styleguide(
+                action: 'component',
+                arguments: {component: activeComponent.name.identifier, fixture: activeFixture}
+            )}" />
 
-    <div class="fluidStyleguideShow">
-        <iframe class="fluidStyleguideComponent" name="componentIframe" id="componentIframe" src="{iframeUri}" loading="lazy"></iframe>
-    </div>
+            <div class="fluidStyleguideShow">
+                <iframe class="fluidStyleguideComponent" name="componentIframe" id="componentIframe" src="{iframeUri}" loading="lazy"></iframe>
+            </div>
+        </f:else>
+    </f:if>
 
     <fsc:organism.styleguideToolbar
         iframeUri="{iframeUri}"

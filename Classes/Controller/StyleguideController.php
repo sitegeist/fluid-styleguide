@@ -69,14 +69,16 @@ class StyleguideController
      *
      * @return void
      */
-    public function listAction()
+    public function listAction(array $arguments = [])
     {
+        $variants = $arguments['variants'] ?? '0';
         $allComponents = $this->componentRepository->findWithFixtures();
         $componentPackages = $this->groupComponentsByPackage($allComponents);
 
         $this->view->assignMultiple([
             'navigation' => $allComponents,
-            'packages' => $componentPackages
+            'packages' => $componentPackages,
+            'showAllVariants' => $variants,
         ]);
     }
 
@@ -89,6 +91,7 @@ class StyleguideController
     {
         $component = $arguments['component'] ?? '';
         $fixture = $arguments['fixture'] ?? 'default';
+        $variants = $arguments['variants'] ?? '0';
 
         // Sanitize user input
         $component = $this->sanitizeComponentIdentifier($component);
@@ -122,6 +125,7 @@ class StyleguideController
             'navigation' => $this->componentRepository->findWithFixtures(),
             'activeComponent' => $component,
             'activeFixture' => $fixture,
+            'showAllVariants' => $variants,
             'showQualityIssues' => $showQualityIssues,
             'qualityIssues' => $qualityIssues
         ]);
