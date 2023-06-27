@@ -10,6 +10,9 @@
                 <fsc:Atom.languageNavigation listView="1" languages="{styleguideConfiguration.languages}" />
             </f:if>
         </f:comment>
+        <f:if condition="{styleguideConfiguration.Features.VariantsToggle}">
+            <fsc:Atom.variantsToggleNavigation listView="1" checked="{showAllVariants}"/>
+        </f:if>
         <f:if condition="{styleguideConfiguration.Features.ResponsiveBreakpoints}">
             <fsc:Atom.viewportNavigation listView="1" viewPorts="{styleguideConfiguration.responsiveBreakpoints}" />
         </f:if>
@@ -30,21 +33,49 @@
                 <h2 class="fluidStyleguidePackageName">Package: {namespace}</h2>
                 <div class="fluidStyleguideComponent-items">
                     <f:for each="{components}" as="component">
-                        <f:variable name="iframeUri" value="{fsv:uri.styleguide(
-                            action: 'component',
-                            arguments: {component: component.name.identifier}
-                        )}" />
-                        <div class="fluidStyleguideComponentVariants">
-                            <div class="fluidStyleguideComponentExample">
-                                <h3 class="fluidStyleguideComponentName">{component.name.displayName}</h3>
-                                <div class="fluidStyleguideListIframeWrapper">
-                                    <iframe class="fluidStyleguideComponent iframeResize" src="{iframeUri}" loading="lazy"></iframe>
+                        <f:if condition="{showAllVariants}">
+                            <f:then>
+                                <div class="fluidStyleguideComponentVariants">
+                                    <div class="fluidStyleguideComponentExample">
+                                        <h3 class="fluidStyleguideComponentName">{component.name.displayName}</h3>
+                                        <f:for each="{component.fixtures}" as="fixture">
+                                            <f:variable name="iframeUri" value="{fsv:uri.styleguide(
+                                                action: 'component',
+                                                arguments: {
+                                                    component: component.name.identifier,
+                                                    fixture: fixture.name
+                                                }
+                                            )}" />
+                                            <div class="fluidStyleguideListIframeWrapper ">
+                                                <h4 class="fluidStyleguideFixtureName">{fixture.name}</h4>
+                                                <iframe class="fluidStyleguideComponent iframeResize" src="{iframeUri}" loading="lazy"></iframe>
+                                            </div>
+                                            <a style="margin-bottom: 2rem" href="{fsv:uri.styleguide(action: 'show', arguments: {component: component.name.identifier, fixture: fixture.name})}" class="fluidStyleguideBtn">
+                                                <span>Show</span>
+                                            </a>
+                                        </f:for>
+                                    </div>
                                 </div>
-                                <a href="{fsv:uri.styleguide(action: 'show', arguments: {component: component.name.identifier})}" class="fluidStyleguideBtn">
-                                    <span>Show</span>
-                                </a>
-                            </div>
-                        </div>
+                            </f:then>
+                            <f:else>
+                                <f:variable name="iframeUri" value="{fsv:uri.styleguide(
+                                    action: 'component',
+                                    arguments: {component: component.name.identifier}
+                                )}" />
+                                <div class="fluidStyleguideComponentVariants">
+                                    <div class="fluidStyleguideComponentExample">
+                                        <h3 class="fluidStyleguideComponentName">{component.name.displayName}</h3>
+                                        <div class="fluidStyleguideListIframeWrapper">
+                                            <iframe class="fluidStyleguideComponent iframeResize" src="{iframeUri}" loading="lazy"></iframe>
+                                        </div>
+                                        <a href="{fsv:uri.styleguide(action: 'show', arguments: {component: component.name.identifier, fixture: fixture.name})}" class="fluidStyleguideBtn">
+                                            <span>Show</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </f:else>
+                        </f:if>
+
                     </f:for>
                 </div>
             </div>

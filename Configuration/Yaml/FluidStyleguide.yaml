@@ -29,6 +29,9 @@ FluidStyleguide:
         # uses fluid-components-linter to provide hints to potential problems
         CodeQuality: true
 
+        # Display all available Variants of the component
+        VariantsToggle: true
+
     # Markup that will be wrapped around the component output in the styleguide
     # This can be overwritten per component fixture by specifying
     # "styleguideComponentContext" in the fixture data

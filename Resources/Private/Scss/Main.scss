@@ -9,6 +9,7 @@
 @import '../Components/Atom/StyleguideScrollTop/StyleguideScrollTop';
 @import '../Components/Atom/ViewportNavigation/ViewportNavigation';
 @import '../Components/Atom/LanguageNavigation/LanguageNavigation';
+@import '../Components/Atom/VariantsToggleNavigation/VariantsToggleNavigation';
 @import '../Components/Molecule/EditFixtures/EditFixtures';
 @import '../Components/Organism/StyleguideToolbar/StyleguideToolbar';
 
@@ -26,4 +27,10 @@ body {
 
 pre {
     margin: 0 !important;
+}
+
+.fluidStyleguideFixtureName {
+    font-size: 18px;
+    font-family: $styleguide-font;
+    color: $dark-grey-0;
 }
