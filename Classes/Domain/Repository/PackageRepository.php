@@ -9,6 +9,7 @@ use SMS\FluidComponents\Utility\ComponentLoader;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\Core\ViewHelper\ViewHelperResolver;
 use TYPO3\CMS\Fluid\Core\ViewHelper\ViewHelperResolverFactoryInterface;
+use TYPO3\CMS\Core\Information\Typo3Version;
 
 class PackageRepository implements \TYPO3\CMS\Core\SingletonInterface
 {
@@ -86,7 +87,7 @@ class PackageRepository implements \TYPO3\CMS\Core\SingletonInterface
 
     protected function getViewHelperResolver(): ViewHelperResolver
     {
-        if (version_compare(TYPO3_version, '11.4', '>=')) {
+        if ((new Typo3Version())->getMajorVersion() >= 11) {
             return $this->container->get(ViewHelperResolverFactoryInterface::class)->create();
         } else {
             return GeneralUtility::makeInstance(ViewHelperResolver::class);

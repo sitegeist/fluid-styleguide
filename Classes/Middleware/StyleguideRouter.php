@@ -21,6 +21,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
+use TYPO3\CMS\Core\Information\Typo3Version;
 
 class StyleguideRouter implements MiddlewareInterface
 {
@@ -178,7 +179,9 @@ class StyleguideRouter implements MiddlewareInterface
         string $actionName
     ): StandaloneView {
         $view = $this->container->get(StandaloneView::class);
-        if (version_compare(TYPO3_version, '11.0', '>=')) {
+                if ((new Typo3Version())->getMajorVersion() >= 11
+            && (new Typo3Version())->getMajorVersion() < 12
+            && $this->renderingContext->getControllerContext()) {
             $request = $view->getRenderingContext()->getControllerContext()->getRequest()
                 ->withAttribute('applicationType', SystemEnvironmentBuilder::REQUESTTYPE_FE);
             $request->setControllerExtensionName($extensionName);
