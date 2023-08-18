@@ -8,7 +8,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             -
-                uses: actions/checkout@v2
+                uses: actions/checkout@v3
 
             -
                 name: Validate composer.json
@@ -16,7 +16,7 @@ jobs:
 
             -
                 name: Cache composer dependencies
-                uses: actions/cache@v1
+                uses: actions/cache@v3
                 with:
                     path: ~/.composer/cache
                     key: composer
@@ -62,7 +62,7 @@ jobs:
         name: Unit (PHP ${{ matrix.php-versions }}, TYPO3 ${{ matrix.typo3-versions }})
         steps:
             -
-                uses: actions/checkout@v2
+                uses: actions/checkout@v3
 
             -
                 name: Validate composer.json
@@ -70,7 +70,7 @@ jobs:
 
             -
                 name: Cache composer dependencies
-                uses: actions/cache@v1
+                uses: actions/cache@v3
                 with:
                     path: ~/.composer/cache
                     key: php-${{ matrix.php-versions }}-typo3-${{ matrix.typo3-versions }}
@@ -90,17 +90,29 @@ jobs:
         strategy:
             max-parallel: 2
             matrix:
-                php-versions: [7.4, '8.0']
-                typo3-versions: [10, 11]
+                php-versions: [7.4, '8.0','8.1','8.2']
+                typo3-versions: [10, 11, 12]
                 exclude:
                     -
                         php-versions: '8.0'
                         typo3-versions: 10
+                    -
+                        php-versions: '8.1'
+                        typo3-versions: 10
+                    -
+                        php-versions: '8.2'
+                        typo3-versions: 10
+                    -
+                        php-versions: '7.4'
+                        typo3-versions: 12
+                    -
+                        php-versions: '8.0'
+                        typo3-versions: 12
 
         name: Functional (PHP ${{ matrix.php-versions }}, TYPO3 ${{ matrix.typo3-versions }})
         steps:
             -
-                uses: actions/checkout@v2
+                uses: actions/checkout@v3
 
             -
                 name: Validate composer.json
@@ -108,7 +120,7 @@ jobs:
 
             -
                 name: Cache composer dependencies
-                uses: actions/cache@v1
+                uses: actions/cache@v3
                 with:
                     path: ~/.composer/cache
                     key: php-${{ matrix.php-versions }}-typo3-${{ matrix.typo3-versions }}
