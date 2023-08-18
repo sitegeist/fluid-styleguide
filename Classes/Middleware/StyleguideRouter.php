@@ -179,7 +179,7 @@ class StyleguideRouter implements MiddlewareInterface
         string $actionName
     ): StandaloneView {
         $view = $this->container->get(StandaloneView::class);
-                if ((new Typo3Version())->getMajorVersion() >= 11
+        if ((new Typo3Version())->getMajorVersion() >= 11
             && (new Typo3Version())->getMajorVersion() < 12
             && $this->renderingContext->getControllerContext()) {
             $request = $view->getRenderingContext()->getControllerContext()->getRequest()
