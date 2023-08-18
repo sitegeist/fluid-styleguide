@@ -181,7 +181,7 @@ class StyleguideRouter implements MiddlewareInterface
         $view = $this->container->get(StandaloneView::class);
         if ((new Typo3Version())->getMajorVersion() >= 11
             && (new Typo3Version())->getMajorVersion() < 12
-            && $this->renderingContext->getControllerContext()) {
+            && $view->getRenderingContext()->getControllerContext()) {
             $request = $view->getRenderingContext()->getControllerContext()->getRequest()
                 ->withAttribute('applicationType', SystemEnvironmentBuilder::REQUESTTYPE_FE);
             $request->setControllerExtensionName($extensionName);
