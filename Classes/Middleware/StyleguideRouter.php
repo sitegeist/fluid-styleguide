@@ -157,6 +157,11 @@ class StyleguideRouter implements MiddlewareInterface
         // Create view
         $view = $this->container->get(StandaloneView::class);
 
+        if ((new Typo3Version())->getMajorVersion() < 12) {
+            $view->getRenderingContext()->setControllerName('Styleguide');
+            $view->getRenderingContext()->setControllerAction($actionName);
+        }
+
         $extbaseAttribute = new ExtbaseRequestParameters();
         $extbaseAttribute->setControllerExtensionName('fluidStyleguide');
         $extbaseAttribute->setControllerName('Styleguide');
@@ -168,9 +173,9 @@ class StyleguideRouter implements MiddlewareInterface
 
         if ((new Typo3Version())->getMajorVersion() >= 12) {
             $request = $request->withAttribute('frontend.typoscript', new FrontendTypoScript(new RootNode(), []));
+            $view->setRequest($request);
         }
 
-        $view->setRequest($request);
         $controller->setRequest($request);
 
         // set the global, since some ViewHelper still fallback to $GLOBALS['TYPO3_REQUEST']
