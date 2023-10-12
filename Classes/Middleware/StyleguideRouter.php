@@ -149,9 +149,11 @@ class StyleguideRouter implements MiddlewareInterface
                         'twoLetterIsoCode' => $styleguideLanguage['twoLetterIsoCode']
                     ]
                 ));
-                $GLOBALS['TYPO3_REQUEST'] = $request;
             }
         }
+
+        $request = $request->withAttribute('frontend.controller', $GLOBALS['TSFE']);
+        $GLOBALS['TYPO3_REQUEST'] = $request;
 
         // Create view
         $view = $this->createView('fluidStyleguide', 'Styleguide', $actionName);
