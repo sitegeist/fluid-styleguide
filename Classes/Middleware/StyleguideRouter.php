@@ -154,6 +154,9 @@ class StyleguideRouter implements MiddlewareInterface
             }
         }
 
+        $request = $request->withAttribute('frontend.controller', $GLOBALS['TSFE']);
+        $GLOBALS['TYPO3_REQUEST'] = $request;
+
         // Create view
         $view = $this->container->get(StandaloneView::class);
 
