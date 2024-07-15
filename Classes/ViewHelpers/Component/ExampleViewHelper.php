@@ -23,7 +23,7 @@ class ExampleViewHelper extends AbstractViewHelper
      */
     protected $escapeOutput = false;
 
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('component', Component::class, 'Component that should be rendered', true);
         $this->registerArgument('fixtureName', 'string', 'Name of the fixture that should be used in the example');
@@ -169,9 +169,9 @@ class ExampleViewHelper extends AbstractViewHelper
      *
      * @param array $data
      * @param RenderingContextInterface $renderingContext
-     * @return void
+     * @return array
      */
-    public static function renderFluidInExampleData(array $data, RenderingContextInterface $renderingContext)
+    public static function renderFluidInExampleData(array $data, RenderingContextInterface $renderingContext): array
     {
         return array_map(function ($value) use ($renderingContext) {
             if (is_string($value)) {
