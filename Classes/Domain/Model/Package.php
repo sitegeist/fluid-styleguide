@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 namespace Sitegeist\FluidStyleguide\Domain\Model;
 
+use TYPO3\CMS\Core\Package\PackageInterface;
 use TYPO3\CMS\Core\Package\PackageManager;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Service\DependencyOrderingService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class Package
@@ -59,18 +60,22 @@ class Package
         return $this->path;
     }
 
-    public function getExtension(): ?\TYPO3\CMS\Core\Package\PackageInterface
+    public function getExtension(): ?PackageInterface
     {
-        if (!$this->extension) {
-            $activeExtensions = GeneralUtility::makeInstance(PackageManager::class)->getActivePackages();
+        if ($this->extension) {
+            return $this->extension;
+        }
+
+        $dependencyOrderingService = GeneralUtility::makeInstance(DependencyOrderingService::class);
+        $activeExtensions = GeneralUtility::makeInstance(PackageManager::class, $dependencyOrderingService)->getActivePackages();
             foreach ($activeExtensions as $extension) {
                 if (strpos($this->getPath(), $extension->getPackagePath()) === 0) {
                     $this->extension = $extension;
-                    break;
-                }
+                return $this->extension;
             }
         }
-        return $this->extension;
+
+        return null;
     }
 
     /**
