@@ -3,18 +3,18 @@ $EM_CONF[$_EXTKEY] = [
     'title' => 'Fluid Styleguide',
     'description' => 'Living styleguide for Fluid Components',
     'category' => 'fe',
-    'author' => 'Simon Praetorius',
-    'author_email' => 'praetorius@sitegeist.de',
+    'author' => 'Ulrich Mathes, Simon Praetorius',
+    'author_email' => 'mathes@sitegeist.de, moin@praetorius.me',
     'author_company' => 'sitegeist media solutions GmbH',
     'state' => 'stable',
     'uploadfolder' => false,
     'clearCacheOnLoad' => false,
-    'version' => '2.1.1',
+    'version' => '',
     'constraints' => [
         'depends' => [
-            'typo3' => '10.4.0-11.9.99',
+            'typo3' => '12.4.0-13.9.99',
             'fluid_components' => '3.0.0-3.99.99',
-            'php' => '7.4.0-8.9.99'
+            'php' => '8.2.0-8.9.99'
         ],
         'conflicts' => [
         ],
