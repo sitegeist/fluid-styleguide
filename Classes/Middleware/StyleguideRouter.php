@@ -174,10 +174,12 @@ class StyleguideRouter implements MiddlewareInterface
             ->withAttribute('applicationType', SystemEnvironmentBuilder::REQUESTTYPE_FE)
             ->withAttribute('frontend.controller', $GLOBALS['TSFE']));
 
-        if ((new Typo3Version())->getMajorVersion() >= 12) {
-            $request = $request->withAttribute('frontend.typoscript', new FrontendTypoScript(new RootNode(), []));
-            $view->setRequest($request);
-        }
+
+        $plainFrontendTypoScript = new FrontendTypoScript(new RootNode(), [], [], []);
+        $plainFrontendTypoScript->setConfigArray([]);
+
+        $request = $request->withAttribute('frontend.typoscript', $plainFrontendTypoScript);
+        $view->setRequest($request);
 
         $controller->setRequest($request);
 
