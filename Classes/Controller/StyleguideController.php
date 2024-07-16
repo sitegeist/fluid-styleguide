@@ -4,72 +4,36 @@ declare(strict_types=1);
 namespace Sitegeist\FluidStyleguide\Controller;
 
 use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Sitegeist\FluidComponentsLinter\Service\CodeQualityService;
 use Sitegeist\FluidComponentsLinter\Service\ConfigurationService;
-use Sitegeist\FluidStyleguide\Domain\Model\ComponentMetadata;
 use Sitegeist\FluidStyleguide\Domain\Repository\ComponentRepository;
 use Sitegeist\FluidStyleguide\Event\PostProcessComponentViewEvent;
 use Sitegeist\FluidStyleguide\Service\ComponentDownloadService;
 use Sitegeist\FluidStyleguide\Service\StyleguideConfigurationManager;
 use SMS\FluidComponents\Utility\ComponentLoader;
 use TYPO3\CMS\Core\EventDispatcher\EventDispatcher;
+use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
-use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 class StyleguideController
 {
-    /**
-     * @var ComponentRepository
-     */
-    protected $componentRepository;
-
-    /**
-     * @var ComponentDownloadService
-     */
-    protected $componentDownloadService;
-
-    /**
-     * @var StyleguideConfigurationManager
-     */
-    protected $styleguideConfigurationManager;
-
-    /**
-     * @var ContainerInterface
-     */
-    protected ContainerInterface $container;
-
-    /**
-     * @var StandaloneView
-     */
-    protected $view;
-
-    /**
-     * @var ServerRequestInterface
-     */
-    protected $request;
+    protected StandaloneView $view;
+    protected ServerRequestInterface $request;
 
     public function __construct(
-        ComponentRepository $componentRepository,
-        ComponentDownloadService $componentDownloadService,
-        StyleguideConfigurationManager $styleguideConfigurationManager,
-        ContainerInterface $container
+        protected ComponentRepository $componentRepository,
+        protected ComponentDownloadService $componentDownloadService,
+        protected StyleguideConfigurationManager $styleguideConfigurationManager,
+        protected ContainerInterface $container,
     ) {
-        $this->componentRepository = $componentRepository;
-        $this->componentDownloadService = $componentDownloadService;
-        $this->styleguideConfigurationManager = $styleguideConfigurationManager;
-        $this->container = $container;
     }
 
-    /**
-     * Shows a list of all components
-     *
-     * @return void
-     */
-    public function listAction()
+    public function listAction(): ResponseInterface
     {
         $allComponents = $this->componentRepository->findWithFixtures();
         $componentPackages = $this->groupComponentsByPackage($allComponents);
@@ -78,14 +42,11 @@ class StyleguideController
             'navigation' => $allComponents,
             'packages' => $componentPackages
         ]);
+
+        return new HtmlResponse($this->view->render());
     }
 
-    /**
-     * Shows a component detail page
-     *
-     * @return void
-     */
-    public function showAction(array $arguments = [])
+    public function showAction(array $arguments = []): ResponseInterface
     {
         $component = $arguments['component'] ?? '';
         $fixture = $arguments['fixture'] ?? 'default';
@@ -125,6 +86,8 @@ class StyleguideController
             'showQualityIssues' => $showQualityIssues,
             'qualityIssues' => $qualityIssues
         ]);
+
+        return new HtmlResponse($this->view->render());
     }
 
     /**
@@ -178,8 +141,6 @@ class StyleguideController
 
     /**
      * Provides a zip download of a component folder
-     *
-     * @return void
      */
     public function downloadComponentZipAction(array $arguments = [])
     {
@@ -214,7 +175,7 @@ class StyleguideController
         return $componentPackages;
     }
 
-    public function initializeView(StandaloneView $view)
+    public function initializeView(StandaloneView $view): void
     {
         $this->view = $view;
 
@@ -232,16 +193,13 @@ class StyleguideController
         $this->registerDemoComponents();
     }
 
-    public function setRequest(ServerRequestInterface $request)
+    public function setRequest(ServerRequestInterface $request): void
     {
         $this->request = $request;
     }
 
     /**
      * Makes sure that no malicious user input will be passed to a component
-     *
-     * @param array $formData
-     * @return array
      */
     protected function sanitizeFormData(array $formData): array
     {
@@ -272,20 +230,14 @@ class StyleguideController
 
     /**
      * Make sure that the component identifier doesn't include any malicious characters
-     *
-     * @param string $componentIdentifier
-     * @return string
      */
     protected function sanitizeComponentIdentifier(string $componentIdentifier): string
     {
-        return trim(preg_replace('#[^a-z0-9_\\\\]#i', '', $componentIdentifier), '\\');
+        return trim((string) preg_replace('#[^a-z0-9_\\\\]#i', '', $componentIdentifier), '\\');
     }
 
     /**
      * Make sure that the fixture name doesn't include any malicious characters
-     *
-     * @param string $fixtureName
-     * @return string
      */
     protected function sanitizeFixtureName(string $fixtureName): string
     {

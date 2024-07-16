@@ -11,38 +11,16 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class Package
 {
     /**
-     * PHP namespace for the component package
-     *
-     * @var string
-     */
-    protected $namespace;
-
-    /**
-     * Fluid namespace alias for the component package
-     *
-     * @var string
-     */
-    protected $alias;
-
-    /**
-     * Path for the component package
-     *
-     * @var string
-     */
-    protected $path;
-
-    /**
      * Associated TYPO3 extension
-     *
-     * @var \TYPO3\CMS\Core\Package\PackageInterface
      */
-    protected $extension;
+    protected PackageInterface $extension;
 
-    public function __construct(string $namespace, string $alias, string $path)
-    {
+    public function __construct(
+        protected string $namespace, // PHP namespace for the component package
+        protected string $alias, // Fluid namespace alias for the component package
+        protected string $path, // Path for the component package
+    ) {
         $this->namespace = trim($namespace, '\\');
-        $this->alias = $alias;
-        $this->path = $path;
     }
 
     public function getNamespace(): string
@@ -68,9 +46,9 @@ class Package
 
         $dependencyOrderingService = GeneralUtility::makeInstance(DependencyOrderingService::class);
         $activeExtensions = GeneralUtility::makeInstance(PackageManager::class, $dependencyOrderingService)->getActivePackages();
-            foreach ($activeExtensions as $extension) {
-                if (strpos($this->getPath(), $extension->getPackagePath()) === 0) {
-                    $this->extension = $extension;
+        foreach ($activeExtensions as $extension) {
+            if (str_starts_with($this->getPath(), (string) $extension->getPackagePath())) {
+                $this->extension = $extension;
                 return $this->extension;
             }
         }
@@ -80,8 +58,6 @@ class Package
 
     /**
      * Returns the specificity (= depth) of the PHP namespace
-     *
-     * @var int
      */
     public function getSpecificity(): int
     {
@@ -90,14 +66,11 @@ class Package
 
     /**
      * Checks if the specified component is part of this component package
-     *
-     * @param string $componentIdentifier
-     * @return boolean
      */
     public function isResponsibleForComponent(string $componentIdentifier): bool
     {
         $componentIdentifier = trim($componentIdentifier, '\\');
-        return strpos($componentIdentifier, $this->namespace) === 0;
+        return str_starts_with($componentIdentifier, $this->namespace);
     }
 
     public function extractComponentName(string $componentIdentifier): ?string

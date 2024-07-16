@@ -15,7 +15,6 @@ use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Core\SystemEnvironmentBuilder;
 use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Http\RedirectResponse;
-use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Routing\PageArguments;
 use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
 use TYPO3\CMS\Core\TypoScript\AST\Node\RootNode;
@@ -29,38 +28,14 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 class StyleguideRouter implements MiddlewareInterface
 {
-    const DEFAULT_ACTION = 'list';
-
-    /**
-     * @var Context
-     */
-    protected $context;
-
-    /**
-     * @var ContainerInterface
-     */
-    protected ContainerInterface $container;
-
-    /**
-     * @var ExtensionConfiguration
-     */
-    protected ExtensionConfiguration $extensionConfiguration;
-
-    /**
-     * @var FrontendUserAuthentication
-     */
-    protected FrontendUserAuthentication $frontendUserAuthentication;
+    public const DEFAULT_ACTION = 'list';
 
     public function __construct(
-        Context $context,
-        ContainerInterface $container,
-        ExtensionConfiguration $extensionConfiguration,
-        FrontendUserAuthentication $frontendUserAuthentication
+        protected Context $context,
+        protected ContainerInterface $container,
+        protected ExtensionConfiguration $extensionConfiguration,
+        protected FrontendUserAuthentication $frontendUserAuthentication
     ) {
-        $this->context = $context;
-        $this->container = $container;
-        $this->extensionConfiguration = $extensionConfiguration;
-        $this->frontendUserAuthentication = $frontendUserAuthentication;
     }
 
     public function process(
@@ -77,19 +52,19 @@ class StyleguideRouter implements MiddlewareInterface
         $prefix = $prefixWithoutSlash . '/';
 
         // Check if fluid styleguide should be rendered
-        if (strpos($request->getUri()->getPath(), $prefixWithoutSlash) !== 0) {
+        if (!str_starts_with((string) $request->getUri()->getPath(), $prefixWithoutSlash)) {
             return $handler->handle($request);
         }
 
         // Correct calls without trailing slash in request url
-        if (strpos($request->getUri()->getPath(), $prefix) !== 0) {
+        if (!str_starts_with((string) $request->getUri()->getPath(), $prefix)) {
             return new RedirectResponse(
                 $request->getUri()->withPath($prefix . static::DEFAULT_ACTION)
             );
         }
 
         // Extract routing information from URI
-        $path = substr($request->getUri()->getPath(), strlen($prefix));
+        $path = substr((string) $request->getUri()->getPath(), strlen($prefix));
         $pathSegments = explode('/', $path);
         $actionName = array_shift($pathSegments) ?? '';
         $actionName = preg_replace('#[^a-z]#i', '', $actionName);
@@ -159,11 +134,6 @@ class StyleguideRouter implements MiddlewareInterface
 
         // Create view
         $view = $this->container->get(StandaloneView::class);
-
-        if ((new Typo3Version())->getMajorVersion() < 12) {
-            $view->getRenderingContext()->setControllerName('Styleguide');
-            $view->getRenderingContext()->setControllerAction($actionName);
-        }
 
         $extbaseAttribute = new ExtbaseRequestParameters();
         $extbaseAttribute->setControllerExtensionName('fluidStyleguide');

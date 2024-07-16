@@ -11,39 +11,17 @@ use SMS\FluidComponents\Utility\ComponentLoader;
 
 class ComponentRepository implements \TYPO3\CMS\Core\SingletonInterface
 {
-    /**
-     * @var PackageRepository
-     */
-    protected $packageRepository;
-
-    /**
-     * @var ComponentNameRepository
-     */
-    protected $componentNameRepository;
-
-    /**
-     * @var ComponentLoader
-     */
-    protected $componentLoader;
-
-    /**
-     * @var ComponentFactoryInterface
-     */
-    protected $componentFactory;
-
-    public function __construct(PackageRepository $packageRepository, ComponentNameRepository $componentNameRepository, ComponentLoader $componentLoader, ComponentFactoryInterface $componentFactory)
-    {
-        $this->packageRepository = $packageRepository;
-        $this->componentNameRepository = $componentNameRepository;
-        $this->componentLoader = $componentLoader;
-        $this->componentFactory = $componentFactory;
+    public function __construct(
+        protected PackageRepository $packageRepository,
+        protected ComponentNameRepository $componentNameRepository,
+        protected ComponentLoader $componentLoader,
+        protected ComponentFactoryInterface $componentFactory,
+    ) {
     }
 
     /**
      * Returns a list of all components in the current TYPO3 installation that have
      * a fixture file and thus can be displayed in the styleguide
-     *
-     * @return array
      */
     public function findWithFixtures(): array
     {
@@ -72,9 +50,6 @@ class ComponentRepository implements \TYPO3\CMS\Core\SingletonInterface
 
     /**
      * Returns the component record for the specified component identifier
-     *
-     * @param string $identifier
-     * @return Component|null
      */
     public function findWithFixturesByIdentifier(string $identifier): ?Component
     {
