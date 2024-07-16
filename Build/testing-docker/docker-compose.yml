@@ -38,7 +38,7 @@ services:
                 fi
                 composer config allow-plugins.typo3/class-alias-loader true
                 composer config allow-plugins.typo3/cms-composer-installers true
-                composer require typo3/minimal "^${TYPO3_VERSION}" --prefer-dist --no-progress --no-suggest
+                composer require typo3/minimal "^${TYPO3_VERSION}" --prefer-dist --no-progress
                 composer install --no-progress --no-interaction;
             "
     composer_install_max:
