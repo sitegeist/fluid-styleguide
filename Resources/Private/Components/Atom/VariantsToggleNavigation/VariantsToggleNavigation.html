@@ -1,0 +1,11 @@
+<fc:component>
+    <fc:param name="listView" type="boolean" optional="1" default="0"/>
+    <fc:param name="checked" type="boolean" optional="1" default="0"/>
+
+    <fc:renderer>
+        <div data-component="VariantsToggleNavigation" data-list-view="{listView}" id="variantsToggleNavigation_button" class="variantsToggleNavigation {class}">
+            <input type="checkbox" id="variantsToggleNavigation_checkbox" {f:if(condition: checked, then: 'checked')}>
+            <label for="variantsToggleNavigation_checkbox">Display all Variants</label>
+        </div>
+    </fc:renderer>
+</fc:component>
