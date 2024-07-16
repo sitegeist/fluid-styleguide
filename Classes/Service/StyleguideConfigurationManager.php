@@ -269,7 +269,7 @@ class StyleguideConfigurationManager
                 PathUtility::getAbsoluteWebPath($path, false)
             )
             ->withQuery('?' . $modified)
-            ->withPort(GeneralUtility::getIndpEnv('TYPO3_PORT') ?: null);
+            ->withPort((int) GeneralUtility::getIndpEnv('TYPO3_PORT') ?: null);
     }
 
     /**
