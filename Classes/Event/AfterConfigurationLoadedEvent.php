@@ -8,13 +8,10 @@ use TYPO3\CMS\Core\Site\Entity\SiteInterface;
 
 final class AfterConfigurationLoadedEvent
 {
-    private array $configuration;
-    private SiteInterface $site;
-
-    public function __construct(array $configuration, SiteInterface $site)
-    {
-        $this->configuration = $configuration;
-        $this->site = $site;
+    public function __construct(
+        private array $configuration,
+        private readonly SiteInterface $site
+    ) {
     }
 
     public function getConfiguration(): array

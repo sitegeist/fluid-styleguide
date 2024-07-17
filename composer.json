@@ -7,21 +7,26 @@
     "keywords": ["typo3", "typo3-extension", "fluid", "typo3-fluid", "components", "html", "template", "styleguide", "living-styleguide"],
     "authors": [
         {
+            "name": "Ulrich Mathes",
+            "email": "mathes@sitegeist.de"
+        },
+        {
             "name": "Simon Praetorius",
-            "email": "praetorius@sitegeist.de"
+            "email": "moin@praetorius.me"
         }
     ],
     "support": {
         "issues": "https://github.com/sitegeist/fluid-styleguide/issues"
     },
     "require": {
-        "typo3/cms-core": "^12.2 || ^11.5",
+        "php": "^8.2",
+        "typo3/cms-core": "^13.1 || ^12.2",
         "sitegeist/fluid-components": "^3.0 || dev-master",
         "erusev/parsedown": "^1.7.4",
         "colinodell/json5": "^2.1"
     },
     "require-dev": {
-        "typo3/testing-framework": "^6.0 || ^7.0",
+        "typo3/testing-framework": "^8.2",
         "squizlabs/php_codesniffer": "^3.0",
         "editorconfig-checker/editorconfig-checker": "^10.0"
     },
@@ -40,7 +45,11 @@
     },
     "config": {
         "vendor-dir": ".Build/vendor",
-        "bin-dir": ".Build/bin"
+        "bin-dir": ".Build/bin",
+        "allow-plugins": {
+            "typo3/class-alias-loader": true,
+            "typo3/cms-composer-installers": true
+        }
     },
     "extra": {
         "typo3/cms": {
@@ -51,10 +60,8 @@
         }
     },
     "scripts": {
-        "post-autoload-dump": [
-            "TYPO3\\TestingFramework\\Composer\\ExtensionTestEnvironment::prepare"
-        ],
         "prepare-release": [
+            "sed -i'' -e \"s/'version' => ''/'version' => '$(echo ${GITHUB_REF#refs/tags/} | sed 's/v//')'/\" ext_emconf.php",
             "rm -r .github .ecrc .editorconfig .gitattributes Tests Build"
         ],
         "lint": [

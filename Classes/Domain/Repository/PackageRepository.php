@@ -11,26 +11,14 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\ViewHelperResolverFactoryInterface;
 
 class PackageRepository implements \TYPO3\CMS\Core\SingletonInterface
 {
-    /**
-     * @var ComponentLoader
-     */
-    protected $componentLoader;
-
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
-
-    public function __construct(ComponentLoader $componentLoader, ContainerInterface $container)
-    {
-        $this->componentLoader = $componentLoader;
-        $this->container = $container;
+    public function __construct(
+        protected ComponentLoader $componentLoader,
+        protected ContainerInterface $container,
+    ) {
     }
 
     /**
      * Finds all components packages that are currently registered in this TYPO3 installation
-     *
-     * @return array
      */
     public function findAll(): array
     {
@@ -58,9 +46,6 @@ class PackageRepository implements \TYPO3\CMS\Core\SingletonInterface
 
     /**
      * Finds the component package the specified component belongs to
-     *
-     * @param string $componentIdentifier
-     * @return Package|null
      */
     public function findForComponentIdentifier(string $componentIdentifier): ?Package
     {

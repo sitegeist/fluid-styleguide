@@ -17,40 +17,20 @@ use TYPO3\CMS\Core\Utility\PathUtility;
 
 class StyleguideConfigurationManager
 {
-    /**
-     * @var YamlFileLoader
-     */
-    protected $yamlFileLoader;
-
-    /**
-     * @var PackageManager
-     */
-    protected $packageManager;
-
-    protected EventDispatcherInterface $eventDispatcher;
-
-    /**
-     * @var string
-     */
-    protected $defaultConfigurationFile = 'EXT:fluid_styleguide/Configuration/Yaml/FluidStyleguide.yaml';
-
-    /**
-     * @var array
-     */
-    protected $mergedConfiguration;
+    protected string $defaultConfigurationFile = 'EXT:fluid_styleguide/Configuration/Yaml/FluidStyleguide.yaml';
+    protected array $mergedConfiguration = [];
 
     public function __construct(
-        YamlFileLoader $yamlFileLoader,
-        PackageManager $packageManager,
-        EventDispatcherInterface $eventDispatcher
+        protected YamlFileLoader $yamlFileLoader,
+        protected PackageManager $packageManager,
+        protected EventDispatcherInterface $eventDispatcher
     ) {
         $this->yamlFileLoader = $yamlFileLoader;
         $this->packageManager = $packageManager;
-        $this->eventDispatcher = $eventDispatcher;
         $this->loadConfiguration();
     }
 
-    public function loadConfiguration()
+    public function loadConfiguration(): void
     {
         $this->mergedConfiguration = $this->yamlFileLoader->load($this->defaultConfigurationFile)['FluidStyleguide'];
 
@@ -150,9 +130,7 @@ class StyleguideConfigurationManager
     {
         $languageMatch = array_filter(
             $this->getLanguages(),
-            function ($language) use ($languageKey) {
-                return $language['identifier'] === $languageKey;
-            }
+            fn($language) => $language['identifier'] === $languageKey
         );
         return reset($languageMatch) ?: null;
     }
@@ -197,9 +175,7 @@ class StyleguideConfigurationManager
 
         return ':root {' . array_reduce(
             array_keys($variables),
-            function ($css, $variable) use ($variables) {
-                return $css . $variable . ':' . $variables[$variable] . ';';
-            },
+            fn($css, $variable) => $css . $variable . ':' . $variables[$variable] . ';',
             ''
         ) . '}';
     }
@@ -240,7 +216,7 @@ class StyleguideConfigurationManager
             if (!static::isRemoteUri($file)) {
                 try {
                     $file = $this->generateAssetUrl($file);
-                } catch (InvalidAssetException $e) {
+                } catch (InvalidAssetException) {
                     unset($assets[$key]);
                 }
             }
@@ -250,9 +226,6 @@ class StyleguideConfigurationManager
 
     /**
      * Generates an asset (js/css) url without throwing away any url prefixes
-     *
-     * @param string $path
-     * @return Uri
      */
     protected function generateAssetUrl(string $path): Uri
     {
@@ -274,9 +247,6 @@ class StyleguideConfigurationManager
 
     /**
      * Checks if the provided uri is a valid remote uri
-     *
-     * @param string $uri
-     * @return boolean
      */
     protected static function isRemoteUri(string $uri): bool
     {
@@ -286,8 +256,6 @@ class StyleguideConfigurationManager
 
     /**
      * Returns the current Site object to create urls
-     *
-     * @return SiteInterface
      */
     protected static function getCurrentSite(): SiteInterface
     {

@@ -15,7 +15,7 @@ class StyleguideViewHelper extends AbstractViewHelper
 {
     use CompileWithRenderStatic;
 
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('action', 'string', 'Action name', true);
         $this->registerArgument('arguments', 'array', 'Action arguments', false, []);
@@ -25,11 +25,6 @@ class StyleguideViewHelper extends AbstractViewHelper
 
     /**
      * Renders markdown code in fluid templates
-     *
-     * @param array $arguments
-     * @param \Closure $renderChildrenClosure
-     * @param RenderingContextInterface $renderingContext
-     * @return void
      */
     public static function renderStatic(
         array $arguments,
@@ -38,7 +33,7 @@ class StyleguideViewHelper extends AbstractViewHelper
     ): UriInterface {
         $prefix = GeneralUtility::makeInstance(ExtensionConfiguration::class)
             ->get('fluid_styleguide', 'uriPrefix');
-        $prefix = rtrim($prefix, '/') . '/';
+        $prefix = rtrim((string) $prefix, '/') . '/';
 
         $baseUrl = static::getCurrentSite()->getBase();
 
@@ -61,8 +56,6 @@ class StyleguideViewHelper extends AbstractViewHelper
 
     /**
      * Returns the current Site object to create urls
-     *
-     * @return SiteInterface
      */
     protected static function getCurrentSite(): SiteInterface
     {

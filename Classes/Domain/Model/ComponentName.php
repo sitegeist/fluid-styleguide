@@ -7,20 +7,11 @@ use Sitegeist\FluidStyleguide\Domain\Model\Package;
 
 class ComponentName
 {
-    /**
-     * @var string
-     */
-    protected $name;
-
-    /**
-     * @var Package
-     */
-    protected $package;
-
-    public function __construct(string $name, Package $package)
-    {
+    public function __construct(
+        protected string $name,
+        protected Package $package,
+    ) {
         $this->name = trim($name, '\\');
-        $this->package = $package;
     }
 
     public function getName(): string

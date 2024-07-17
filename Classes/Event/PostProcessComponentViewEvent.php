@@ -8,34 +8,6 @@ use Sitegeist\FluidStyleguide\Domain\Model\Component;
 final class PostProcessComponentViewEvent
 {
     /**
-     * Component that has been rendered
-     *
-     * @var string
-     */
-    private $component;
-
-    /**
-     * Name of the component fixture that has been used
-     *
-     * @var string
-     */
-    private $fixtureName;
-
-    /**
-     * Form data that has been entered by the user in the styleguide
-     *
-     * @var array
-     */
-    private $formData;
-
-    /**
-     * Rendered component html that will be displayed in the iframe
-     *
-     * @var string
-     */
-    private $renderedView;
-
-    /**
      * Markup that should be added to the <head> part
      *
      * @var string[]
@@ -49,12 +21,12 @@ final class PostProcessComponentViewEvent
      */
     private $footerData = [];
 
-    public function __construct(Component $component, string $fixtureName, array $formData, string $renderedView)
-    {
-        $this->component = $component;
-        $this->fixtureName = $fixtureName;
-        $this->formData = $formData;
-        $this->renderedView = $renderedView;
+    public function __construct(
+        private readonly Component $component, // Component that has been rendered
+        private readonly string $fixtureName, // Name of the component fixture that has been used
+        private readonly array $formData, // Form data that has been entered by the user in the styleguide
+        private string $renderedView // Rendered component html that will be displayed in the iframe
+    ) {
     }
 
     public function getComponent(): Component

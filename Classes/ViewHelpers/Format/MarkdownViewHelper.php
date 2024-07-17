@@ -11,32 +11,20 @@ class MarkdownViewHelper extends AbstractViewHelper
 {
     use CompileWithRenderStatic;
 
-    /**
-     * @var \Parsedown
-     */
-    protected static $markdownParser;
+    protected static \Parsedown $markdownParser;
 
     /**
      * Don't escape markdown html
-     *
-     * @var boolean
      */
     protected $escapeOutput = false;
 
     /**
      * Don't escape input html
-     *
-     * @var boolean
      */
     protected $escapeChildren = false;
 
     /**
      * Renders markdown code in fluid templates
-     *
-     * @param array $arguments
-     * @param \Closure $renderChildrenClosure
-     * @param RenderingContextInterface $renderingContext
-     * @return void
      */
     public static function renderStatic(
         array $arguments,
