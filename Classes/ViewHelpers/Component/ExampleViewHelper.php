@@ -109,7 +109,7 @@ class ExampleViewHelper extends AbstractViewHelper
                         'Exception: %s (#%d %s)',
                         $e->getMessage(),
                         $e->getCode(),
-                        get_class($e)
+                        $e::class
                     );
                 } else {
                     throw $e;
@@ -156,9 +156,7 @@ class ExampleViewHelper extends AbstractViewHelper
 
         return ComponentRenderer::renderComponent(
             $data,
-            function () {
-                return '';
-            },
+            fn() => '',
             $renderingContext,
             $component->getName()->getIdentifier()
         );
@@ -253,7 +251,7 @@ class ExampleViewHelper extends AbstractViewHelper
     protected static function checkObtainComponentContextFromFile(string $context): string
     {
         // Probably not a file path
-        if (strpos($context, '|') !== false) {
+        if (str_contains($context, '|')) {
             return $context;
         }
 
