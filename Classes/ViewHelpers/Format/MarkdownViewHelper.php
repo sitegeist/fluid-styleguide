@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Sitegeist\FluidStyleguide\ViewHelpers\Format;
 
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+
 class MarkdownViewHelper extends AbstractViewHelper
 {
     protected static \Parsedown $markdownParser;

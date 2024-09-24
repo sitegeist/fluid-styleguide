@@ -20,7 +20,7 @@
     },
     "require": {
         "php": "^8.2",
-        "typo3/cms-core": "13.2.* || ^12.4",
+        "typo3/cms-core": "^13.3 || ^12.4",
         "sitegeist/fluid-components": "^3.0 || dev-master",
         "erusev/parsedown": "^1.7.4",
         "colinodell/json5": "^2.1"
