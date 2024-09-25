@@ -13,7 +13,7 @@ class Package
     /**
      * Associated TYPO3 extension
      */
-    protected PackageInterface $extension;
+    protected ?PackageInterface $extension = null;
 
     public function __construct(
         protected string $namespace, // PHP namespace for the component package
@@ -44,8 +44,7 @@ class Package
             return $this->extension;
         }
 
-        $dependencyOrderingService = GeneralUtility::makeInstance(DependencyOrderingService::class);
-        $activeExtensions = GeneralUtility::makeInstance(PackageManager::class, $dependencyOrderingService)->getActivePackages();
+        $activeExtensions = GeneralUtility::makeInstance(PackageManager::class)->getActivePackages();
         foreach ($activeExtensions as $extension) {
             if (str_starts_with($this->getPath(), (string) $extension->getPackagePath())) {
                 $this->extension = $extension;
