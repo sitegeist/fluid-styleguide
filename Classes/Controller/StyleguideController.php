@@ -18,11 +18,12 @@ use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Core\View\FluidViewAdapter;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 class StyleguideController
 {
-    protected StandaloneView $view;
+    protected StandaloneView|FluidViewAdapter $view;
     protected ServerRequestInterface $request;
 
     public function __construct(
@@ -43,7 +44,7 @@ class StyleguideController
             'packages' => $componentPackages
         ]);
 
-        return new HtmlResponse($this->view->render());
+        return new HtmlResponse($this->view->render('Styleguide/List'));
     }
 
     public function showAction(array $arguments = []): ResponseInterface
@@ -87,7 +88,7 @@ class StyleguideController
             'qualityIssues' => $qualityIssues
         ]);
 
-        return new HtmlResponse($this->view->render());
+        return new HtmlResponse($this->view->render('Styleguide/Show'));
     }
 
     /**
@@ -126,7 +127,7 @@ class StyleguideController
             'fixtureData' => $formData
         ]);
 
-        $renderedView = $this->view->render();
+        $renderedView = $this->view->render('Styleguide/Component');
 
         $event = new PostProcessComponentViewEvent($component, $fixture, $formData, $renderedView);
         $eventDispatcher = $this->container->get(EventDispatcher::class);
@@ -175,13 +176,9 @@ class StyleguideController
         return $componentPackages;
     }
 
-    public function initializeView(StandaloneView $view): void
+    public function initializeView(StandaloneView|FluidViewAdapter $view): void
     {
         $this->view = $view;
-
-        $this->view->setTemplateRootPaths($this->styleguideConfigurationManager->getTemplateRootPaths());
-        $this->view->setPartialRootPaths($this->styleguideConfigurationManager->getPartialRootPaths());
-        $this->view->setLayoutRootPaths($this->styleguideConfigurationManager->getLayoutRootPaths());
 
         $this->view->assignMultiple([
             'styleguideConfiguration' => $this->styleguideConfigurationManager,
