@@ -5,7 +5,6 @@ namespace Sitegeist\FluidStyleguide\Domain\Model;
 
 use TYPO3\CMS\Core\Package\PackageInterface;
 use TYPO3\CMS\Core\Package\PackageManager;
-use TYPO3\CMS\Core\Service\DependencyOrderingService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class Package
@@ -13,7 +12,7 @@ class Package
     /**
      * Associated TYPO3 extension
      */
-    protected PackageInterface $extension;
+    protected ?PackageInterface $extension = null;
 
     public function __construct(
         protected string $namespace, // PHP namespace for the component package
@@ -44,8 +43,7 @@ class Package
             return $this->extension;
         }
 
-        $dependencyOrderingService = GeneralUtility::makeInstance(DependencyOrderingService::class);
-        $activeExtensions = GeneralUtility::makeInstance(PackageManager::class, $dependencyOrderingService)->getActivePackages();
+        $activeExtensions = GeneralUtility::makeInstance(PackageManager::class)->getActivePackages();
         foreach ($activeExtensions as $extension) {
             if (str_starts_with($this->getPath(), (string) $extension->getPackagePath())) {
                 $this->extension = $extension;

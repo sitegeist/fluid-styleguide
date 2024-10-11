@@ -21,6 +21,8 @@ use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
 use TYPO3\CMS\Core\TypoScript\AST\Node\RootNode;
 use TYPO3\CMS\Core\TypoScript\FrontendTypoScript;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\View\ViewFactoryData;
+use TYPO3\CMS\Core\View\ViewFactoryInterface;
 use TYPO3\CMS\Extbase\Mvc\ExtbaseRequestParameters;
 use TYPO3\CMS\Extbase\Mvc\Request;
 use TYPO3\CMS\Fluid\View\StandaloneView;
@@ -35,7 +37,8 @@ class StyleguideRouter implements MiddlewareInterface
         protected Context $context,
         protected ContainerInterface $container,
         protected ExtensionConfiguration $extensionConfiguration,
-        protected FrontendUserAuthentication $frontendUserAuthentication
+        protected FrontendUserAuthentication $frontendUserAuthentication,
+        protected ?ViewFactoryInterface $viewFactory = null,
     ) {
     }
 
@@ -133,9 +136,6 @@ class StyleguideRouter implements MiddlewareInterface
         $request = $request->withAttribute('frontend.controller', $GLOBALS['TSFE']);
         $GLOBALS['TYPO3_REQUEST'] = $request;
 
-        // Create view
-        $view = $this->container->get(StandaloneView::class);
-
         $extbaseAttribute = new ExtbaseRequestParameters();
         $extbaseAttribute->setControllerExtensionName('fluidStyleguide');
         $extbaseAttribute->setControllerName('Styleguide');
@@ -152,7 +152,23 @@ class StyleguideRouter implements MiddlewareInterface
         }
 
         $request = $request->withAttribute('frontend.typoscript', $plainFrontendTypoScript);
-        $view->setRequest($request);
+
+        // Create view
+        if (GeneralUtility::makeInstance(Typo3Version::class)->getMajorVersion() < 13) {
+            $view = $this->container->get(StandaloneView::class);
+            $view->setTemplateRootPaths($styleguideConfigurationManager->getTemplateRootPaths());
+            $view->setPartialRootPaths($styleguideConfigurationManager->getPartialRootPaths());
+            $view->setLayoutRootPaths($styleguideConfigurationManager->getLayoutRootPaths());
+            $view->setRequest($request);
+        } else {
+            $view = $this->viewFactory->create(new ViewFactoryData(
+                templateRootPaths: $styleguideConfigurationManager->getTemplateRootPaths(),
+                partialRootPaths: $styleguideConfigurationManager->getPartialRootPaths(),
+                layoutRootPaths: $styleguideConfigurationManager->getLayoutRootPaths(),
+                templatePathAndFilename: null,
+                request: $request,
+            ));
+        }
 
         $controller->setRequest($request);
 
