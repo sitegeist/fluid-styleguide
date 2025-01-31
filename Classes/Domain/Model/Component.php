@@ -117,6 +117,9 @@ class Component
             default:
                 throw new \Exception('Fixture format unknown', 1582196195);
         }
+        if (!is_array($fixtures)) {
+            throw new \InvalidArgumentException('Fixtures must be of type array', 1738326135);
+        }
         if (!isset($fixtures['default'])) {
             $fixtures['default'] = [];
         }
