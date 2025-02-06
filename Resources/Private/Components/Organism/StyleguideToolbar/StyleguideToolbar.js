@@ -41,6 +41,17 @@ const StyleguideToolbar = el => {
             });
         })
     });
+
+    const docTab = document.querySelector('.documentation')
+    const docTabInner = document.querySelector('.documentation .boxMargin')
+    const docHeight = parseFloat(window.getComputedStyle(docTabInner, null).getPropertyValue("height")) + 30
+    if (docHeight > 500 && docHeight < 600) {
+        docTab.classList.add('maxHeight500')
+    } else if (docHeight > 600 && docHeight < 700) {
+        docTab.classList.add('maxHeight600')
+    } else if (docHeight > 700 && docHeight < 800) {
+        docTab.classList.add('maxHeight700');
+    }
 };
 
 register('StyleguideToolbar', StyleguideToolbar);
