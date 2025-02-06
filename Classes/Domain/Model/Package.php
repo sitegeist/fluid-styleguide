@@ -3,45 +3,23 @@ declare(strict_types=1);
 
 namespace Sitegeist\FluidStyleguide\Domain\Model;
 
+use TYPO3\CMS\Core\Package\PackageInterface;
 use TYPO3\CMS\Core\Package\PackageManager;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class Package
 {
     /**
-     * PHP namespace for the component package
-     *
-     * @var string
-     */
-    protected $namespace;
-
-    /**
-     * Fluid namespace alias for the component package
-     *
-     * @var string
-     */
-    protected $alias;
-
-    /**
-     * Path for the component package
-     *
-     * @var string
-     */
-    protected $path;
-
-    /**
      * Associated TYPO3 extension
-     *
-     * @var \TYPO3\CMS\Core\Package\PackageInterface
      */
-    protected $extension;
+    protected ?PackageInterface $extension = null;
 
-    public function __construct(string $namespace, string $alias, string $path)
-    {
+    public function __construct(
+        protected string $namespace, // PHP namespace for the component package
+        protected string $alias, // Fluid namespace alias for the component package
+        protected string $path, // Path for the component package
+    ) {
         $this->namespace = trim($namespace, '\\');
-        $this->alias = $alias;
-        $this->path = $path;
     }
 
     public function getNamespace(): string
@@ -59,24 +37,25 @@ class Package
         return $this->path;
     }
 
-    public function getExtension(): ?\TYPO3\CMS\Core\Package\PackageInterface
+    public function getExtension(): ?PackageInterface
     {
-        if (!$this->extension) {
-            $activeExtensions = GeneralUtility::makeInstance(PackageManager::class)->getActivePackages();
-            foreach ($activeExtensions as $extension) {
-                if (strpos($this->getPath(), $extension->getPackagePath()) === 0) {
-                    $this->extension = $extension;
-                    break;
-                }
+        if ($this->extension) {
+            return $this->extension;
+        }
+
+        $activeExtensions = GeneralUtility::makeInstance(PackageManager::class)->getActivePackages();
+        foreach ($activeExtensions as $extension) {
+            if (str_starts_with($this->getPath(), (string) $extension->getPackagePath())) {
+                $this->extension = $extension;
+                return $this->extension;
             }
         }
-        return $this->extension;
+
+        return null;
     }
 
     /**
      * Returns the specificity (= depth) of the PHP namespace
-     *
-     * @var int
      */
     public function getSpecificity(): int
     {
@@ -85,14 +64,11 @@ class Package
 
     /**
      * Checks if the specified component is part of this component package
-     *
-     * @param string $componentIdentifier
-     * @return boolean
      */
     public function isResponsibleForComponent(string $componentIdentifier): bool
     {
         $componentIdentifier = trim($componentIdentifier, '\\');
-        return strpos($componentIdentifier, $this->namespace) === 0;
+        return str_starts_with($componentIdentifier, $this->namespace);
     }
 
     public function extractComponentName(string $componentIdentifier): ?string

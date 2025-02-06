@@ -35,7 +35,7 @@ class ComponentDownloadService
             '', // Do not filter files by extension
             true, // Include subdirectories
             PHP_INT_MAX, // Recursion level
-            false        // Files and directories to exclude.
+            ''        // Files and directories to exclude.
         );
         // Make paths relative to extension root directory.
         $files = GeneralUtility::removePrefixPathFromList($files, $componentPath);
