@@ -12,18 +12,12 @@ use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\Variables\StandardVariableProvider;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
-use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 
 class ExampleViewHelper extends AbstractViewHelper
 {
-    use CompileWithRenderStatic;
-
-    /**
-     * @var boolean
-     */
     protected $escapeOutput = false;
 
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('component', Component::class, 'Component that should be rendered', true);
         $this->registerArgument('fixtureName', 'string', 'Name of the fixture that should be used in the example');
@@ -42,34 +36,24 @@ class ExampleViewHelper extends AbstractViewHelper
 
     /**
      * Renders fluid example code for the specified component
-     *
-     * @param array $arguments
-     * @param \Closure $renderChildrenClosure
-     * @param RenderingContextInterface $renderingContext
-     * @return string
      */
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ): string {
-        if (!isset($arguments['fixtureName']) && !isset($arguments['fixtureData'])) {
+    public function render(): string
+    {
+        if (!isset($this->arguments['fixtureName']) && !isset($this->arguments['fixtureData'])) {
             throw new \InvalidArgumentException(sprintf(
                 'A fixture name or fixture data has to be specified to render the component example of %s.',
-                $arguments['component']->getName()->getIdentifier()
+                $this->arguments['component']->getName()->getIdentifier()
             ), 1566377563);
         }
-
-        $fixtureData = $arguments['fixtureData'] ?? [];
-        $componentContext = $arguments['context'];
-
-        if (isset($arguments['fixtureName'])) {
-            $componentFixture = $arguments['component']->getFixture($arguments['fixtureName']);
+        $fixtureData = $this->arguments['fixtureData'] ?? [];
+        $componentContext = $this->arguments['context'];
+        if (isset($this->arguments['fixtureName'])) {
+            $componentFixture = $this->arguments['component']->getFixture($this->arguments['fixtureName']);
             if (!$componentFixture) {
                 throw new \InvalidArgumentException(sprintf(
                     'Invalid fixture name "%s" specified for component %s.',
-                    $arguments['fixtureName'],
-                    $arguments['component']->getName()->getIdentifier()
+                    $this->arguments['fixtureName'],
+                    $this->arguments['component']->getName()->getIdentifier()
                 ), 1566377564);
             }
 
@@ -77,39 +61,38 @@ class ExampleViewHelper extends AbstractViewHelper
             $fixtureData = array_replace($componentFixture->getData(), $fixtureData);
 
             // Overrule component context if specified in fixture data
-            if ($arguments['applyContextFromFixture'] && isset($fixtureData['styleguideComponentContext'])) {
+            if ($this->arguments['applyContextFromFixture'] && isset($fixtureData['styleguideComponentContext'])) {
                 $componentContext = $fixtureData['styleguideComponentContext'];
             }
             unset($fixtureData['styleguideComponentContext']);
         }
-
-        if ($arguments['execute']) {
+        if ($this->arguments['execute']) {
             try {
                 // Parse fluid code in fixtures
-                $fixtureData = self::renderFluidInExampleData($fixtureData, $renderingContext);
+                $fixtureData = self::renderFluidInExampleData($fixtureData, $this->renderingContext);
 
                 $componentMarkup = self::renderComponent(
-                    $arguments['component'],
+                    $this->arguments['component'],
                     $fixtureData,
-                    $renderingContext
+                    $this->renderingContext
                 );
 
                 $componentWithContext = self::applyComponentContext(
                     $componentMarkup,
                     $componentContext,
-                    $renderingContext,
+                    $this->renderingContext,
                     array_replace(
-                        $arguments['component']->getDefaultValues(),
+                        $this->arguments['component']->getDefaultValues(),
                         $fixtureData
                     )
                 );
             } catch (\Exception $e) {
-                if ($arguments['handleExceptions']) {
+                if ($this->arguments['handleExceptions']) {
                     return sprintf(
                         'Exception: %s (#%d %s)',
                         $e->getMessage(),
                         $e->getCode(),
-                        get_class($e)
+                        $e::class
                     );
                 } else {
                     throw $e;
@@ -117,7 +100,7 @@ class ExampleViewHelper extends AbstractViewHelper
             }
         } else {
             $componentMarkup = static::renderComponentTag(
-                $arguments['component']->getName(),
+                $this->arguments['component']->getName(),
                 $fixtureData
             );
 
@@ -126,17 +109,11 @@ class ExampleViewHelper extends AbstractViewHelper
                 $componentContext
             );
         }
-
         return $componentWithContext;
     }
 
     /**
      * Calls a component with the supplied example data
-     *
-     * @param Component $component
-     * @param array $data
-     * @param RenderingContextInterface $renderingContext
-     * @return string
      */
     public static function renderComponent(
         Component $component,
@@ -156,9 +133,7 @@ class ExampleViewHelper extends AbstractViewHelper
 
         return ComponentRenderer::renderComponent(
             $data,
-            function () {
-                return '';
-            },
+            fn() => '',
             $renderingContext,
             $component->getName()->getIdentifier()
         );
@@ -166,12 +141,8 @@ class ExampleViewHelper extends AbstractViewHelper
 
     /**
      * Renders inline fluid code in a fixture array that will be provided as example data to a component
-     *
-     * @param array $data
-     * @param RenderingContextInterface $renderingContext
-     * @return void
      */
-    public static function renderFluidInExampleData(array $data, RenderingContextInterface $renderingContext)
+    public static function renderFluidInExampleData(array $data, RenderingContextInterface $renderingContext): array
     {
         return array_map(function ($value) use ($renderingContext) {
             if (is_string($value)) {
@@ -184,10 +155,6 @@ class ExampleViewHelper extends AbstractViewHelper
 
     /**
      * Renders fluid code of a component call
-     *
-     * @param ComponentName $componentName
-     * @param array $data
-     * @return string
      */
     public static function renderComponentTag(ComponentName $componentName, array $data): string
     {
@@ -209,12 +176,6 @@ class ExampleViewHelper extends AbstractViewHelper
      * The component markup will replace all pipe characters (|) in the context string
      * Optionally, a renderingContext and template data can be provided, in which case
      * the context markup will be treated as fluid markup
-     *
-     * @param string $componentMarkup
-     * @param string $context
-     * @param RenderingContextInterface $renderingContext
-     * @param array $data
-     * @return string
      */
     public static function applyComponentContext(
         string $componentMarkup,
@@ -246,14 +207,11 @@ class ExampleViewHelper extends AbstractViewHelper
     /**
      * Checks if the provided component context is a file path and returns its contents;
      * falls back to the specified context string.
-     *
-     * @param string $context
-     * @return string
      */
     protected static function checkObtainComponentContextFromFile(string $context): string
     {
         // Probably not a file path
-        if (strpos($context, '|') !== false) {
+        if (str_contains($context, '|')) {
             return $context;
         }
 
@@ -268,12 +226,8 @@ class ExampleViewHelper extends AbstractViewHelper
 
     /**
      * Encodes a fluid variable for use in component/viewhelper call
-     *
-     * @param $input mixed
-     * @param $isRoot bool
-     * @return string
      */
-    public static function encodeFluidVariable($input, bool $isRoot = true): string
+    public static function encodeFluidVariable(mixed $input, bool $isRoot = true): string
     {
         if (is_array($input)) {
             $fluidArray = [];
@@ -289,6 +243,10 @@ class ExampleViewHelper extends AbstractViewHelper
 
         if (is_bool($input)) {
             return ($input) ? 'TRUE' : 'FALSE';
+        }
+
+        if ($input instanceof \UnitEnum) {
+            return $input::class . '::' . $input->name;
         }
 
         return (string) $input;

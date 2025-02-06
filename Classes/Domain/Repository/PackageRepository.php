@@ -6,32 +6,19 @@ namespace Sitegeist\FluidStyleguide\Domain\Repository;
 use Psr\Container\ContainerInterface;
 use Sitegeist\FluidStyleguide\Domain\Model\Package;
 use SMS\FluidComponents\Utility\ComponentLoader;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\Core\ViewHelper\ViewHelperResolver;
 use TYPO3\CMS\Fluid\Core\ViewHelper\ViewHelperResolverFactoryInterface;
 
 class PackageRepository implements \TYPO3\CMS\Core\SingletonInterface
 {
-    /**
-     * @var ComponentLoader
-     */
-    protected $componentLoader;
-
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
-
-    public function __construct(ComponentLoader $componentLoader, ContainerInterface $container)
-    {
-        $this->componentLoader = $componentLoader;
-        $this->container = $container;
+    public function __construct(
+        protected ComponentLoader $componentLoader,
+        protected ContainerInterface $container,
+    ) {
     }
 
     /**
      * Finds all components packages that are currently registered in this TYPO3 installation
-     *
-     * @return array
      */
     public function findAll(): array
     {
@@ -59,9 +46,6 @@ class PackageRepository implements \TYPO3\CMS\Core\SingletonInterface
 
     /**
      * Finds the component package the specified component belongs to
-     *
-     * @param string $componentIdentifier
-     * @return Package|null
      */
     public function findForComponentIdentifier(string $componentIdentifier): ?Package
     {
@@ -86,10 +70,6 @@ class PackageRepository implements \TYPO3\CMS\Core\SingletonInterface
 
     protected function getViewHelperResolver(): ViewHelperResolver
     {
-        if (version_compare(TYPO3_version, '11.4', '>=')) {
-            return $this->container->get(ViewHelperResolverFactoryInterface::class)->create();
-        } else {
-            return GeneralUtility::makeInstance(ViewHelperResolver::class);
-        }
+        return $this->container->get(ViewHelperResolverFactoryInterface::class)->create();
     }
 }

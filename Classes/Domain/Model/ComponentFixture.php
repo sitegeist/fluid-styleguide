@@ -5,33 +5,11 @@ namespace Sitegeist\FluidStyleguide\Domain\Model;
 
 class ComponentFixture
 {
-    /**
-     * Absolute path to the fixture json file
-     * Note that this file contains multiple fixtures
-     *
-     * @var string
-     */
-    protected $filePath;
-
-    /**
-     * Name of the individual fixture
-     *
-     * @var string
-     */
-    protected $name;
-
-    /**
-     * Fixture data
-     *
-     * @var array
-     */
-    protected $data;
-
-    public function __construct(string $filePath, string $name, array $data)
-    {
-        $this->filePath = $filePath;
-        $this->name = $name;
-        $this->data = $data;
+    public function __construct(
+        protected string $filePath, // Absolute path to the fixture file. Note that this file contains multiple fixtures
+        protected string $name,
+        protected array $data,
+    ) {
     }
 
     public function getFilePath(): string

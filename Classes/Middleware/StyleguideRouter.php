@@ -15,47 +15,31 @@ use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Core\SystemEnvironmentBuilder;
 use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Http\RedirectResponse;
+use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Routing\PageArguments;
 use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
+use TYPO3\CMS\Core\TypoScript\AST\Node\RootNode;
+use TYPO3\CMS\Core\TypoScript\FrontendTypoScript;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\View\ViewFactoryData;
+use TYPO3\CMS\Core\View\ViewFactoryInterface;
+use TYPO3\CMS\Extbase\Mvc\ExtbaseRequestParameters;
+use TYPO3\CMS\Extbase\Mvc\Request;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 class StyleguideRouter implements MiddlewareInterface
 {
-    const DEFAULT_ACTION = 'list';
-
-    /**
-     * @var Context
-     */
-    protected $context;
-
-    /**
-     * @var ContainerInterface
-     */
-    protected ContainerInterface $container;
-
-    /**
-     * @var ExtensionConfiguration
-     */
-    protected ExtensionConfiguration $extensionConfiguration;
-
-    /**
-     * @var FrontendUserAuthentication
-     */
-    protected FrontendUserAuthentication $frontendUserAuthentication;
+    public const DEFAULT_ACTION = 'list';
 
     public function __construct(
-        Context $context,
-        ContainerInterface $container,
-        ExtensionConfiguration $extensionConfiguration,
-        FrontendUserAuthentication $frontendUserAuthentication
+        protected Context $context,
+        protected ContainerInterface $container,
+        protected ExtensionConfiguration $extensionConfiguration,
+        protected FrontendUserAuthentication $frontendUserAuthentication,
+        protected ?ViewFactoryInterface $viewFactory = null,
     ) {
-        $this->context = $context;
-        $this->container = $container;
-        $this->extensionConfiguration = $extensionConfiguration;
-        $this->frontendUserAuthentication = $frontendUserAuthentication;
     }
 
     public function process(
@@ -72,19 +56,19 @@ class StyleguideRouter implements MiddlewareInterface
         $prefix = $prefixWithoutSlash . '/';
 
         // Check if fluid styleguide should be rendered
-        if (strpos($request->getUri()->getPath(), $prefixWithoutSlash) !== 0) {
+        if (!str_starts_with((string) $request->getUri()->getPath(), $prefixWithoutSlash)) {
             return $handler->handle($request);
         }
 
         // Correct calls without trailing slash in request url
-        if (strpos($request->getUri()->getPath(), $prefix) !== 0) {
+        if (!str_starts_with((string) $request->getUri()->getPath(), $prefix)) {
             return new RedirectResponse(
                 $request->getUri()->withPath($prefix . static::DEFAULT_ACTION)
             );
         }
 
         // Extract routing information from URI
-        $path = substr($request->getUri()->getPath(), strlen($prefix));
+        $path = substr((string) $request->getUri()->getPath(), strlen($prefix));
         $pathSegments = explode('/', $path);
         $actionName = array_shift($pathSegments) ?? '';
         $actionName = preg_replace('#[^a-z]#i', '', $actionName);
@@ -133,9 +117,6 @@ class StyleguideRouter implements MiddlewareInterface
             );
 
             if ($styleguideLanguage) {
-                // Set language in TSFE object
-                $GLOBALS['TSFE']->lang = $styleguideLanguage['identifier'];
-
                 // Replace language in request
                 $request = $request->withAttribute('language', new SiteLanguage(
                     0,
@@ -149,13 +130,51 @@ class StyleguideRouter implements MiddlewareInterface
                         'twoLetterIsoCode' => $styleguideLanguage['twoLetterIsoCode']
                     ]
                 ));
-                $GLOBALS['TYPO3_REQUEST'] = $request;
             }
         }
 
+        $request = $request->withAttribute('frontend.controller', $GLOBALS['TSFE']);
+        $GLOBALS['TYPO3_REQUEST'] = $request;
+
+        $extbaseAttribute = new ExtbaseRequestParameters();
+        $extbaseAttribute->setControllerExtensionName('fluidStyleguide');
+        $extbaseAttribute->setControllerName('Styleguide');
+        $extbaseAttribute->setControllerActionName($actionName);
+        $request = new Request($request
+            ->withAttribute('extbase', $extbaseAttribute)
+            ->withAttribute('applicationType', SystemEnvironmentBuilder::REQUESTTYPE_FE)
+            ->withAttribute('frontend.controller', $GLOBALS['TSFE']));
+
+
+        $plainFrontendTypoScript = new FrontendTypoScript(new RootNode(), [], [], []);
+        if ((new Typo3Version())->getMajorVersion() >= 13) {
+            $plainFrontendTypoScript->setConfigArray([]);
+            $plainFrontendTypoScript->setSetupArray([]);
+        }
+
+        $request = $request->withAttribute('frontend.typoscript', $plainFrontendTypoScript);
+
         // Create view
-        $view = $this->createView('fluidStyleguide', 'Styleguide', $actionName);
+        if (GeneralUtility::makeInstance(Typo3Version::class)->getMajorVersion() < 13) {
+            $view = $this->container->get(StandaloneView::class);
+            $view->setTemplateRootPaths($styleguideConfigurationManager->getTemplateRootPaths());
+            $view->setPartialRootPaths($styleguideConfigurationManager->getPartialRootPaths());
+            $view->setLayoutRootPaths($styleguideConfigurationManager->getLayoutRootPaths());
+            $view->setRequest($request);
+        } else {
+            $view = $this->viewFactory->create(new ViewFactoryData(
+                templateRootPaths: $styleguideConfigurationManager->getTemplateRootPaths(),
+                partialRootPaths: $styleguideConfigurationManager->getPartialRootPaths(),
+                layoutRootPaths: $styleguideConfigurationManager->getLayoutRootPaths(),
+                templatePathAndFilename: null,
+                request: $request,
+            ));
+        }
+
         $controller->setRequest($request);
+
+        // set the global, since some ViewHelper still fallback to $GLOBALS['TYPO3_REQUEST']
+        $GLOBALS['TYPO3_REQUEST'] = $request;
         $controller->initializeView($view);
 
         // Call controller action
@@ -170,23 +189,6 @@ class StyleguideRouter implements MiddlewareInterface
         }
 
         return $response;
-    }
-
-    protected function createView(
-        string $extensionName,
-        string $controllerName,
-        string $actionName
-    ): StandaloneView {
-        $view = $this->container->get(StandaloneView::class);
-        if (version_compare(TYPO3_version, '11.0', '>=')) {
-            $request = $view->getRenderingContext()->getControllerContext()->getRequest()
-                ->withAttribute('applicationType', SystemEnvironmentBuilder::REQUESTTYPE_FE);
-            $request->setControllerExtensionName($extensionName);
-            $view->getRenderingContext()->getControllerContext()->setRequest($request);
-        }
-        $view->getRenderingContext()->setControllerName($controllerName);
-        $view->getRenderingContext()->setControllerAction($actionName);
-        return $view;
     }
 
     protected function callControllerAction(

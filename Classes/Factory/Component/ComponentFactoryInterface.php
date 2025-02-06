@@ -14,10 +14,6 @@ interface ComponentFactoryInterface
 
     /**
      * Builds the component and passes the component name and component location on.
-     *
-     * @param ComponentName $componentName
-     * @param ComponentLocation $componentLocation
-     * @return Component
      */
     public function build(ComponentName $componentName, ComponentLocation $componentLocation) : Component;
 }

@@ -5,26 +5,13 @@ namespace Sitegeist\FluidStyleguide\Domain\Model;
 
 class ComponentLocation
 {
-    /**
-     * @var string
-     */
-    protected $filePath;
+    protected string $fileName = '';
+    protected string $directory = '';
 
-    /**
-     * @var string
-     */
-    protected $fileName;
-
-    /**
-     * @var string
-     */
-    protected $directory;
-
-    public function __construct(string $filePath)
+    public function __construct(protected string $filePath)
     {
-        $this->filePath = $filePath;
         $this->fileName = basename($filePath);
-        $this->directory = dirname($this->filePath);
+        $this->directory = dirname($filePath);
     }
 
     public function getFileName(): string

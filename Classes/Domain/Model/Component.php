@@ -13,35 +13,14 @@ use SMS\FluidComponents\Fluid\ViewHelper\ComponentRenderer;
 
 class Component
 {
-    /**
-     * @var ComponentName
-     */
-    protected $name;
+    protected ?array $fixtures = null;
+    protected ?string $documentation;
+    protected ?array $arguments = null;
 
-    /**
-     * @var ComponentLocation
-     */
-    protected $location;
-
-    /**
-     * @var array
-     */
-    protected $fixtures;
-
-    /**
-     * @var string
-     */
-    protected $documentation;
-
-    /**
-     * @var array
-     */
-    protected $arguments;
-
-    public function __construct(ComponentName $name, ComponentLocation $location)
-    {
-        $this->name = $name;
-        $this->location = $location;
+    public function __construct(
+        protected ComponentName $name,
+        protected ComponentLocation $location,
+    ) {
     }
 
     public function getName(): ComponentName
@@ -87,14 +66,12 @@ class Component
             return $this->fixtures;
         }
 
-        $this->fixtures = [];
-
         if (!$this->hasFixtures()) {
             return $this->fixtures;
         }
 
         $fixtureFile = $this->getFixtureFile();
-        $fileParts = pathinfo($fixtureFile);
+        $fileParts = pathinfo((string) $fixtureFile);
         switch ($fileParts['extension']) {
             case 'json':
                 $fixtures = \json_decode(file_get_contents($fixtureFile), true) ?? [];
@@ -197,7 +174,7 @@ class Component
         return null;
     }
 
-    protected function getComponentRenderer()
+    protected function getComponentRenderer(): ComponentRenderer
     {
         $componentRenderer = GeneralUtility::makeInstance(ComponentRenderer::class);
         $componentRenderer->setComponentNamespace($this->name->getIdentifier());
