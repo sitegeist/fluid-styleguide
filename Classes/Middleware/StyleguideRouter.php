@@ -149,6 +149,7 @@ class StyleguideRouter implements MiddlewareInterface
         $plainFrontendTypoScript = new FrontendTypoScript(new RootNode(), [], [], []);
         if ((new Typo3Version())->getMajorVersion() >= 13) {
             $plainFrontendTypoScript->setConfigArray([]);
+            $plainFrontendTypoScript->setSetupArray([]);
         }
 
         $request = $request->withAttribute('frontend.typoscript', $plainFrontendTypoScript);
