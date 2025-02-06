@@ -46,18 +46,34 @@ Each component in the styleguide needs a fixture file which contains example val
 A fixture file must at least contain a `default` fixture, but it may define additional fixtures that can then be selected
 in the styleguide interface.
 
-A fixture can be created in `.json`, [`.json5`](https://json5.org/), `.yml` or `.yaml` files. You should create only one fixture file per
-component. The styleguide takes the first fixture file and ignores eventually existing files in other formats in the
-following order:
+A fixture can be created in `.php`, `.json`, [`.json5`](https://json5.org/), `.yml` or `.yaml` files. You should create only one fixture file per
+component. The styleguide takes the first fixture file and ignores eventually existing files in other formats in the following order:
 
-1. `.json`
-2. `.json5`
-3. `.yml`
-4. `.yaml`
+1. `.php`
+2. `.json`
+3. `.json5`
+4. `.yml`
+5. `.yaml`
 
 Support for `json5` only works if you install the fluid-styleguide with composer (not by TER!).
 
-**Molecule/Teaser/Teaser.fixture.json:**
+**Molecule/Teaser/Teaser.fixture.php:**
+
+```php
+return [
+    'default' => [
+        'title' => 'TYPO3',
+        'link' => 'https://typo3.org',
+    ],
+    'dark' => [
+        'title' => 'TYPO3',
+        'link' => 'https://typo3.org',
+        'theme' => 'dark',
+    ],
+];
+```
+
+or **Molecule/Teaser/Teaser.fixture.json:**
 
 ```json
 {
@@ -105,7 +121,7 @@ dark:
     theme: dark
 ```
 
-File naming scheme: *{ComponentName}.fixture.[json|[json5](https://json5.org/)|yml|yaml]*
+File naming scheme: *{ComponentName}.fixture.[php|json|[json5](https://json5.org/)|yml|yaml]*
 
 You can define the content of a component if the component supports it:
 
