@@ -249,6 +249,10 @@ class ExampleViewHelper extends AbstractViewHelper
             return $input::class . '::' . $input->name;
         }
 
+        if (is_object($input)) {
+            return 'new \\' . $input::class . '()';
+        }
+
         return (string) $input;
     }
 }
