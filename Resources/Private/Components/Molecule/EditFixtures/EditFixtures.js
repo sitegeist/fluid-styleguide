@@ -1,4 +1,4 @@
-import {register, findAll, find} from '../../../Javascript/Utils';
+import {register, findAll, find, debounce} from '../../../Javascript/Utils';
 
 const EditFixtures = el => {
 
@@ -7,18 +7,16 @@ const EditFixtures = el => {
     const checkboxes = findAll('.editFixturesCheckbox', el);
 
     inputs.forEach((input) => {
-        input.addEventListener('input', ()=>{
+        input.addEventListener('input', debounce(()=>{
             form.submit();
-
-        })
+        }))
     });
 
     checkboxes.forEach((checkbox) => {
-        checkbox.addEventListener('change', ()=>{
+        checkbox.addEventListener('change', debounce(()=>{
             form.submit();
-        })
+        }))
     });
-
 };
 
 register('EditFixtures', EditFixtures);
