@@ -10,6 +10,7 @@ use Sitegeist\FluidComponentsLinter\Service\CodeQualityService;
 use Sitegeist\FluidComponentsLinter\Service\ConfigurationService;
 use Sitegeist\FluidStyleguide\Domain\Repository\ComponentRepository;
 use Sitegeist\FluidStyleguide\Event\PostProcessComponentViewEvent;
+use Sitegeist\FluidStyleguide\Event\PreProcessComponentViewEvent;
 use Sitegeist\FluidStyleguide\Service\ComponentDownloadService;
 use Sitegeist\FluidStyleguide\Service\StyleguideConfigurationManager;
 use SMS\FluidComponents\Utility\ComponentLoader;
@@ -127,10 +128,13 @@ class StyleguideController
             'fixtureData' => $formData
         ]);
 
+        $eventDispatcher = $this->container->get(EventDispatcher::class);
+
+        $eventDispatcher->dispatch(new PreProcessComponentViewEvent($component, $fixture, $formData, $this->view));
+
         $renderedView = $this->view->render('Styleguide/Component');
 
         $event = new PostProcessComponentViewEvent($component, $fixture, $formData, $renderedView);
-        $eventDispatcher = $this->container->get(EventDispatcher::class);
         $event = $eventDispatcher->dispatch($event);
 
         $renderedView = $event->getRenderedView();
