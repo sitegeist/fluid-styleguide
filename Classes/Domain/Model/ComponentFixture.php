@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace Sitegeist\FluidStyleguide\Domain\Model;
 
-class ComponentFixture
+use JsonSerializable;
+
+class ComponentFixture implements JsonSerializable
 {
     public function __construct(
         protected string $filePath, // Absolute path to the fixture file. Note that this file contains multiple fixtures
@@ -25,5 +27,14 @@ class ComponentFixture
     public function getData(): array
     {
         return $this->data;
+    }
+
+    function jsonSerialize():array
+    {
+        return [
+            'filePath' => $this->getFilePath(),
+            'name' => $this->getName(),
+            'data' => $this->getData(),
+        ];
     }
 }
