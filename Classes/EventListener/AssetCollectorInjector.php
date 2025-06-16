@@ -36,7 +36,7 @@ final class AssetCollectorInjector
         foreach ($assetCollector->getJavaScripts() as $assetData) {
             $assetData['attributes']['src'] = $this->getAbsoluteWebPath($assetData['source']);
             $scriptTag = '<script ' . GeneralUtility::implodeAttributes($assetData['attributes'], true) . '></script>';
-            if ($assetData['options']['priority']) {
+            if ($assetData['options']['priority'] ?? false) {
                 $event->addHeaderData($scriptTag);
             } else {
                 $event->addFooterData($scriptTag);
