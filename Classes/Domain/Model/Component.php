@@ -162,9 +162,11 @@ class Component
     {
         $configurationFileLocations = [
             $this->getLocation()->getDirectory(),
-            $this->getName()->getPackage()->getPath(),
-            rtrim($this->getName()->getPackage()->getExtension()->getPackagePath(), DIRECTORY_SEPARATOR)
+            ...$this->getName()->getPackage()->getPaths(),
         ];
+        foreach($this->getName()->getPackage()->getExtensions() as $extension) {
+            $configurationFileLocations[] = rtrim($extension->getPackagePath(), DIRECTORY_SEPARATOR);
+        }
         foreach ($configurationFileLocations as $configurationFileLocation) {
             $configurationFile = $configurationFileLocation . DIRECTORY_SEPARATOR . '.fclint.json';
             if (file_exists($configurationFile)) {
