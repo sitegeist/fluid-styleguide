@@ -1,0 +1,22 @@
+{
+  "Resources/Private/Javascript/Iframe.js": {
+    "file": "JavaScript/Iframe.min.js",
+    "name": "Iframe",
+    "src": "Resources/Private/Javascript/Iframe.js",
+    "isEntry": true
+  },
+  "Resources/Private/Javascript/Styleguide.js": {
+    "file": "JavaScript/Styleguide.min2.js",
+    "name": "Styleguide",
+    "src": "Resources/Private/Javascript/Styleguide.js",
+    "isEntry": true
+  },
+  "Resources/Private/Scss/Styleguide.scss": {
+    "file": "Css/Styleguide.min.css",
+    "src": "Resources/Private/Scss/Styleguide.scss",
+    "isEntry": true,
+    "names": [
+      "Styleguide.css"
+    ]
+  }
+}
