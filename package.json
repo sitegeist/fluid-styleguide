@@ -6,7 +6,7 @@
     "license": "MIT",
     "scripts": {
         "build": "vitesse",
-		"watch": "vitesse --watch"
+        "watch": "vitesse --watch"
     },
     "dependencies": {
         "iframe-resizer": "^4.1.1"
