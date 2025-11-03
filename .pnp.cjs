@@ -30,7 +30,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@sitegeist/vitesse", "virtual:f9f03a65cf91fc29df512110bf6919da608522aa229adcfc6207b1bce56e8cd8e870784f816e09dcccf7d9b67d6c029c3e19e462ba1032c9d41a147dc247d19c#npm:3.0.0"],\
           ["fluidstyleguide", "workspace:."],\
-          ["iframe-resizer", "npm:4.4.5"]\
+          ["iframe-resizer", "npm:5.5.7"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -616,6 +616,47 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/unplugged/@esbuild-win32-x64-npm-0.25.11-a0301442a5/node_modules/@esbuild/win32-x64/",\
         "packageDependencies": [\
           ["@esbuild/win32-x64", "npm:0.25.11"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@iframe-resizer/child", [\
+      ["npm:5.5.7", {\
+        "packageLocation": "../../../.yarn/berry/cache/@iframe-resizer-child-npm-5.5.7-1ae8b4cc92-10c0.zip/node_modules/@iframe-resizer/child/",\
+        "packageDependencies": [\
+          ["@iframe-resizer/child", "npm:5.5.7"],\
+          ["auto-console-group", "npm:1.2.11"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@iframe-resizer/core", [\
+      ["npm:5.5.7", {\
+        "packageLocation": "../../../.yarn/berry/cache/@iframe-resizer-core-npm-5.5.7-b1b2e9bb9f-10c0.zip/node_modules/@iframe-resizer/core/",\
+        "packageDependencies": [\
+          ["@iframe-resizer/core", "npm:5.5.7"],\
+          ["auto-console-group", "npm:1.2.11"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@iframe-resizer/jquery", [\
+      ["npm:5.5.7", {\
+        "packageLocation": "../../../.yarn/berry/cache/@iframe-resizer-jquery-npm-5.5.7-26fe17e772-10c0.zip/node_modules/@iframe-resizer/jquery/",\
+        "packageDependencies": [\
+          ["@iframe-resizer/core", "npm:5.5.7"],\
+          ["@iframe-resizer/jquery", "npm:5.5.7"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@iframe-resizer/parent", [\
+      ["npm:5.5.7", {\
+        "packageLocation": "../../../.yarn/berry/cache/@iframe-resizer-parent-npm-5.5.7-0e806dd0f6-10c0.zip/node_modules/@iframe-resizer/parent/",\
+        "packageDependencies": [\
+          ["@iframe-resizer/core", "npm:5.5.7"],\
+          ["@iframe-resizer/parent", "npm:5.5.7"],\
+          ["auto-console-group", "npm:1.2.11"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -1939,6 +1980,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["auto-console-group", [\
+      ["npm:1.2.11", {\
+        "packageLocation": "../../../.yarn/berry/cache/auto-console-group-npm-1.2.11-850d44e909-10c0.zip/node_modules/auto-console-group/",\
+        "packageDependencies": [\
+          ["auto-console-group", "npm:1.2.11"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["autoprefixer", [\
       ["npm:10.4.21", {\
         "packageLocation": "../../../.yarn/berry/cache/autoprefixer-npm-10.4.21-0dd6f0f60c-10c0.zip/node_modules/autoprefixer/",\
@@ -2732,7 +2782,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@sitegeist/vitesse", "virtual:f9f03a65cf91fc29df512110bf6919da608522aa229adcfc6207b1bce56e8cd8e870784f816e09dcccf7d9b67d6c029c3e19e462ba1032c9d41a147dc247d19c#npm:3.0.0"],\
           ["fluidstyleguide", "workspace:."],\
-          ["iframe-resizer", "npm:4.4.5"]\
+          ["iframe-resizer", "npm:5.5.7"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -2946,10 +2996,13 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["iframe-resizer", [\
-      ["npm:4.4.5", {\
-        "packageLocation": "./.yarn/unplugged/iframe-resizer-npm-4.4.5-940b4d5966/node_modules/iframe-resizer/",\
+      ["npm:5.5.7", {\
+        "packageLocation": "../../../.yarn/berry/cache/iframe-resizer-npm-5.5.7-686ed8b43b-10c0.zip/node_modules/iframe-resizer/",\
         "packageDependencies": [\
-          ["iframe-resizer", "npm:4.4.5"]\
+          ["@iframe-resizer/child", "npm:5.5.7"],\
+          ["@iframe-resizer/jquery", "npm:5.5.7"],\
+          ["@iframe-resizer/parent", "npm:5.5.7"],\
+          ["iframe-resizer", "npm:5.5.7"]\
         ],\
         "linkType": "HARD"\
       }]\

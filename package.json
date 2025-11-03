@@ -9,7 +9,7 @@
         "watch": "vitesse --watch"
     },
     "dependencies": {
-        "iframe-resizer": "^4.1.1"
+        "iframe-resizer": "^5.5.7"
     },
     "devDependencies": {
         "@sitegeist/vitesse": "^3.0"

@@ -470,6 +470,43 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@iframe-resizer/child@npm:5.5.7":
+  version: 5.5.7
+  resolution: "@iframe-resizer/child@npm:5.5.7"
+  dependencies:
+    auto-console-group: "npm:1.2.11"
+  checksum: 10c0/15c137abeba1c3b6ccc219fce82fd0ce33796333958273d7a4a9c78b929109694df3dd48883139c422fcc834c9c02982d132943f21da56b4ad13d0c28528dfa6
+  languageName: node
+  linkType: hard
+
+"@iframe-resizer/core@npm:5.5.7":
+  version: 5.5.7
+  resolution: "@iframe-resizer/core@npm:5.5.7"
+  dependencies:
+    auto-console-group: "npm:1.2.11"
+  checksum: 10c0/33c4777ec96ad21f23249a9812eb2f3e424bc58d712f7cf558b0930c5a2bd715200fa4406c3134092469e815664b38fe45723fd19f1503020857afe890f8f4f0
+  languageName: node
+  linkType: hard
+
+"@iframe-resizer/jquery@npm:5.5.7":
+  version: 5.5.7
+  resolution: "@iframe-resizer/jquery@npm:5.5.7"
+  dependencies:
+    "@iframe-resizer/core": "npm:5.5.7"
+  checksum: 10c0/4d883af623cd2640e956619a1d201c113d1fb3943fd6f16e462459346f27fe3fdd1e349e377511abe38873db56b5693a0ca670c5811a1dc7a1289434a6ba8492
+  languageName: node
+  linkType: hard
+
+"@iframe-resizer/parent@npm:5.5.7":
+  version: 5.5.7
+  resolution: "@iframe-resizer/parent@npm:5.5.7"
+  dependencies:
+    "@iframe-resizer/core": "npm:5.5.7"
+    auto-console-group: "npm:1.2.11"
+  checksum: 10c0/c7bad5149febcf7d33ac0a7df9926267a27acf9f8ebb0e4696c18f35ad54d896b37eca991e857d7ea289b3fa61407808e910a5624b6ef3eb40b5a21b2513e64a
+  languageName: node
+  linkType: hard
+
 "@isaacs/balanced-match@npm:^4.0.1":
   version: 4.0.1
   resolution: "@isaacs/balanced-match@npm:4.0.1"
@@ -1582,6 +1619,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"auto-console-group@npm:1.2.11":
+  version: 1.2.11
+  resolution: "auto-console-group@npm:1.2.11"
+  checksum: 10c0/7a0904ae6786652ebcf3c06b143ec61748efa5aaa10c01e970405b513f3d14b771b03e1b211bfe066f1e40125d1e2cf66bab3320d3d26988caf2fa923c56ecaa
+  languageName: node
+  linkType: hard
+
 "autoprefixer@npm:^10.4.21":
   version: 10.4.21
   resolution: "autoprefixer@npm:10.4.21"
@@ -2293,7 +2337,7 @@ __metadata:
   resolution: "fluidstyleguide@workspace:."
   dependencies:
     "@sitegeist/vitesse": "npm:^3.0"
-    iframe-resizer: "npm:^4.1.1"
+    iframe-resizer: "npm:^5.5.7"
   languageName: unknown
   linkType: soft
 
@@ -2498,10 +2542,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"iframe-resizer@npm:^4.1.1":
-  version: 4.4.5
-  resolution: "iframe-resizer@npm:4.4.5"
-  checksum: 10c0/88a5ab0f6f54f25ddf47c5b3e5534aeee1e597656603d3b3b95185fa5d6c3d89be731865766a2f098324ba4dc17fc760096fad808e53c9db55e6b52b4246f476
+"iframe-resizer@npm:^5.5.7":
+  version: 5.5.7
+  resolution: "iframe-resizer@npm:5.5.7"
+  dependencies:
+    "@iframe-resizer/child": "npm:5.5.7"
+    "@iframe-resizer/jquery": "npm:5.5.7"
+    "@iframe-resizer/parent": "npm:5.5.7"
+  checksum: 10c0/1dbe9a48a15b30a05ed38c71d7c9ad2fe2e6ca6ff8a4f15dee787a0ee0e3ae9ff4e08444b02db04eccd4d6924871a94f67fdcdc0e86ad5783ee3d73637c82559
   languageName: node
   linkType: hard
 
