@@ -142,15 +142,17 @@ class ExampleViewHelper extends AbstractViewHelper
     /**
      * Renders inline fluid code in a fixture array that will be provided as example data to a component
      */
-    public static function renderFluidInExampleData(array $data, RenderingContextInterface $renderingContext): array
+    public static function renderFluidInExampleData($data, RenderingContextInterface $renderingContext)
     {
-        return array_map(function ($value) use ($renderingContext) {
-            if (is_string($value)) {
-                return $renderingContext->getTemplateParser()->parse($value)->render($renderingContext);
-            } else {
-                return $value;
-            }
-        }, $data);
+        if (is_string($data)) {
+            return $renderingContext->getTemplateParser()->parse($data)->render($renderingContext);
+        } elseif (is_array($data)) {
+            return array_map(function ($value) use ($renderingContext) {
+                return self::renderFluidInExampleData($value, $renderingContext);
+            }, $data);
+        } else {
+            return $data;
+        }
     }
 
     /**
