@@ -16,6 +16,8 @@ use Sitegeist\FluidStyleguide\Service\StyleguideConfigurationManager;
 use SMS\FluidComponents\Utility\ComponentLoader;
 use TYPO3\CMS\Core\EventDispatcher\EventDispatcher;
 use TYPO3\CMS\Core\Http\HtmlResponse;
+use TYPO3\CMS\Core\Http\ImmediateResponseException;
+use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
@@ -39,6 +41,12 @@ class StyleguideController
     {
         $allComponents = $this->componentRepository->findWithFixtures();
         $componentPackages = $this->groupComponentsByPackage($allComponents);
+
+        // if json request, return JSON response
+        $accept = $this->request->getHeaderLine('Accept');
+        if (str_starts_with($accept, 'application/json')) {
+            throw new ImmediateResponseException(new JsonResponse($allComponents));
+        }
 
         $this->view->assignMultiple([
             'navigation' => $allComponents,
