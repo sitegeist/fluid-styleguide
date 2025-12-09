@@ -9,7 +9,6 @@ use Sitegeist\FluidStyleguide\Exception\RequiredComponentArgumentException;
 use Sitegeist\FluidStyleguide\Service\StyleguideConfigurationManager;
 use SMS\FluidComponents\Fluid\ViewHelper\ComponentRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\Variables\StandardVariableProvider;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
@@ -47,8 +46,7 @@ class RenderFixtureViewHelper extends AbstractViewHelper
 
         $componentIdentifier = self::sanitizeComponentIdentifier($arguments['component'] ?? '');
 
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $componentRepository = $objectManager->get(ComponentRepository::class);
+        $componentRepository = GeneralUtility::makeInstance(ComponentRepository::class);
 
         $component = $componentRepository->findWithFixturesByIdentifier($componentIdentifier);
         if (!$component) {
@@ -85,7 +83,7 @@ class RenderFixtureViewHelper extends AbstractViewHelper
         // Parse fluid code in fixtures
         $fixtureData = self::renderFluidInExampleData($fixtureData, $renderingContext);
 
-        $styleguideConfigurationManager = $objectManager->get(StyleguideConfigurationManager::class);
+        $styleguideConfigurationManager = GeneralUtility::makeInstance(StyleguideConfigurationManager::class);
         $componentContext = $styleguideConfigurationManager->getComponentContext();
 
         $componentMarkup = self::renderComponent(
