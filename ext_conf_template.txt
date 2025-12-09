@@ -1,2 +1,5 @@
 # cat=general; type=string; label=URI prefix that should display the styleguide: Advanced! Only change this property if you know what you're doing!
 uriPrefix = /fluid-styleguide/
+
+# cat=general; type=string; label=Path to TypoScript: This file is being loaded for the styleguide rendering. Might contain 'lib.parseFunc_RTE' and other necessary TS objects.
+typoScriptPath =

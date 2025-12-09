@@ -20,6 +20,7 @@ use TYPO3\CMS\Core\Routing\PageArguments;
 use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
 use TYPO3\CMS\Core\TypoScript\AST\Node\RootNode;
 use TYPO3\CMS\Core\TypoScript\FrontendTypoScript;
+use TYPO3\CMS\Core\TypoScript\TypoScriptStringFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\View\ViewFactoryData;
 use TYPO3\CMS\Core\View\ViewFactoryInterface;
@@ -150,6 +151,16 @@ class StyleguideRouter implements MiddlewareInterface
         if ((new Typo3Version())->getMajorVersion() >= 13) {
             $plainFrontendTypoScript->setConfigArray([]);
             $plainFrontendTypoScript->setSetupArray([]);
+        }
+
+        $typoScriptPath = $this->extensionConfiguration->get('fluid_styleguide', 'typoScriptPath');
+        if (!empty($typoScriptPath)) {
+            $typoScriptPath = GeneralUtility::getFileAbsFileName($typoScriptPath);
+            $typoScriptContent = file_get_contents($typoScriptPath);
+            $typoScriptStringFactory = GeneralUtility::makeInstance(TypoScriptStringFactory::class);
+            $ast = $typoScriptStringFactory->parseFromStringWithIncludes('fluid-styleguide', $typoScriptContent);
+            $plainFrontendTypoScript->setSetupTree($ast);
+            $plainFrontendTypoScript->setSetupArray($ast->toArray());
         }
 
         $request = $request->withAttribute('frontend.typoscript', $plainFrontendTypoScript);
