@@ -3,7 +3,7 @@
     "description": "Living styleguide for Fluid Components",
     "type": "typo3-cms-extension",
     "homepage": "https://github.com/sitegeist/fluid-styleguide",
-    "license": ["GPL-2.0-or-later"],
+    "license": ["GPL-3.0-or-later"],
     "keywords": ["typo3", "typo3-extension", "fluid", "typo3-fluid", "components", "html", "template", "styleguide", "living-styleguide"],
     "authors": [
         {

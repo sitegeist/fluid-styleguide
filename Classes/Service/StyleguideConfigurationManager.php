@@ -108,12 +108,12 @@ class StyleguideConfigurationManager
 
     public function getStyleguideCss(): Uri
     {
-        return $this->generateAssetUrl('EXT:fluid_styleguide/Resources/Public/Css/Styleguide.min.css');
+        return $this->generateAssetUrl('EXT:fluid_styleguide/Resources/Public/Build/Css/Styleguide.min.css');
     }
 
     public function getStyleguideJavascript(): Uri
     {
-        return $this->generateAssetUrl('EXT:fluid_styleguide/Resources/Public/Javascript/Styleguide.min.js');
+        return $this->generateAssetUrl('EXT:fluid_styleguide/Resources/Public/Build/JavaScript/Styleguide.min2.js');
     }
 
     public function getResponsiveBreakpoints(): array

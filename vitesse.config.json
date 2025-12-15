@@ -1,0 +1,15 @@
+{
+    "extensionPath": "/",
+    "build": {
+        "inputFiles": [
+            "./Resources/Private/Scss/Styleguide.scss",
+            "./Resources/Private/Javascript/Styleguide.js",
+            "./Resources/Private/Javascript/Iframe.js"
+        ],
+        "outputPath": "./Resources/Public/Build/",
+        "outputFilePattern": "[name].min.js"
+    },
+    "emptyOutDir": false,
+    "excludeTailwind": true,
+    "modulePreload": false
+}
