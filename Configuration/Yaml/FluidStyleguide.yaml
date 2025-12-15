@@ -39,7 +39,8 @@ FluidStyleguide:
             Css:
                 - EXT:fluid_styleguide/Resources/Public/Css/Iframe.css
             Javascript:
-                - EXT:fluid_styleguide/Resources/Public/Build/JavaScript/Iframe.min.js
+                - file: EXT:fluid_styleguide/Resources/Public/Build/JavaScript/Iframe.min.js
+                  type: module
         Packages:
             'Sitegeist\FluidStyleguide\DemoComponents':
                 Css:
