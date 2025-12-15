@@ -2,8 +2,8 @@
     "name": "fluidstyleguide",
     "version": "3.0.0",
     "main": "index.js",
-    "author": "Clemens Kauczor",
-    "license": "MIT",
+    "author": "sitegeist media solutions GmbH <info@sitegeist.de>",
+    "license": "GPL-3.0-or-later",
     "scripts": {
         "build": "vitesse",
         "watch": "vitesse --watch"

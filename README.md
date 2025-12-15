@@ -89,3 +89,15 @@ If you have any questions, need support or want to discuss components in TYPO3, 
 
 * [Building Components with Fluid Styleguide](./Documentation/BuildingComponents.md)
 * [Styleguide Configuration Reference](./Documentation/ConfigurationReference.md)
+
+## License
+
+This project is licensed under the GPL-3.0-or-later license.
+See the LICENSE file for details.
+
+The project includes third-party dependencies that are distributed under their respective open-source licenses:
+
+@sitegeist/vitesse — MIT License
+iframe-resizer — GPL-3.0 License
+
+All bundled assets remain subject to the licenses of their original authors.
