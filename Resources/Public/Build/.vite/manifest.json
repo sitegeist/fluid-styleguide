@@ -3,13 +3,19 @@
     "file": "JavaScript/Iframe.min.js",
     "name": "Iframe",
     "src": "Resources/Private/Javascript/Iframe.js",
-    "isEntry": true
+    "isEntry": true,
+    "imports": [
+      "_index-CTDsMjWk.js"
+    ]
   },
   "Resources/Private/Javascript/Styleguide.js": {
     "file": "JavaScript/Styleguide.min2.js",
     "name": "Styleguide",
     "src": "Resources/Private/Javascript/Styleguide.js",
-    "isEntry": true
+    "isEntry": true,
+    "imports": [
+      "_index-CTDsMjWk.js"
+    ]
   },
   "Resources/Private/Scss/Styleguide.scss": {
     "file": "Css/Styleguide.min.css",
@@ -18,5 +24,9 @@
     "names": [
       "Styleguide.css"
     ]
+  },
+  "_index-CTDsMjWk.js": {
+    "file": "JavaScript/Chunks/index-CTDsMjWk.js",
+    "name": "index"
   }
 }

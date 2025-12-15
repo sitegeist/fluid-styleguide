@@ -1,4 +1,4 @@
-import 'iframe-resizer/js/iframeResizer.contentWindow';
+import '@iframe-resizer/child';
 
 // close select if clicked outside
 document.addEventListener('click', () => {
