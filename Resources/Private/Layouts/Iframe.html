@@ -20,12 +20,12 @@
     </f:for>
     <f:for each="{styleguideConfiguration.globalJavascript}" as="javascriptFile">
         <f:if condition="{javascriptFile.position} == 'head'">
-            <script src="{f:if(condition: javascriptFile.file, then: javascriptFile.file, else: javascriptFile)}"></script>
+            <script src="{f:if(condition: javascriptFile.file, then: javascriptFile.file, else: javascriptFile)}" {f:if(condition: javascriptFile.type, then: 'type=\"{javascriptFile.type}\" ')}></script>
         </f:if>
     </f:for>
     <f:for each="{componentJavascript}" as="javascriptFile">
         <f:if condition="{javascriptFile.position} == 'head'">
-            <script src="{f:if(condition: javascriptFile.file, then: javascriptFile.file, else: javascriptFile)}"></script>
+            <script src="{f:if(condition: javascriptFile.file, then: javascriptFile.file, else: javascriptFile)}" {f:if(condition: javascriptFile.type, then: 'type=\"{javascriptFile.type}\" ')}></script>
         </f:if>
     </f:for>
     <!-- ###ADDITIONAL_HEADER_DATA### -->
@@ -48,12 +48,12 @@
 
 <f:for each="{styleguideConfiguration.globalJavascript}" as="javascriptFile">
     <f:if condition="{javascriptFile.position} != 'head'">
-        <script src="{f:if(condition: javascriptFile.file, then: javascriptFile.file, else: javascriptFile)}"></script>
+        <script src="{f:if(condition: javascriptFile.file, then: javascriptFile.file, else: javascriptFile)}" {f:if(condition: javascriptFile.type, then: 'type=\"{javascriptFile.type}\" ')}></script>
     </f:if>
 </f:for>
 <f:for each="{componentJavascript}" as="javascriptFile">
     <f:if condition="{javascriptFile.position} != 'head'">
-        <script src="{f:if(condition: javascriptFile.file, then: javascriptFile.file, else: javascriptFile)}"></script>
+        <script src="{f:if(condition: javascriptFile.file, then: javascriptFile.file, else: javascriptFile)}" {f:if(condition: javascriptFile.type, then: 'type=\"{javascriptFile.type}\" ')}></script>
     </f:if>
 </f:for>
 <!-- ###ADDITIONAL_FOOTER_DATA### -->

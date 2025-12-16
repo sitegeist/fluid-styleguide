@@ -470,7 +470,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@iframe-resizer/child@npm:5.5.7":
+"@iframe-resizer/child@npm:^5.5.7":
   version: 5.5.7
   resolution: "@iframe-resizer/child@npm:5.5.7"
   dependencies:
@@ -488,16 +488,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@iframe-resizer/jquery@npm:5.5.7":
-  version: 5.5.7
-  resolution: "@iframe-resizer/jquery@npm:5.5.7"
-  dependencies:
-    "@iframe-resizer/core": "npm:5.5.7"
-  checksum: 10c0/4d883af623cd2640e956619a1d201c113d1fb3943fd6f16e462459346f27fe3fdd1e349e377511abe38873db56b5693a0ca670c5811a1dc7a1289434a6ba8492
-  languageName: node
-  linkType: hard
-
-"@iframe-resizer/parent@npm:5.5.7":
+"@iframe-resizer/parent@npm:^5.5.7":
   version: 5.5.7
   resolution: "@iframe-resizer/parent@npm:5.5.7"
   dependencies:
@@ -2336,8 +2327,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "fluidstyleguide@workspace:."
   dependencies:
+    "@iframe-resizer/child": "npm:^5.5.7"
+    "@iframe-resizer/parent": "npm:^5.5.7"
     "@sitegeist/vitesse": "npm:^3.0"
-    iframe-resizer: "npm:^5.5.7"
   languageName: unknown
   linkType: soft
 
@@ -2539,17 +2531,6 @@ __metadata:
   dependencies:
     safer-buffer: "npm:>= 2.1.2 < 3.0.0"
   checksum: 10c0/98102bc66b33fcf5ac044099d1257ba0b7ad5e3ccd3221f34dd508ab4070edff183276221684e1e0555b145fce0850c9f7d2b60a9fcac50fbb4ea0d6e845a3b1
-  languageName: node
-  linkType: hard
-
-"iframe-resizer@npm:^5.5.7":
-  version: 5.5.7
-  resolution: "iframe-resizer@npm:5.5.7"
-  dependencies:
-    "@iframe-resizer/child": "npm:5.5.7"
-    "@iframe-resizer/jquery": "npm:5.5.7"
-    "@iframe-resizer/parent": "npm:5.5.7"
-  checksum: 10c0/1dbe9a48a15b30a05ed38c71d7c9ad2fe2e6ca6ff8a4f15dee787a0ee0e3ae9ff4e08444b02db04eccd4d6924871a94f67fdcdc0e86ad5783ee3d73637c82559
   languageName: node
   linkType: hard
 

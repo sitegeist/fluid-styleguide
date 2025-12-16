@@ -28,9 +28,10 @@ const RAW_RUNTIME_STATE =
       [null, {\
         "packageLocation": "./",\
         "packageDependencies": [\
+          ["@iframe-resizer/child", "npm:5.5.7"],\
+          ["@iframe-resizer/parent", "npm:5.5.7"],\
           ["@sitegeist/vitesse", "virtual:f9f03a65cf91fc29df512110bf6919da608522aa229adcfc6207b1bce56e8cd8e870784f816e09dcccf7d9b67d6c029c3e19e462ba1032c9d41a147dc247d19c#npm:3.0.0"],\
-          ["fluidstyleguide", "workspace:."],\
-          ["iframe-resizer", "npm:5.5.7"]\
+          ["fluidstyleguide", "workspace:."]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -636,16 +637,6 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@iframe-resizer/core", "npm:5.5.7"],\
           ["auto-console-group", "npm:1.2.11"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@iframe-resizer/jquery", [\
-      ["npm:5.5.7", {\
-        "packageLocation": "../../../.yarn/berry/cache/@iframe-resizer-jquery-npm-5.5.7-26fe17e772-10c0.zip/node_modules/@iframe-resizer/jquery/",\
-        "packageDependencies": [\
-          ["@iframe-resizer/core", "npm:5.5.7"],\
-          ["@iframe-resizer/jquery", "npm:5.5.7"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -2780,9 +2771,10 @@ const RAW_RUNTIME_STATE =
       ["workspace:.", {\
         "packageLocation": "./",\
         "packageDependencies": [\
+          ["@iframe-resizer/child", "npm:5.5.7"],\
+          ["@iframe-resizer/parent", "npm:5.5.7"],\
           ["@sitegeist/vitesse", "virtual:f9f03a65cf91fc29df512110bf6919da608522aa229adcfc6207b1bce56e8cd8e870784f816e09dcccf7d9b67d6c029c3e19e462ba1032c9d41a147dc247d19c#npm:3.0.0"],\
-          ["fluidstyleguide", "workspace:."],\
-          ["iframe-resizer", "npm:5.5.7"]\
+          ["fluidstyleguide", "workspace:."]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -2991,18 +2983,6 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["iconv-lite", "npm:0.6.3"],\
           ["safer-buffer", "npm:2.1.2"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["iframe-resizer", [\
-      ["npm:5.5.7", {\
-        "packageLocation": "../../../.yarn/berry/cache/iframe-resizer-npm-5.5.7-686ed8b43b-10c0.zip/node_modules/iframe-resizer/",\
-        "packageDependencies": [\
-          ["@iframe-resizer/child", "npm:5.5.7"],\
-          ["@iframe-resizer/jquery", "npm:5.5.7"],\
-          ["@iframe-resizer/parent", "npm:5.5.7"],\
-          ["iframe-resizer", "npm:5.5.7"]\
         ],\
         "linkType": "HARD"\
       }]\
