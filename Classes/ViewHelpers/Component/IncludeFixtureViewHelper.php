@@ -177,7 +177,7 @@ class IncludeFixtureViewHelper extends AbstractViewHelper
     public static function applyComponentContext(
         string $componentMarkup,
         string $context,
-        RenderingContextInterface $renderingContext = null,
+        ?RenderingContextInterface $renderingContext = null,
         array $data = []
     ): string {
         // Check if the context should be fetched from a file
