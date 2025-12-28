@@ -25,7 +25,7 @@ class PackageRepository implements \TYPO3\CMS\Core\SingletonInterface
         $fluidNamespaces = $this->getViewHelperResolver()->getNamespaces();
         $componentNamespaces = $this->componentLoader->getNamespaces();
         $packages = [];
-        foreach ($componentNamespaces as $namespace => $path) {
+        foreach ($componentNamespaces as $namespace => $paths) {
             $matchingNamespaceAlias = '???';
             foreach ($fluidNamespaces as $namespaceAlias => $namespaceCandidates) {
                 if (in_array($namespace, $namespaceCandidates)) {
@@ -33,11 +33,10 @@ class PackageRepository implements \TYPO3\CMS\Core\SingletonInterface
                     break;
                 }
             }
-
             $packages[] = new Package(
                 $namespace,
                 $matchingNamespaceAlias,
-                $path
+                $paths
             );
         }
 
