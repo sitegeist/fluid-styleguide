@@ -85,6 +85,36 @@
         .toolbarBot {
             top: -16px;
         }
+
+        @media (min-width: 992px) {
+            .tabContent {
+                &.documentation {
+                    &.maxHeight500 {
+                        max-height: 500px;
+                    }
+
+                    &.maxHeight600 {
+                        max-height: 600px;
+                    }
+
+                    &.maxHeight700 {
+                        max-height: 700px;
+                    }
+
+                    .boxMargin {
+                        width: 50%;
+                        display: inline-block;
+                        vertical-align: top;
+                    }
+
+                    .componentDocumentation {
+                        width: 45%;
+                        display: inline-block;
+                        padding-left: 15px;
+                    }
+                }
+            }
+        }
     }
 
     .toolbarTabs {
@@ -231,7 +261,6 @@
 
     .componentDocumentation {
         line-height: 1.8;
-        max-width: 70em;
 
         pre, code {
             background: $dark-grey-1;
