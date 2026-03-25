@@ -5,7 +5,7 @@
     "src": "Resources/Private/Javascript/Iframe.js",
     "isEntry": true,
     "imports": [
-      "_index-CTDsMjWk.js"
+      "_index-BnZfOG5W.js"
     ]
   },
   "Resources/Private/Javascript/Styleguide.js": {
@@ -14,7 +14,7 @@
     "src": "Resources/Private/Javascript/Styleguide.js",
     "isEntry": true,
     "imports": [
-      "_index-CTDsMjWk.js"
+      "_index-BnZfOG5W.js"
     ]
   },
   "Resources/Private/Scss/Styleguide.scss": {
@@ -25,8 +25,8 @@
       "Styleguide.css"
     ]
   },
-  "_index-CTDsMjWk.js": {
-    "file": "JavaScript/Chunks/index-CTDsMjWk.js",
+  "_index-BnZfOG5W.js": {
+    "file": "JavaScript/Chunks/index-BnZfOG5W.js",
     "name": "index"
   }
 }
