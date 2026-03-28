@@ -3,18 +3,19 @@ declare(strict_types=1);
 
 namespace Sitegeist\FluidStyleguide\Domain\Model;
 
-use Sitegeist\FluidStyleguide\Domain\Model\ComponentName;
-use Sitegeist\FluidStyleguide\Domain\Model\ComponentLocation;
-use Sitegeist\FluidStyleguide\Domain\Model\ComponentFixture;
+use JsonSerializable;
+use SMS\FluidComponents\Fluid\ViewHelper\ComponentRenderer;
+use TYPO3\CMS\Core\Configuration\Loader\YamlFileLoader;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Configuration\Loader\YamlFileLoader;
-use SMS\FluidComponents\Fluid\ViewHelper\ComponentRenderer;
+use TYPO3Fluid\Fluid\Core\ViewHelper\ArgumentDefinition;
 
-class Component
+class Component implements JsonSerializable
 {
+    /** @var array<string, ComponentFixture>|null  */
     protected ?array $fixtures = null;
     protected ?string $documentation;
+    /** @var array<string, ArgumentDefinition>|null  */
     protected ?array $arguments = null;
 
     public function __construct(
@@ -179,5 +180,29 @@ class Component
         $componentRenderer = GeneralUtility::makeInstance(ComponentRenderer::class);
         $componentRenderer->setComponentNamespace($this->name->getIdentifier());
         return $componentRenderer;
+    }
+
+    function jsonSerialize(): array
+    {
+        $arguments = [];
+        foreach ($this->getArguments() as $key => $argument) {
+            $arguments[$key] = [
+                'name' => $argument->getName(),
+                'type' => $argument->getType(),
+                'description' => $argument->getDescription(),
+                'required' => $argument->isRequired(),
+                'defaultValue' => $argument->getDefaultValue(),
+                'escape' => $argument->getEscape(),
+            ];
+        }
+        return [
+            'identifier' => $this->name->getIdentifier(),
+            'location' => $this->location->getFilePath(),
+            'fixtures' => $this->getFixtures(),
+            'documentation' => $this->getDocumentation(),
+            'arguments' => $arguments,
+            'defaultValues' => $this->getDefaultValues(),
+            'codeQualityConfiguration' => $this->getCodeQualityConfiguration()
+        ];
     }
 }

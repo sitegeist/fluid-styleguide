@@ -22,6 +22,7 @@ class ComponentRepository implements \TYPO3\CMS\Core\SingletonInterface
     /**
      * Returns a list of all components in the current TYPO3 installation that have
      * a fixture file and thus can be displayed in the styleguide
+     * @return list<Component>
      */
     public function findWithFixtures(): array
     {
