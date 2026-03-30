@@ -6,18 +6,23 @@ namespace Sitegeist\FluidStyleguide\Domain\Model;
 use TYPO3\CMS\Core\Package\PackageInterface;
 use TYPO3\CMS\Core\Package\PackageManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use function array_values;
 
 class Package
 {
     /**
-     * Associated TYPO3 extension
+     * Associated TYPO3 extension(s)
+     * @var list<PackageInterface>|null
      */
-    protected ?PackageInterface $extension = null;
+    protected ?array $extensions = null;
 
     public function __construct(
         protected string $namespace, // PHP namespace for the component package
         protected string $alias, // Fluid namespace alias for the component package
-        protected string $path, // Path for the component package
+        /**
+         * @var list<string> Path for the component package
+         */
+        protected array $paths,
     ) {
         $this->namespace = trim($namespace, '\\');
     }
@@ -32,26 +37,32 @@ class Package
         return $this->alias;
     }
 
-    public function getPath(): string
+    public function getPaths(): array
     {
-        return $this->path;
+        return $this->paths;
     }
 
-    public function getExtension(): ?PackageInterface
+    /**
+     * @return list<PackageInterface> returns first matching extension
+     */
+    public function getExtensions(): array
     {
-        if ($this->extension) {
-            return $this->extension;
+        if ($this->extensions !== null) {
+            return $this->extensions;
         }
 
+        $extensions = [];
         $activeExtensions = GeneralUtility::makeInstance(PackageManager::class)->getActivePackages();
         foreach ($activeExtensions as $extension) {
-            if (str_starts_with($this->getPath(), (string) $extension->getPackagePath())) {
-                $this->extension = $extension;
-                return $this->extension;
+            foreach ($this->getPaths() as $path) {
+                // Check if the package path starts with the extension's package path
+                if (str_starts_with($path, (string) $extension->getPackagePath())) {
+                    $extensions[$extension->getPackagePath()] = $extension;
+                }
             }
         }
 
-        return null;
+        return $this->extensions = array_values($extensions);
     }
 
     /**

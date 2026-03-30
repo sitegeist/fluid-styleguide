@@ -55,7 +55,7 @@ To add your own components to the styleguide, just follow these additional steps
     Make sure to define the component namespace in your **ext_localconf.php**:
 
     ```php
-    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['fluid_components']['namespaces']['VENDOR\\MyExtension\\Components'] =
+    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['fluid_components']['namespaces']['VENDOR\\MyExtension\\Components'][] =
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('my_extension', 'Resources/Private/Components');
     ```
 
