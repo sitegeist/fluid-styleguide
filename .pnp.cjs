@@ -1885,10 +1885,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@xmldom/xmldom", [\
-      ["npm:0.8.11", {\
-        "packageLocation": "../../.yarn/berry/cache/@xmldom-xmldom-npm-0.8.11-5eaa837e9e-10c0.zip/node_modules/@xmldom/xmldom/",\
+      ["npm:0.8.12", {\
+        "packageLocation": "../../.yarn/berry/cache/@xmldom-xmldom-npm-0.8.12-6aa6c42c90-10c0.zip/node_modules/@xmldom/xmldom/",\
         "packageDependencies": [\
-          ["@xmldom/xmldom", "npm:0.8.11"]\
+          ["@xmldom/xmldom", "npm:0.8.12"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -4587,7 +4587,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../.yarn/berry/cache/svg-sprite-npm-2.0.4-117350d292-10c0.zip/node_modules/svg-sprite/",\
         "packageDependencies": [\
           ["@resvg/resvg-js", "npm:2.6.2"],\
-          ["@xmldom/xmldom", "npm:0.8.11"],\
+          ["@xmldom/xmldom", "npm:0.8.12"],\
           ["async", "npm:3.2.6"],\
           ["css-selector-parser", "npm:1.4.1"],\
           ["csso", "npm:4.2.0"],\
