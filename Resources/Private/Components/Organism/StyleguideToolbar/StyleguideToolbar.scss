@@ -122,23 +122,6 @@
                     }
                 }
 
-                &.betaSign {
-
-                    &::after {
-                        content: 'Beta';
-                        position: absolute;
-                        transform: rotate(42deg);
-                        right: -33px;
-                        top: -16px;
-                        font-size: 10px;
-                        background: $red;
-                        padding: 1px;
-                        color: $white;
-                        width: 48px;
-                        padding-left: 100px;
-                    }
-                }
-
                 &:hover {
                     svg {
                         fill: $highlight;
